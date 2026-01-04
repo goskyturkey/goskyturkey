@@ -13,8 +13,14 @@ export default function PaymentPage({ params }) {
     useEffect(() => {
         async function initPayment() {
             try {
+                const bookingId = params?.bookingId;
+                if (!bookingId || bookingId === 'undefined') {
+                    setError('Geçersiz rezervasyon linki');
+                    setLoading(false);
+                    return;
+                }
                 // Get booking details
-                const bookingRes = await fetch(`/api/bookings/id/${params.bookingId}`);
+                const bookingRes = await fetch(`/api/bookings/id/${bookingId}`);
                 const bookingPayload = await bookingRes.json();
                 if (!bookingRes.ok) {
                     setError(bookingPayload.message || 'Rezervasyon bulunamadı');
@@ -25,7 +31,7 @@ export default function PaymentPage({ params }) {
                 setBooking(bookingData);
 
                 // Initiate payment
-                const paymentRes = await fetch(`/api/payment/initiate/${params.bookingId}`, {
+                const paymentRes = await fetch(`/api/payment/initiate/${bookingId}`, {
                     method: 'POST',
                 });
 
