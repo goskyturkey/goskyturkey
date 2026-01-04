@@ -267,7 +267,10 @@ router.get('/admin/stats', protect, adminOnly, async (req, res) => {
       totalBookings,
       todayBookings,
       pendingBookings,
-      totalRevenue,
+      confirmedBookings,
+      cancelledBookings,
+      paidRevenue,
+      confirmedRevenue,
       totalActivities
     ] = await Promise.all([
       Booking.countDocuments(),
@@ -275,6 +278,16 @@ router.get('/admin/stats', protect, adminOnly, async (req, res) => {
       Booking.countDocuments({ status: 'pending' }),
       Booking.aggregate([
         { $match: { paymentStatus: 'paid' } },
+        { $group: { _id: null, total: { $sum: '$totalPrice' } } }
+      ]),
+      Booking.countDocuments({ status: 'confirmed' }),
+      Booking.countDocuments({ status: 'cancelled' }),
+      Booking.aggregate([
+        { $match: { paymentStatus: 'paid' } },
+        { $group: { _id: null, total: { $sum: '$totalPrice' } } }
+      ]),
+      Booking.aggregate([
+        { $match: { status: 'confirmed', paymentStatus: { $ne: 'failed' } } },
         { $group: { _id: null, total: { $sum: '$totalPrice' } } }
       ]),
       Activity.countDocuments()
@@ -286,7 +299,11 @@ router.get('/admin/stats', protect, adminOnly, async (req, res) => {
         totalBookings,
         todayBookings,
         pendingBookings,
-        totalRevenue: totalRevenue[0]?.total || 0,
+        confirmedBookings,
+        cancelledBookings,
+        paidRevenue: paidRevenue[0]?.total || 0,
+        totalRevenue: paidRevenue[0]?.total || 0, // backward compatibility
+        confirmedRevenue: confirmedRevenue[0]?.total || 0,
         totalActivities
       }
     });

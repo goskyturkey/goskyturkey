@@ -9,6 +9,7 @@ export default function AdminBookingsPage() {
     const { user, loading, logout } = useAuth();
     const router = useRouter();
     const [bookings, setBookings] = useState([]);
+    const [selectedBooking, setSelectedBooking] = useState(null);
 
     useEffect(() => {
         if (!loading && !user) {
@@ -78,7 +79,7 @@ export default function AdminBookingsPage() {
                         <tr>
                             <th>Müşteri</th>
                             <th>Aktivite</th>
-                            <th>Tarih</th>
+                            <th>Tarih / Saat</th>
                             <th>Kişi</th>
                             <th>Tutar</th>
                             <th>Durum</th>
@@ -87,14 +88,22 @@ export default function AdminBookingsPage() {
                     </thead>
                     <tbody>
                         {bookings.map((booking) => (
-                            <tr key={booking._id}>
+                            <tr
+                                key={booking._id}
+                                onClick={() => setSelectedBooking(booking)}
+                                style={{ cursor: 'pointer' }}
+                            >
                                 <td>
                                     <strong>{booking.customerName || booking.customerInfo?.name}</strong>
                                     <br />
                                     <small style={{ opacity: 0.7 }}>{booking.customerEmail || booking.customerInfo?.email}</small>
                                 </td>
                                 <td>{booking.activity?.name || 'N/A'}</td>
-                                <td>{new Date(booking.date).toLocaleDateString('tr-TR')}</td>
+                                <td>
+                                    {new Date(booking.date).toLocaleDateString('tr-TR')}
+                                    <br />
+                                    <small style={{ opacity: 0.7 }}>{booking.time || '-'}</small>
+                                </td>
                                 <td>{booking.participants || booking.guests}</td>
                                 <td>{booking.totalPrice?.toLocaleString()} ₺</td>
                                 <td>
@@ -111,13 +120,19 @@ export default function AdminBookingsPage() {
                                             <button
                                                 className="admin-btn"
                                                 style={{ marginRight: '0.5rem' }}
-                                                onClick={() => updateStatus(booking._id, 'confirmed')}
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    updateStatus(booking._id, 'confirmed');
+                                                }}
                                             >
                                                 Onayla
                                             </button>
                                             <button
                                                 className="admin-btn secondary"
-                                                onClick={() => updateStatus(booking._id, 'cancelled')}
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    updateStatus(booking._id, 'cancelled');
+                                                }}
                                             >
                                                 İptal
                                             </button>
@@ -129,6 +144,28 @@ export default function AdminBookingsPage() {
                     </tbody>
                 </table>
             </div>
+
+            {selectedBooking && (
+                <div className="modal-backdrop" onClick={() => setSelectedBooking(null)}>
+                    <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+                        <h3 style={{ marginBottom: '1rem' }}>Rezervasyon Detayı</h3>
+                        <p><strong>Müşteri:</strong> {selectedBooking.customerName}</p>
+                        <p><strong>Email:</strong> {selectedBooking.customerEmail}</p>
+                        <p><strong>Telefon:</strong> {selectedBooking.customerPhone || '-'}</p>
+                        <p><strong>Aktivite:</strong> {selectedBooking.activity?.name}</p>
+                        <p><strong>Tarih / Saat:</strong> {new Date(selectedBooking.date).toLocaleDateString('tr-TR')} {selectedBooking.time || ''}</p>
+                        <p><strong>Kişi:</strong> {selectedBooking.participants || selectedBooking.guests}</p>
+                        <p><strong>Tutar:</strong> {selectedBooking.totalPrice?.toLocaleString()} ₺</p>
+                        <p><strong>Durum:</strong> {selectedBooking.status}</p>
+                        <p><strong>Ödeme Durumu:</strong> {selectedBooking.paymentStatus || '-'}</p>
+                        <p><strong>Ödeme Yöntemi:</strong> {selectedBooking.paymentMethod || '-'}</p>
+                        {selectedBooking.notes && <p><strong>Not:</strong> {selectedBooking.notes}</p>}
+                        <div style={{ marginTop: '1.5rem', textAlign: 'right' }}>
+                            <button className="admin-btn secondary" onClick={() => setSelectedBooking(null)}>Kapat</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

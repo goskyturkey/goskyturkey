@@ -11,6 +11,10 @@ export default function AdminDashboard() {
     const [stats, setStats] = useState({
         totalBookings: 0,
         pendingBookings: 0,
+        confirmedBookings: 0,
+        cancelledBookings: 0,
+        paidRevenue: 0,
+        confirmedRevenue: 0,
         totalRevenue: 0,
         totalActivities: 0
     });
@@ -74,8 +78,20 @@ export default function AdminDashboard() {
                     <p>Bekleyen</p>
                 </div>
                 <div className="stat-card">
-                    <h3>{stats.totalRevenue?.toLocaleString()} ₺</h3>
-                    <p>Toplam Gelir</p>
+                    <h3>{stats.confirmedBookings}</h3>
+                    <p>Onaylanan</p>
+                </div>
+                <div className="stat-card">
+                    <h3>{stats.cancelledBookings}</h3>
+                    <p>İptal</p>
+                </div>
+                <div className="stat-card">
+                    <h3>{stats.paidRevenue?.toLocaleString()} ₺</h3>
+                    <p>Ödenen Gelir</p>
+                </div>
+                <div className="stat-card">
+                    <h3>{stats.confirmedRevenue?.toLocaleString()} ₺</h3>
+                    <p>Onaylı Rezervasyon Tutarı</p>
                 </div>
                 <div className="stat-card">
                     <h3>{stats.totalActivities}</h3>
