@@ -23,6 +23,21 @@ const PORT = process.env.PORT || 3000;
 
 const helmet = require('helmet');
 
+// Basic runtime configuration checks
+const isProd = process.env.NODE_ENV === 'production';
+const hasDefaultJwt = !process.env.JWT_SECRET || process.env.JWT_SECRET.includes('your-super-secret');
+if (isProd && hasDefaultJwt) {
+  throw new Error('JWT_SECRET production değeri ayarlanmadı. Lütfen güvenli bir anahtar belirleyin.');
+}
+if (hasDefaultJwt) {
+  console.warn('⚠️  JWT_SECRET varsayılan/boş. Üretimde mutlaka güçlü bir anahtar kullanın.');
+}
+['IYZICO_API_KEY', 'IYZICO_SECRET_KEY', 'IYZICO_URI'].forEach((key) => {
+  if (!process.env[key]) {
+    console.warn(`ℹ️  ${key} tanımlı değil, env dosyasını kontrol edin.`);
+  }
+});
+
 // Connect to MongoDB
 connectDB();
 
@@ -41,25 +56,20 @@ const limiter = rateLimit({
 // Middleware
 app.use(limiter);
 app.use(helmet({
-  crossOriginResourcePolicy: { policy: "cross-origin" },
-  contentSecurityPolicy: false, // Disabled for simplicity with external scripts (Google, Tawk.to)
+  crossOriginResourcePolicy: { policy: 'cross-origin' },
 }));
 
 // CORS configuration - restrict to known origins
-const allowedOrigins = [
-  'https://goskyturkey.com',
-  'http://localhost:3001',
-  'http://localhost:3000'
-];
+const parseOrigins = (origins) => origins.split(',').map(o => o.trim()).filter(Boolean);
+const allowedOrigins = parseOrigins(process.env.ALLOWED_ORIGINS || 'https://goskyturkey.com,http://localhost:3001,http://localhost:3000');
 app.use(cors({
   origin: function (origin, callback) {
     // Allow requests with no origin (mobile apps, curl, etc.)
     if (!origin) return callback(null, true);
     if (allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(null, true); // Log but allow for now during transition
+      return callback(null, true);
     }
+    return callback(new Error('Origin not allowed by CORS'));
   },
   credentials: true
 }));
@@ -92,9 +102,12 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Serve React app for all other routes
-app.get('/{*splat}', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+// Fallback for unknown routes
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    message: 'İstek karşılanamadı (404)'
+  });
 });
 
 // Error handling middleware

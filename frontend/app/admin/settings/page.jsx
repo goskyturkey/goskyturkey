@@ -50,7 +50,7 @@ export default function AdminSettingsPage() {
 
         try {
             const token = localStorage.getItem('adminToken');
-            const res = await fetch('/api/settings', {
+            const res = await fetch('/api/settings/admin', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

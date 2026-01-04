@@ -10,6 +10,7 @@ export default function BookingForm({ activity }) {
     const router = useRouter();
     const [submitting, setSubmitting] = useState(false);
     const [formData, setFormData] = useState({ name: '', email: '', phone: '', date: '', guests: 1, notes: '' });
+    const [error, setError] = useState('');
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -19,31 +20,38 @@ export default function BookingForm({ activity }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setSubmitting(true);
+        setError('');
         try {
+            const guestCount = Number(formData.guests);
             const res = await fetch('/api/bookings', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     ...formData,
+                    guests: guestCount,
                     activity: activity._id,
-                    totalPrice: (activity.discountPrice || activity.price) * formData.guests,
+                    customerName: formData.name,
+                    customerEmail: formData.email,
+                    customerPhone: formData.phone,
+                    totalPrice: (activity.discountPrice || activity.price) * guestCount,
                 }),
             });
-            if (res.ok) {
-                const booking = await res.json();
-                router.push(`/payment/${booking._id}`);
+            const result = await res.json();
+            if (res.ok && result.data?._id) {
+                router.push(`/payment/${result.data._id}`);
             } else {
-                alert('Rezervasyon oluşturulamadı. Lütfen tekrar deneyin.');
+                setError(result.message || 'Rezervasyon oluşturulamadı. Lütfen tekrar deneyin.');
             }
         } catch (error) {
-            alert('Bir hata oluştu.');
+            setError('Bir hata oluştu.');
         } finally {
             setSubmitting(false);
         }
     };
 
     const unitPrice = activity.discountPrice || activity.price;
-    const totalPrice = unitPrice * formData.guests;
+    const guestCount = Number(formData.guests) || 1;
+    const totalPrice = unitPrice * guestCount;
 
     return (
         <div className="booking-page">
@@ -68,6 +76,12 @@ export default function BookingForm({ activity }) {
 
                     <form className="booking-form" onSubmit={handleSubmit}>
                         <h1>Rezervasyon</h1>
+
+                        {error && (
+                            <div className="form-error">
+                                {error}
+                            </div>
+                        )}
 
                         <div className="form-section">
                             <h3>Kişisel Bilgiler</h3>

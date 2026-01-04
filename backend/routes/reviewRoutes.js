@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Review = require('../models/Review');
 const Booking = require('../models/Booking');
-const { protect } = require('../middleware/auth');
+const { protect, adminOnly } = require('../middleware/auth');
 
 // @route   GET /api/reviews/activity/:activityId
 // @desc    Aktivite yorumlarını getir
@@ -97,7 +97,7 @@ router.post('/', async (req, res) => {
 // @route   GET /api/reviews
 // @desc    Tüm yorumları listele
 // @access  Private/Admin
-router.get('/', protect, async (req, res) => {
+router.get('/', protect, adminOnly, async (req, res) => {
     try {
         const { approved } = req.query;
         let query = {};
@@ -124,7 +124,7 @@ router.get('/', protect, async (req, res) => {
 // @route   PUT /api/reviews/:id/approve
 // @desc    Yorumu onayla
 // @access  Private/Admin
-router.put('/:id/approve', protect, async (req, res) => {
+router.put('/:id/approve', protect, adminOnly, async (req, res) => {
     try {
         const review = await Review.findByIdAndUpdate(
             req.params.id,
@@ -154,7 +154,7 @@ router.put('/:id/approve', protect, async (req, res) => {
 // @route   DELETE /api/reviews/:id
 // @desc    Yorum sil
 // @access  Private/Admin
-router.delete('/:id', protect, async (req, res) => {
+router.delete('/:id', protect, adminOnly, async (req, res) => {
     try {
         const review = await Review.findByIdAndDelete(req.params.id);
 

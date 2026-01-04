@@ -25,12 +25,12 @@ export default function AdminBookingsPage() {
     const fetchBookings = async () => {
         try {
             const token = localStorage.getItem('adminToken');
-            const res = await fetch('/api/bookings', {
+            const res = await fetch('/api/bookings/admin/all', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             if (res.ok) {
-                const data = await res.json();
-                setBookings(data);
+                const result = await res.json();
+                setBookings(result.data || []);
             }
         } catch (error) {
             console.error('Bookings fetch error:', error);
@@ -40,7 +40,7 @@ export default function AdminBookingsPage() {
     const updateStatus = async (bookingId, status) => {
         try {
             const token = localStorage.getItem('adminToken');
-            await fetch(`/api/bookings/${bookingId}/status`, {
+            await fetch(`/api/bookings/admin/${bookingId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -89,19 +89,20 @@ export default function AdminBookingsPage() {
                         {bookings.map((booking) => (
                             <tr key={booking._id}>
                                 <td>
-                                    <strong>{booking.name}</strong>
+                                    <strong>{booking.customerName || booking.customerInfo?.name}</strong>
                                     <br />
-                                    <small style={{ opacity: 0.7 }}>{booking.email}</small>
+                                    <small style={{ opacity: 0.7 }}>{booking.customerEmail || booking.customerInfo?.email}</small>
                                 </td>
                                 <td>{booking.activity?.name || 'N/A'}</td>
                                 <td>{new Date(booking.date).toLocaleDateString('tr-TR')}</td>
-                                <td>{booking.guests}</td>
-                                <td>{booking.totalPrice} ₺</td>
+                                <td>{booking.participants || booking.guests}</td>
+                                <td>{booking.totalPrice?.toLocaleString()} ₺</td>
                                 <td>
                                     <span className={`status-badge ${booking.status}`}>
                                         {booking.status === 'pending' && 'Bekliyor'}
                                         {booking.status === 'confirmed' && 'Onaylandı'}
                                         {booking.status === 'cancelled' && 'İptal'}
+                                        {booking.status === 'completed' && 'Tamamlandı'}
                                     </span>
                                 </td>
                                 <td>

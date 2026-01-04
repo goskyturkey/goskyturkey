@@ -10,12 +10,9 @@ const generateConversationId = () => {
     return 'GST' + Date.now().toString(36).toUpperCase() + Math.random().toString(36).substring(2, 6).toUpperCase();
 };
 
-// @route   POST /api/payment/init
-// @desc    iyzico Checkout Form başlat
-// @access  Public
-router.post('/init', async (req, res) => {
+const initPayment = async (req, res) => {
     try {
-        const { bookingId } = req.body;
+        const bookingId = req.body.bookingId || req.params.bookingId;
 
         // Booking'i bul
         const booking = await Booking.findById(bookingId).populate('activity');
@@ -106,6 +103,7 @@ router.post('/init', async (req, res) => {
             res.json({
                 success: true,
                 data: {
+                    bookingId: booking._id,
                     checkoutFormContent: result.checkoutFormContent,
                     token: result.token,
                     tokenExpireTime: result.tokenExpireTime
@@ -119,7 +117,17 @@ router.post('/init', async (req, res) => {
             message: 'Sunucu hatası'
         });
     }
-});
+};
+
+// @route   POST /api/payment/init
+// @desc    iyzico Checkout Form başlat (body bookingId)
+// @access  Public
+router.post('/init', initPayment);
+
+// @route   POST /api/payment/initiate/:bookingId
+// @desc    iyzico Checkout Form başlat (path bookingId)
+// @access  Public
+router.post('/initiate/:bookingId', initPayment);
 
 // @route   POST /api/payment/callback
 // @desc    iyzico 3D Secure callback
@@ -165,7 +173,7 @@ router.post('/callback', async (req, res) => {
                     'paymentDetails.lastFourDigits': result.lastFourDigits
                 });
 
-                return res.redirect(`/payment/result?status=success&method=online&ref=${booking.bookingRef}`);
+                return res.redirect(`/payment/result?status=success&method=online&bookingId=${booking._id}&ref=${booking.bookingRef}`);
             } else {
                 // Ödeme başarısız
                 await Booking.findByIdAndUpdate(booking._id, {
@@ -174,7 +182,7 @@ router.post('/callback', async (req, res) => {
                     'paymentDetails.errorMessage': result.errorMessage
                 });
 
-                return res.redirect(`/payment/result?status=failed&error=${result.errorCode || 'payment_failed'}`);
+                return res.redirect(`/payment/result?status=failed&bookingId=${booking._id}&error=${result.errorCode || 'payment_failed'}`);
             }
         });
     } catch (error) {
@@ -189,6 +197,38 @@ router.post('/callback', async (req, res) => {
 router.get('/status/:bookingId', async (req, res) => {
     try {
         const booking = await Booking.findById(req.params.bookingId)
+            .select('paymentStatus status bookingRef totalPrice');
+
+        if (!booking) {
+            return res.status(404).json({
+                success: false,
+                message: 'Rezervasyon bulunamadı'
+            });
+        }
+
+        res.json({
+            success: true,
+            data: {
+                paymentStatus: booking.paymentStatus,
+                status: booking.status,
+                bookingRef: booking.bookingRef,
+                totalPrice: booking.totalPrice
+            }
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Sunucu hatası'
+        });
+    }
+});
+
+// @route   GET /api/payment/status/ref/:bookingRef
+// @desc    Rezervasyon referansı ile ödeme durumu
+// @access  Public
+router.get('/status/ref/:bookingRef', async (req, res) => {
+    try {
+        const booking = await Booking.findOne({ bookingRef: req.params.bookingRef })
             .select('paymentStatus status bookingRef totalPrice');
 
         if (!booking) {

@@ -30,12 +30,12 @@ export default function AdminDashboard() {
     const fetchStats = async () => {
         try {
             const token = localStorage.getItem('adminToken');
-            const res = await fetch('/api/admin/stats', {
+            const res = await fetch('/api/bookings/admin/stats', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             if (res.ok) {
-                const data = await res.json();
-                setStats(data);
+                const result = await res.json();
+                setStats(result.data || result);
             }
         } catch (error) {
             console.error('Stats fetch error:', error);

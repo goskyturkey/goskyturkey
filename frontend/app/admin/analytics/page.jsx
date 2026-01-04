@@ -30,12 +30,12 @@ export default function AdminAnalyticsPage() {
     const fetchAnalytics = async () => {
         try {
             const token = localStorage.getItem('adminToken');
-            const res = await fetch('/api/admin/analytics', {
+            const res = await fetch('/api/bookings/admin/analytics', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             if (res.ok) {
-                const data = await res.json();
-                setStats(data);
+                const result = await res.json();
+                setStats(result.data || result);
             }
         } catch (error) {
             console.error('Analytics fetch error:', error);

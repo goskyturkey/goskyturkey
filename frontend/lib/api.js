@@ -7,7 +7,8 @@ export async function getActivities() {
             next: { revalidate: 3600 }, // Revalidate every hour
         });
         if (!res.ok) throw new Error('Failed to fetch activities');
-        return res.json();
+        const result = await res.json();
+        return result.data || result;
     } catch (error) {
         console.error('Error fetching activities:', error);
         return [];
@@ -16,11 +17,12 @@ export async function getActivities() {
 
 export async function getActivity(slug) {
     try {
-        const res = await fetch(`${API_URL}/activities/slug/${slug}`, {
+        const res = await fetch(`${API_URL}/activities/${slug}`, {
             next: { revalidate: 3600 },
         });
         if (!res.ok) throw new Error('Failed to fetch activity');
-        return res.json();
+        const result = await res.json();
+        return result.data || result;
     } catch (error) {
         console.error('Error fetching activity:', error);
         return null;

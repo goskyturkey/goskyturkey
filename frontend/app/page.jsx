@@ -25,7 +25,8 @@ async function getSettings() {
         const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api';
         const res = await fetch(`${API_URL}/settings`, { next: { revalidate: 3600 } });
         if (!res.ok) return null;
-        return res.json();
+        const result = await res.json();
+        return result.data || result;
     } catch (error) {
         return null;
     }

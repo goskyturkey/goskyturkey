@@ -8,14 +8,17 @@ import { Suspense, useEffect, useState } from 'react';
 function PaymentResultContent() {
     const searchParams = useSearchParams();
     const [status, setStatus] = useState('loading');
+    const [details, setDetails] = useState(null);
 
     useEffect(() => {
-        const token = searchParams.get('token');
-        if (token) {
-            setStatus('success');
-        } else {
-            setStatus('failed');
-        }
+        const statusParam = searchParams.get('status') || 'failed';
+        const bookingId = searchParams.get('bookingId');
+        const bookingRef = searchParams.get('ref');
+        const error = searchParams.get('error');
+        const method = searchParams.get('method');
+
+        setStatus(statusParam);
+        setDetails({ bookingId, bookingRef, error, method });
     }, [searchParams]);
 
     if (status === 'loading') {
@@ -41,6 +44,7 @@ function PaymentResultContent() {
                         width: '100%',
                     }}>
                         <p>✅ Ödeme alındı</p>
+                        {details?.bookingRef && <p>📄 Rezervasyon No: {details.bookingRef}</p>}
                         <p>📧 Onay emaili gönderildi</p>
                         <p>💬 WhatsApp ile iletişime geçeceğiz</p>
                     </div>
@@ -54,6 +58,17 @@ function PaymentResultContent() {
                     <p style={{ opacity: 0.7, marginBottom: '2rem' }}>
                         Ödeme işlemi tamamlanamadı. Lütfen kart bilgilerinizi kontrol edip tekrar deneyin.
                     </p>
+                    {details?.error && (
+                        <div style={{
+                            background: 'rgba(239,68,68,0.12)',
+                            borderRadius: '10px',
+                            padding: '1rem',
+                            marginBottom: '1.5rem',
+                            color: '#fecdd3'
+                        }}>
+                            Hata: {details.error}
+                        </div>
+                    )}
                 </>
             )}
 

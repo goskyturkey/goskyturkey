@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Availability = require('../models/Availability');
-const { protect } = require('../middleware/auth');
+const { protect, adminOnly } = require('../middleware/auth');
 
 // @route   GET /api/availability/:activityId
 // @desc    Aktivite müsaitlik takvimi
@@ -104,7 +104,7 @@ router.get('/:activityId/:date', async (req, res) => {
 // @route   PUT /api/availability/:activityId/:date
 // @desc    Müsaitlik güncelle/oluştur
 // @access  Private/Admin
-router.put('/:activityId/:date', protect, async (req, res) => {
+router.put('/:activityId/:date', protect, adminOnly, async (req, res) => {
     try {
         const { isBlocked, blockReason, maxCapacity, timeSlots, priceModifier } = req.body;
         const date = new Date(req.params.date);
@@ -144,7 +144,7 @@ router.put('/:activityId/:date', protect, async (req, res) => {
 // @route   POST /api/availability/bulk
 // @desc    Toplu müsaitlik güncelle
 // @access  Private/Admin
-router.post('/bulk', protect, async (req, res) => {
+router.post('/bulk', protect, adminOnly, async (req, res) => {
     try {
         const { activityId, startDate, endDate, isBlocked, blockReason } = req.body;
 

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Coupon = require('../models/Coupon');
-const { protect } = require('../middleware/auth');
+const { protect, adminOnly } = require('../middleware/auth');
 
 // @route   POST /api/coupons/validate
 // @desc    Kupon doğrula
@@ -102,7 +102,7 @@ router.post('/apply', async (req, res) => {
 // @route   GET /api/coupons
 // @desc    Tüm kuponları listele
 // @access  Private/Admin
-router.get('/', protect, async (req, res) => {
+router.get('/', protect, adminOnly, async (req, res) => {
     try {
         const coupons = await Coupon.find().sort({ createdAt: -1 });
         res.json({
@@ -120,7 +120,7 @@ router.get('/', protect, async (req, res) => {
 // @route   POST /api/coupons
 // @desc    Yeni kupon oluştur
 // @access  Private/Admin
-router.post('/', protect, async (req, res) => {
+router.post('/', protect, adminOnly, async (req, res) => {
     try {
         const coupon = await Coupon.create(req.body);
         res.status(201).json({
@@ -138,7 +138,7 @@ router.post('/', protect, async (req, res) => {
 // @route   PUT /api/coupons/:id
 // @desc    Kupon güncelle
 // @access  Private/Admin
-router.put('/:id', protect, async (req, res) => {
+router.put('/:id', protect, adminOnly, async (req, res) => {
     try {
         const coupon = await Coupon.findByIdAndUpdate(
             req.params.id,
@@ -168,7 +168,7 @@ router.put('/:id', protect, async (req, res) => {
 // @route   DELETE /api/coupons/:id
 // @desc    Kupon sil
 // @access  Private/Admin
-router.delete('/:id', protect, async (req, res) => {
+router.delete('/:id', protect, adminOnly, async (req, res) => {
     try {
         const coupon = await Coupon.findByIdAndDelete(req.params.id);
 

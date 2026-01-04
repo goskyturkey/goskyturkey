@@ -5,8 +5,9 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        NEXT_PUBLIC_API_URL: http://localhost:3000/api
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-https://goskyturkey.com/api}
     container_name: goskyturkey-next
+    hostname: goskyturkey
     restart: unless-stopped
     ports:
       - "3000:3000" # Backend API
@@ -14,10 +15,12 @@ services:
     environment:
       - NODE_ENV=production
       - MONGODB_URI=mongodb://mongodb:27017/goskyturkey
-      - JWT_SECRET=${JWT_SECRET:-your-super-secret-jwt-key-change-in-production}
+      - JWT_SECRET=${JWT_SECRET:-please-change-this-secret}
       - JWT_EXPIRES_IN=7d
-      - BASE_URL=https://goskyturkey.com
-      - NEXT_PUBLIC_API_URL=http://localhost:3000/api
+      - BASE_URL=${BASE_URL:-https://goskyturkey.com}
+      - API_URL=http://goskyturkey:3000/api
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-https://goskyturkey.com/api}
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-https://goskyturkey.com}
       - IYZICO_API_KEY=${IYZICO_API_KEY:-sandbox-afXhZPW0MQlE4dCUUlHcEopnMBgXnAZI}
       - IYZICO_SECRET_KEY=${IYZICO_SECRET_KEY:-sandbox-wbwpzKIiplZxI3hh5ALI4FJyAcZKL6kq}
       - IYZICO_URI=${IYZICO_URI:-https://sandbox-api.iyzipay.com}
@@ -26,12 +29,14 @@ services:
     volumes:
       - uploads:/app/backend/uploads
     networks:
-      - goskyturkey-network
-      - proxy-net
+      goskyturkey-network:
+      proxy-net:
+        aliases:
+          - goskyturkey
 
   # MongoDB Database
   mongodb:
-    image: mongo:7
+    image: mongo:8
     container_name: goskyturkey-mongodb
     restart: unless-stopped
     volumes:

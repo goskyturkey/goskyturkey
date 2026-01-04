@@ -8,8 +8,7 @@ import { useEffect, useState } from 'react';
 const CATEGORIES = [
     { value: 'paragliding', label: 'Yamaç Paraşütü' },
     { value: 'gyrocopter', label: 'Gyrocopter' },
-    { value: 'balloon', label: 'Balon' },
-    { value: 'other', label: 'Diğer' }
+    { value: 'balloon', label: 'Balon' }
 ];
 
 export default function NewActivityPage() {

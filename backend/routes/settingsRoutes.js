@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Settings = require('../models/Settings');
-const { protect } = require('../middleware/auth');
+const { protect, adminOnly } = require('../middleware/auth');
 
 // @route   GET /api/settings
 // @desc    Site ayarlarını getir
@@ -34,7 +34,7 @@ router.get('/', async (req, res) => {
 // @route   PUT /api/admin/settings
 // @desc    Ayarları güncelle
 // @access  Private/Admin
-router.put('/admin', protect, async (req, res) => {
+router.put('/admin', protect, adminOnly, async (req, res) => {
   try {
     let settings = await Settings.findOne();
     

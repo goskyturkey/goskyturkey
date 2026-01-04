@@ -46,7 +46,8 @@ async function getSettings() {
             next: { revalidate: 3600 }
         });
         if (!res.ok) return null;
-        return res.json();
+        const result = await res.json();
+        return result.data || result;
     } catch (error) {
         return null;
     }

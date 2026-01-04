@@ -8,30 +8,36 @@ export default function PaymentPage({ params }) {
     const [booking, setBooking] = useState(null);
     const [loading, setLoading] = useState(true);
     const [paymentHtml, setPaymentHtml] = useState(null);
+    const [error, setError] = useState('');
 
     useEffect(() => {
         async function initPayment() {
             try {
                 // Get booking details
-                const bookingRes = await fetch(`/api/bookings/${params.bookingId}`);
-                if (bookingRes.ok) {
-                    const bookingData = await bookingRes.json();
-                    setBooking(bookingData);
+                const bookingRes = await fetch(`/api/bookings/id/${params.bookingId}`);
+                const bookingPayload = await bookingRes.json();
+                if (!bookingRes.ok) {
+                    setError(bookingPayload.message || 'Rezervasyon bulunamadı');
+                    return;
+                }
 
-                    // Initiate payment
-                    const paymentRes = await fetch(`/api/payment/initiate/${params.bookingId}`, {
-                        method: 'POST',
-                    });
+                const bookingData = bookingPayload.data || bookingPayload;
+                setBooking(bookingData);
 
-                    if (paymentRes.ok) {
-                        const paymentData = await paymentRes.json();
-                        if (paymentData.checkoutFormContent) {
-                            setPaymentHtml(paymentData.checkoutFormContent);
-                        }
-                    }
+                // Initiate payment
+                const paymentRes = await fetch(`/api/payment/initiate/${params.bookingId}`, {
+                    method: 'POST',
+                });
+
+                const paymentData = await paymentRes.json();
+                if (paymentRes.ok && paymentData.data?.checkoutFormContent) {
+                    setPaymentHtml(paymentData.data.checkoutFormContent);
+                } else {
+                    setError(paymentData.message || 'Ödeme formu alınamadı');
                 }
             } catch (error) {
                 console.error('Payment init error:', error);
+                setError('Ödeme başlatılırken hata oluştu.');
             } finally {
                 setLoading(false);
             }
@@ -76,10 +82,10 @@ export default function PaymentPage({ params }) {
                 }}>
                     <h3 style={{ marginBottom: '1rem' }}>Rezervasyon Özeti</h3>
                     <div style={{ fontSize: '0.9rem', opacity: 0.8 }}>
-                        <p>👤 {booking.name}</p>
-                        <p>📧 {booking.email}</p>
+                        <p>👤 {booking.customerName || booking.customerInfo?.name}</p>
+                        <p>📧 {booking.customerEmail || booking.customerInfo?.email}</p>
                         <p>📅 {new Date(booking.date).toLocaleDateString('tr-TR')}</p>
-                        <p>👥 {booking.guests} Kişi</p>
+                        <p>👥 {booking.participants || booking.guests} Kişi</p>
                         <div style={{
                             marginTop: '1rem',
                             paddingTop: '1rem',
@@ -87,14 +93,24 @@ export default function PaymentPage({ params }) {
                             fontWeight: 700,
                             fontSize: '1.2rem',
                         }}>
-                            Toplam: {booking.totalPrice} ₺
+                            Toplam: {booking.totalPrice?.toLocaleString()} ₺
                         </div>
                     </div>
                 </div>
             )}
 
             {/* iyzico Payment Form */}
-            {paymentHtml ? (
+            {error ? (
+                <div style={{
+                    background: 'rgba(239,68,68,0.12)',
+                    borderRadius: '12px',
+                    padding: '1.5rem',
+                    color: '#fecdd3',
+                    marginBottom: '1rem',
+                }}>
+                    {error}
+                </div>
+            ) : paymentHtml ? (
                 <div
                     dangerouslySetInnerHTML={{ __html: paymentHtml }}
                     style={{ minHeight: '400px' }}

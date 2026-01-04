@@ -3,7 +3,7 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-const { protect } = require('../middleware/auth');
+const { protect, adminOnly } = require('../middleware/auth');
 
 // Upload dizinini oluştur
 const uploadDir = path.join(__dirname, '../uploads');
@@ -44,7 +44,7 @@ const upload = multer({
 // @route   POST /api/admin/upload
 // @desc    Tek dosya yükle
 // @access  Private/Admin
-router.post('/upload', protect, upload.single('file'), (req, res) => {
+router.post('/upload', protect, adminOnly, upload.single('file'), (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({
@@ -73,7 +73,7 @@ router.post('/upload', protect, upload.single('file'), (req, res) => {
 // @route   POST /api/admin/upload/multiple
 // @desc    Çoklu dosya yükle
 // @access  Private/Admin
-router.post('/upload/multiple', protect, upload.array('files', 10), (req, res) => {
+router.post('/upload/multiple', protect, adminOnly, upload.array('files', 10), (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({
@@ -102,7 +102,7 @@ router.post('/upload/multiple', protect, upload.array('files', 10), (req, res) =
 // @route   DELETE /api/admin/upload/:filename
 // @desc    Dosya sil
 // @access  Private/Admin
-router.delete('/upload/:filename', protect, (req, res) => {
+router.delete('/upload/:filename', protect, adminOnly, (req, res) => {
   try {
     const filePath = path.join(uploadDir, req.params.filename);
     
