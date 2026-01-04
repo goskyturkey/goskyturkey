@@ -11,7 +11,7 @@ export default function AdminSettingsPage() {
     const [settings, setSettings] = useState({
         siteName: '',
         phone: '',
-        email: '',
+        contactEmail: '',
         whatsapp: '',
         address: ''
     });
@@ -126,8 +126,8 @@ export default function AdminSettingsPage() {
                             <input
                                 className="admin-input"
                                 type="email"
-                                value={settings.email || ''}
-                                onChange={(e) => setSettings({ ...settings, email: e.target.value })}
+                                value={settings.contactEmail || ''}
+                                onChange={(e) => setSettings({ ...settings, contactEmail: e.target.value })}
                             />
                         </div>
                         <div>

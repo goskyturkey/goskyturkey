@@ -36,7 +36,7 @@ services:
 
   # MongoDB Database
   mongodb:
-    image: mongo:8
+    image: mongo:7
     container_name: goskyturkey-mongodb
     restart: unless-stopped
     volumes:

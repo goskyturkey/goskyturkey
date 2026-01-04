@@ -95,10 +95,11 @@ export default function HomeContent({ activities, settings }) {
                     {activities.map((activity) => {
                         const activityName = language === 'en' && activity.name_en ? activity.name_en : activity.name;
                         const activityLocation = language === 'en' && activity.location_en ? activity.location_en : activity.location;
+                        const activityImage = activity.thumbnailImage || activity.image || activity.images?.[0] || '/images/paragliding.png';
                         return (
                             <div key={activity._id || activity.slug} className="exp-card">
                                 <div className="exp-card-image">
-                                    <Image src={activity.image || '/images/paragliding.png'} alt={activityName} fill style={{ objectFit: 'cover' }} />
+                                    <Image src={activityImage} alt={activityName} fill style={{ objectFit: 'cover' }} />
                                     <div className="exp-card-overlay">
                                         <h3 className="exp-card-title">{activityName}</h3>
                                         <div className="exp-card-location">📍 {activityLocation}</div>

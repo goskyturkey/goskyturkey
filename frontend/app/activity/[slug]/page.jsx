@@ -43,15 +43,17 @@ export default async function ActivityPage({ params }) {
     const features = [
         { icon: '⏱️', text: activity.duration },
         { icon: '📍', text: activity.location },
-        { icon: '👥', text: `Maks ${activity.maxGuests || 10} kişi` },
+        { icon: '👥', text: `Maks ${activity.maxParticipants || activity.maxGuests || 10} kişi` },
         { icon: '🎥', text: 'Video çekim dahil' }
     ];
+
+    const coverImage = activity.thumbnailImage || activity.image || activity.images?.[0] || '/images/paragliding.png';
 
     const schema = {
         '@context': 'https://schema.org',
         '@type': 'Product',
         name: activity.name,
-        image: activity.image,
+        image: coverImage,
         description: activity.description,
         offers: {
             '@type': 'Offer',
@@ -155,7 +157,7 @@ export default async function ActivityPage({ params }) {
                     {/* Right: Gallery */}
                     <div className="detail-gallery">
                         <div className="main-image">
-                            <Image src={activity.image || '/images/paragliding.png'} alt={activity.name} width={700} height={500} style={{ width: '100%', height: '500px', objectFit: 'cover' }} priority />
+                            <Image src={coverImage} alt={activity.name} width={700} height={500} style={{ width: '100%', height: '500px', objectFit: 'cover' }} priority />
                             {activity.discountPrice && (
                                 <div className="discount-badge">%{Math.round((1 - activity.discountPrice / activity.price) * 100)} İndirim</div>
                             )}

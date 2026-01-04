@@ -54,6 +54,7 @@ const limiter = rateLimit({
 });
 
 // Middleware
+app.set('trust proxy', 1);
 app.use(limiter);
 app.use(helmet({
   crossOriginResourcePolicy: { policy: 'cross-origin' },

@@ -65,7 +65,7 @@ export default function BookingForm({ activity }) {
             <main className="booking-main">
                 <div className="booking-container">
                     <div className="booking-info">
-                        <Image src={activity.image || '/images/paragliding.png'} alt={activity.name} width={400} height={250} style={{ borderRadius: '12px', objectFit: 'cover', width: '100%', height: 'auto' }} />
+                        <Image src={activity.thumbnailImage || activity.image || activity.images?.[0] || '/images/paragliding.png'} alt={activity.name} width={400} height={250} style={{ borderRadius: '12px', objectFit: 'cover', width: '100%', height: 'auto' }} />
                         <h2>{activity.name}</h2>
                         <div className="price-display">
                             {activity.discountPrice && <span className="old-price">{activity.price.toLocaleString()} ₺</span>}
