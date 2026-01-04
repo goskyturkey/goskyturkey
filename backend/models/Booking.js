@@ -87,13 +87,12 @@ const bookingSchema = new mongoose.Schema({
 });
 
 // Booking reference oluşturma
-bookingSchema.pre('save', function (next) {
+bookingSchema.pre('save', function () {
   if (!this.bookingRef) {
     const timestamp = Date.now().toString(36).toUpperCase();
     const random = Math.random().toString(36).substring(2, 6).toUpperCase();
     this.bookingRef = `GST-${timestamp}-${random}`;
   }
-  next();
 });
 
 module.exports = mongoose.model('Booking', bookingSchema);

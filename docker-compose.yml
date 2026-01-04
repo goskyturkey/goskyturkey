@@ -21,8 +21,8 @@ services:
       - API_URL=http://goskyturkey:3000/api
       - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-https://goskyturkey.com/api}
       - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-https://goskyturkey.com}
-      - IYZICO_API_KEY=${IYZICO_API_KEY:-sandbox-afXhZPW0MQlE4dCUUlHcEopnMBgXnAZI}
-      - IYZICO_SECRET_KEY=${IYZICO_SECRET_KEY:-sandbox-wbwpzKIiplZxI3hh5ALI4FJyAcZKL6kq}
+      - IYZICO_API_KEY=${IYZICO_API_KEY:-sandbox-grMq7iZ6KlekyaUB8jlYSaggfR5Dvx2t}
+      - IYZICO_SECRET_KEY=${IYZICO_SECRET_KEY:-sandbox-BVD80hQI19zFU2LBorxcuLAMHbra3Myk}
       - IYZICO_URI=${IYZICO_URI:-https://sandbox-api.iyzipay.com}
     depends_on:
       - mongodb

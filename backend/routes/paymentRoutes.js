@@ -12,7 +12,7 @@ const generateConversationId = () => {
 
 const initPayment = async (req, res) => {
     try {
-        const bookingId = req.body.bookingId || req.params.bookingId;
+        const bookingId = req.body?.bookingId || req.params?.bookingId;
 
         // Booking'i bul
         const booking = await Booking.findById(bookingId).populate('activity');
