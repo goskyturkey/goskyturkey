@@ -1,0 +1,87 @@
+{
+    "common": {
+        "siteName": "GoSky Turkey",
+        "home": "Ana Sayfa",
+        "experiences": "Deneyimler",
+        "about": "Hakkımızda",
+        "gallery": "Galeri",
+        "faq": "SSS",
+        "contact": "İletişim",
+        "bookNow": "Rezervasyon Yap",
+        "learnMore": "Daha Fazla",
+        "viewAll": "Tümünü Gör",
+        "loading": "Yükleniyor...",
+        "error": "Bir hata oluştu",
+        "success": "Başarılı",
+        "cancel": "İptal",
+        "save": "Kaydet",
+        "delete": "Sil",
+        "edit": "Düzenle",
+        "close": "Kapat",
+        "search": "Ara",
+        "filter": "Filtrele",
+        "all": "Tümü",
+        "person": "kişi",
+        "perPerson": "/ kişi",
+        "from": "başlayan",
+        "duration": "Süre",
+        "location": "Konum",
+        "price": "Fiyat",
+        "includes": "Dahil Olanlar",
+        "excludes": "Dahil Olmayanlar"
+    },
+    "hero": {
+        "badge": "Türkiye'nin #1 Hava Sporları Deneyimi",
+        "title": "Gökyüzüne Yeni Bir Bakış",
+        "subtitle": "Profesyonel ekibimizle unutulmaz yamaç paraşütü, gyrocopter ve balon deneyimleri yaşayın. Güvenlik ve keyif bir arada.",
+        "cta": "Turları İncele",
+        "secondary": "Bizi Arayın"
+    },
+    "activities": {
+        "title": "Popüler Deneyimler",
+        "subtitle": "En çok tercih edilen aktivitelerimizi keşfedin",
+        "paragliding": "Yamaç Paraşütü",
+        "gyrocopter": "Gyrocopter",
+        "balloon": "Balon Turu",
+        "featured": "Öne Çıkan"
+    },
+    "booking": {
+        "title": "Rezervasyon",
+        "selectDate": "Tarih Seçin",
+        "selectTime": "Saat Seçin",
+        "guests": "Katılımcı Sayısı",
+        "fullName": "Ad Soyad",
+        "email": "E-posta",
+        "phone": "Telefon",
+        "notes": "Notlar (isteğe bağlı)",
+        "total": "Toplam",
+        "submit": "Rezervasyon Yap",
+        "success": "Rezervasyonunuz alındı!",
+        "confirmEmail": "Onay e-postası gönderildi."
+    },
+    "faq": {
+        "title": "Sıkça Sorulan Sorular",
+        "subtitle": "Merak ettiklerinizi yanıtladık",
+        "categories": {
+            "general": "Genel",
+            "booking": "Rezervasyon",
+            "payment": "Ödeme",
+            "activity": "Aktivite",
+            "safety": "Güvenlik"
+        }
+    },
+    "gallery": {
+        "title": "Galeri",
+        "subtitle": "Unutulmaz anlardan kareler",
+        "noItems": "Bu kategoride henüz resim yok."
+    },
+    "footer": {
+        "rights": "Tüm hakları saklıdır.",
+        "followUs": "Bizi Takip Edin"
+    },
+    "notFound": {
+        "title": "Sayfa Bulunamadı",
+        "message": "Aradığınız sayfa mevcut değil veya taşınmış olabilir.",
+        "goHome": "Ana Sayfaya Dön"
+    }
+}

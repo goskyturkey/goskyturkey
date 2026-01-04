@@ -1,0 +1,557 @@
+/* =============================================
+   GoSky Turkey - Homepage Styles
+   Referans görsele birebir uygun tasarım
+   ============================================= */
+
+/* ==================== TOKENS ==================== */
+:root {
+  /* Colors */
+  --navy: #1a2744;
+  --navy-dark: #0f1a2e;
+  --orange: #e8793a;
+  --orange-hover: #d96a2d;
+  --white: #ffffff;
+  --gray-100: #f8f9fa;
+  --gray-200: #e9ecef;
+  --gray-600: #6c757d;
+  --text-dark: #1a1a1a;
+
+  /* Radius */
+  --r-lg: 16px;
+  --r-md: 8px;
+  --r-sm: 4px;
+  --r-full: 9999px;
+
+  /* Shadows */
+  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.12);
+  --shadow-hero: 0 8px 40px rgba(0, 0, 0, 0.25);
+  --shadow-btn: 0 4px 12px rgba(232, 121, 58, 0.35);
+
+  /* Spacing (4px grid) */
+  --s1: 4px;
+  --s2: 8px;
+  --s3: 12px;
+  --s4: 16px;
+  --s5: 24px;
+  --s6: 32px;
+  --s7: 48px;
+  --s8: 64px;
+  --s9: 80px;
+
+  /* Typography */
+  --font-main: "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+/* ==================== BASE ==================== */
+.home-page {
+  min-height: 100vh;
+  background: var(--white);
+  font-family: var(--font-main);
+  color: var(--text-dark);
+  overflow-x: hidden;
+}
+
+/* ==================== REFERENCE OVERLAY ==================== */
+.reference-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.35;
+  display: none;
+}
+
+.reference-overlay.active {
+  display: block;
+}
+
+.reference-overlay img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.overlay-toggle {
+  position: fixed;
+  bottom: var(--s5);
+  right: var(--s5);
+  z-index: 10000;
+  padding: var(--s2) var(--s4);
+  background: var(--navy);
+  color: var(--white);
+  border: none;
+  border-radius: var(--r-md);
+  cursor: pointer;
+  font-size: 12px;
+}
+
+/* ==================== HEADER STYLES MIGRATED TO GLOBALS.CSS ==================== */
+
+.hero-section {
+  position: relative;
+  height: 100vh;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(26, 39, 68, 0.4) 0%,
+    rgba(26, 39, 68, 0.6) 50%,
+    rgba(26, 39, 68, 0.8) 100%
+  );
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+  padding: 0 var(--s5);
+}
+
+.hero-title {
+  font-size: 56px;
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.15;
+  margin-bottom: var(--s5);
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.hero-subtitle {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6;
+  margin-bottom: var(--s6);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
+  padding: var(--s4) var(--s6);
+  background: var(--orange);
+  color: var(--white);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 16px;
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-btn);
+  transition: all 0.3s;
+}
+
+.hero-cta:hover {
+  background: var(--orange-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(232, 121, 58, 0.45);
+}
+
+/* ==================== TRUST BAND ==================== */
+.trust-band {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--s7);
+  padding: var(--s5) var(--s7);
+  background: var(--gray-100);
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  color: var(--gray-600);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.trust-icon {
+  font-size: 20px;
+}
+
+.trust-value {
+  font-weight: 700;
+  color: var(--navy);
+}
+
+/* ==================== EXPERIENCES SECTION ==================== */
+.experiences-section {
+  padding: var(--s9) var(--s7);
+  background: var(--white);
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: var(--s7);
+}
+
+.section-title {
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: var(--s3);
+}
+
+.section-subtitle {
+  font-size: 16px;
+  color: var(--gray-600);
+}
+
+.experiences-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s5);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ==================== EXPERIENCE CARD ==================== */
+.exp-card {
+  position: relative;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.exp-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.18);
+}
+
+.exp-card-image {
+  height: 280px;
+  position: relative;
+}
+
+.exp-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.exp-card-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: var(--s5) var(--s4);
+  background: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.85) 0%,
+    rgba(0, 0, 0, 0.5) 60%,
+    transparent 100%
+  );
+}
+
+.exp-card-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: var(--s1);
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.exp-card-location {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  gap: var(--s1);
+}
+
+.exp-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--s4);
+  background: var(--white);
+}
+
+.exp-card-price {
+  display: flex;
+  flex-direction: column;
+}
+
+.exp-card-price .old {
+  font-size: 13px;
+  color: var(--gray-600);
+  text-decoration: line-through;
+}
+
+.exp-card-price .current {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.exp-card-btn {
+  padding: var(--s2) var(--s4);
+  background: var(--orange);
+  color: var(--white);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 13px;
+  border-radius: var(--r-md);
+  transition: background 0.2s;
+}
+
+.exp-card-btn:hover {
+  background: var(--orange-hover);
+}
+
+/* ==================== WHY US SECTION ==================== */
+.why-section {
+  padding: var(--s9) var(--s7);
+  background: var(--gray-100);
+}
+
+.why-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s7);
+  max-width: 1200px;
+  margin: 0 auto;
+  align-items: center;
+}
+
+.why-image {
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+
+.why-image img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+
+.why-content h2 {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: var(--s5);
+}
+
+.why-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.why-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s3);
+  padding: var(--s3) 0;
+  font-size: 15px;
+  color: var(--text-dark);
+}
+
+.why-list li::before {
+  content: "✓";
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: var(--orange);
+  color: var(--white);
+  border-radius: var(--r-full);
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* ==================== TESTIMONIALS SECTION ==================== */
+.testimonials-section {
+  padding: var(--s9) var(--s7);
+  background: var(--white);
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s5);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.testimonial-card {
+  padding: var(--s5);
+  background: var(--gray-100);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--gray-200);
+}
+
+.testimonial-header {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  margin-bottom: var(--s3);
+}
+
+.testimonial-avatar {
+  width: 48px;
+  height: 48px;
+  background: var(--orange);
+  color: var(--white);
+  border-radius: var(--r-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.testimonial-info h4 {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--navy);
+  margin: 0;
+}
+
+.testimonial-info span {
+  font-size: 13px;
+  color: var(--gray-600);
+}
+
+.testimonial-text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-dark);
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.testimonial-stars {
+  margin-top: var(--s3);
+  color: #fbbf24;
+  font-size: 16px;
+}
+
+/* ==================== STEPPER SECTION ==================== */
+.stepper-section {
+  padding: var(--s9) var(--s7);
+  background: var(--gray-100);
+}
+
+.stepper-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--s5);
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.step-item {
+  text-align: center;
+  padding: var(--s5);
+  background: var(--white);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-card);
+  position: relative;
+}
+
+.step-number {
+  width: 48px;
+  height: 48px;
+  background: var(--orange);
+  color: var(--white);
+  border-radius: var(--r-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 auto var(--s4);
+}
+
+.step-item h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: var(--s2);
+}
+
+.step-item p {
+  font-size: 13px;
+  color: var(--gray-600);
+  line-height: 1.5;
+}
+
+/* ==================== FOOTER STYLES MIGRATED TO GLOBALS.CSS ==================== */
+
+@media (max-width: 1024px) {
+  .experiences-grid,
+  .testimonials-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stepper-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .why-container {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-title {
+    font-size: 42px;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-header {
+    padding: var(--s3) var(--s4);
+  }
+
+  .header-nav {
+    display: none;
+  }
+
+  .hero-title {
+    font-size: 32px;
+  }
+
+  .experiences-grid,
+  .testimonials-grid,
+  .stepper-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .trust-band {
+    flex-wrap: wrap;
+    gap: var(--s4);
+  }
+}

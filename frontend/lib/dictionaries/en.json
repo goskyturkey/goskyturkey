@@ -1,0 +1,87 @@
+{
+    "common": {
+        "siteName": "GoSky Turkey",
+        "home": "Home",
+        "experiences": "Experiences",
+        "about": "About Us",
+        "gallery": "Gallery",
+        "faq": "FAQ",
+        "contact": "Contact",
+        "bookNow": "Book Now",
+        "learnMore": "Learn More",
+        "viewAll": "View All",
+        "loading": "Loading...",
+        "error": "An error occurred",
+        "success": "Success",
+        "cancel": "Cancel",
+        "save": "Save",
+        "delete": "Delete",
+        "edit": "Edit",
+        "close": "Close",
+        "search": "Search",
+        "filter": "Filter",
+        "all": "All",
+        "person": "person",
+        "perPerson": "/ person",
+        "from": "from",
+        "duration": "Duration",
+        "location": "Location",
+        "price": "Price",
+        "includes": "Includes",
+        "excludes": "Excludes"
+    },
+    "hero": {
+        "badge": "Turkey's #1 Air Sports Experience",
+        "title": "A New Perspective from the Sky",
+        "subtitle": "Experience unforgettable paragliding, gyrocopter and balloon adventures with our professional team. Safety and excitement combined.",
+        "cta": "Explore Tours",
+        "secondary": "Call Us"
+    },
+    "activities": {
+        "title": "Popular Experiences",
+        "subtitle": "Discover our most preferred activities",
+        "paragliding": "Paragliding",
+        "gyrocopter": "Gyrocopter",
+        "balloon": "Balloon Tour",
+        "featured": "Featured"
+    },
+    "booking": {
+        "title": "Booking",
+        "selectDate": "Select Date",
+        "selectTime": "Select Time",
+        "guests": "Number of Guests",
+        "fullName": "Full Name",
+        "email": "Email",
+        "phone": "Phone",
+        "notes": "Notes (optional)",
+        "total": "Total",
+        "submit": "Book Now",
+        "success": "Your booking has been received!",
+        "confirmEmail": "Confirmation email has been sent."
+    },
+    "faq": {
+        "title": "Frequently Asked Questions",
+        "subtitle": "We've answered your questions",
+        "categories": {
+            "general": "General",
+            "booking": "Booking",
+            "payment": "Payment",
+            "activity": "Activity",
+            "safety": "Safety"
+        }
+    },
+    "gallery": {
+        "title": "Gallery",
+        "subtitle": "Unforgettable moments captured",
+        "noItems": "No images in this category yet."
+    },
+    "footer": {
+        "rights": "All rights reserved.",
+        "followUs": "Follow Us"
+    },
+    "notFound": {
+        "title": "Page Not Found",
+        "message": "The page you are looking for does not exist or has been moved.",
+        "goHome": "Go to Home"
+    }
+}

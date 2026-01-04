@@ -1,0 +1,51 @@
+services:
+  # Next.js Frontend + Express Backend
+  goskyturkey:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: http://localhost:3000/api
+    container_name: goskyturkey-next
+    restart: unless-stopped
+    ports:
+      - "3000:3000" # Backend API
+      - "3001:3001" # Next.js Frontend
+    environment:
+      - NODE_ENV=production
+      - MONGODB_URI=mongodb://mongodb:27017/goskyturkey
+      - JWT_SECRET=${JWT_SECRET:-your-super-secret-jwt-key-change-in-production}
+      - JWT_EXPIRES_IN=7d
+      - BASE_URL=https://goskyturkey.com
+      - NEXT_PUBLIC_API_URL=http://localhost:3000/api
+      - IYZICO_API_KEY=${IYZICO_API_KEY:-sandbox-afXhZPW0MQlE4dCUUlHcEopnMBgXnAZI}
+      - IYZICO_SECRET_KEY=${IYZICO_SECRET_KEY:-sandbox-wbwpzKIiplZxI3hh5ALI4FJyAcZKL6kq}
+      - IYZICO_URI=${IYZICO_URI:-https://sandbox-api.iyzipay.com}
+    depends_on:
+      - mongodb
+    volumes:
+      - uploads:/app/backend/uploads
+    networks:
+      - goskyturkey-network
+      - proxy-net
+
+  # MongoDB Database
+  mongodb:
+    image: mongo:7
+    container_name: goskyturkey-mongodb
+    restart: unless-stopped
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - goskyturkey-network
+
+volumes:
+  mongodb_data:
+  uploads:
+
+
+networks:
+  goskyturkey-network:
+    driver: bridge
+  proxy-net:
+    external: true

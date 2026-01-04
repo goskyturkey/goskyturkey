@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <!-- ==================== ANA SAYFA ==================== -->
+  <url>
+    <loc>https://goskyturkey.com/</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://goskyturkey.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://goskyturkey.com/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://goskyturkey.com/"/>
+    <lastmod>2026-01-03</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://goskyturkey.com/images/paragliding.png</image:loc>
+      <image:title>GoSky Turkey - Yamaç Paraşütü, Gyrocopter ve Balon Turları</image:title>
+      <image:caption>İzmir, Denizli-Pamukkale, Fethiye-Ölüdeniz bölgelerinde macera turları</image:caption>
+    </image:image>
+  </url>
+
+  <!-- ==================== GALERİ ==================== -->
+  <url>
+    <loc>https://goskyturkey.com/gallery</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://goskyturkey.com/gallery"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://goskyturkey.com/gallery?lang=en"/>
+    <lastmod>2026-01-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- ==================== SSS ==================== -->
+  <url>
+    <loc>https://goskyturkey.com/faq</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://goskyturkey.com/faq"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://goskyturkey.com/faq?lang=en"/>
+    <lastmod>2026-01-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- ==================== AKTİVİTELER ==================== -->
+
+  <!-- Yamaç Paraşütü Deneyimi -->
+  <url>
+    <loc>https://goskyturkey.com/activity/yamac-parasutu-deneyimi</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://goskyturkey.com/activity/yamac-parasutu-deneyimi"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://goskyturkey.com/activity/yamac-parasutu-deneyimi?lang=en"/>
+    <lastmod>2026-01-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://goskyturkey.com/images/paragliding.png</image:loc>
+      <image:title>Fethiye Ölüdeniz Yamaç Paraşütü Tandem Uçuş</image:title>
+      <image:caption>Profesyonel pilotlar eşliğinde tandem yamaç paraşütü deneyimi</image:caption>
+      <image:geo_location>Fethiye, Muğla, Türkiye</image:geo_location>
+    </image:image>
+  </url>
+
+  <!-- Gyrocopter Turu -->
+  <url>
+    <loc>https://goskyturkey.com/activity/gyrocopter-turu</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://goskyturkey.com/activity/gyrocopter-turu"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://goskyturkey.com/activity/gyrocopter-turu?lang=en"/>
+    <lastmod>2026-01-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://goskyturkey.com/images/gyrocopter.png</image:loc>
+      <image:title>Pamukkale Gyrocopter Turu - Hava Gezisi</image:title>
+      <image:caption>Pamukkale travertenleri üzerinde gyrocopter ile panoramik uçuş</image:caption>
+      <image:geo_location>Denizli, Türkiye</image:geo_location>
+    </image:image>
+  </url>
+
+  <!-- Pamukkale Balon Turu -->
+  <url>
+    <loc>https://goskyturkey.com/activity/pamukkale-balon-turu</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://goskyturkey.com/activity/pamukkale-balon-turu"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://goskyturkey.com/activity/pamukkale-balon-turu?lang=en"/>
+    <lastmod>2026-01-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://goskyturkey.com/images/balloon.png</image:loc>
+      <image:title>Pamukkale Sıcak Hava Balonu Turu</image:title>
+      <image:caption>UNESCO Dünya Mirası Pamukkale travertenleri üzerinde gün doğumu balon turu</image:caption>
+      <image:geo_location>Denizli, Türkiye</image:geo_location>
+    </image:image>
+  </url>
+
+</urlset>
