@@ -14,6 +14,13 @@ const initPayment = async (req, res) => {
     try {
         const bookingId = req.body?.bookingId || req.params?.bookingId;
 
+        if (!bookingId || bookingId === 'undefined') {
+            return res.status(400).json({
+                success: false,
+                message: 'Geçersiz rezervasyon bilgisi'
+            });
+        }
+
         // Booking'i bul
         const booking = await Booking.findById(bookingId).populate('activity');
         if (!booking) {

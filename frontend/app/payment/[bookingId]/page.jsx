@@ -3,8 +3,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
 
-export default function PaymentPage({ params }) {
+export default function PaymentPage() {
+    const params = useParams();
     const [booking, setBooking] = useState(null);
     const [loading, setLoading] = useState(true);
     const [paymentHtml, setPaymentHtml] = useState(null);
