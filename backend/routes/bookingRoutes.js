@@ -269,17 +269,13 @@ router.get('/admin/stats', protect, adminOnly, async (req, res) => {
       pendingBookings,
       confirmedBookings,
       cancelledBookings,
-      paidRevenue,
-      confirmedRevenue,
+      paidRevenueAgg,
+      confirmedRevenueAgg,
       totalActivities
     ] = await Promise.all([
       Booking.countDocuments(),
       Booking.countDocuments({ date: { $gte: today } }),
       Booking.countDocuments({ status: 'pending' }),
-      Booking.aggregate([
-        { $match: { paymentStatus: 'paid' } },
-        { $group: { _id: null, total: { $sum: '$totalPrice' } } }
-      ]),
       Booking.countDocuments({ status: 'confirmed' }),
       Booking.countDocuments({ status: 'cancelled' }),
       Booking.aggregate([
@@ -301,9 +297,9 @@ router.get('/admin/stats', protect, adminOnly, async (req, res) => {
         pendingBookings,
         confirmedBookings,
         cancelledBookings,
-        paidRevenue: paidRevenue[0]?.total || 0,
-        totalRevenue: paidRevenue[0]?.total || 0, // backward compatibility
-        confirmedRevenue: confirmedRevenue[0]?.total || 0,
+        paidRevenue: paidRevenueAgg[0]?.total || 0,
+        totalRevenue: paidRevenueAgg[0]?.total || 0, // backward compatibility
+        confirmedRevenue: confirmedRevenueAgg[0]?.total || 0,
         totalActivities
       }
     });
