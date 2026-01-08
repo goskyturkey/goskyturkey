@@ -2,8 +2,8 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 export default function PaymentPage() {
     const params = useParams();
@@ -89,11 +89,32 @@ export default function PaymentPage() {
                     marginBottom: '2rem',
                 }}>
                     <h3 style={{ marginBottom: '1rem' }}>Rezervasyon Özeti</h3>
-                    <div style={{ fontSize: '0.9rem', opacity: 0.8 }}>
-                        <p>👤 {booking.customerName || booking.customerInfo?.name}</p>
-                        <p>📧 {booking.customerEmail || booking.customerInfo?.email}</p>
-                        <p>📅 {new Date(booking.date).toLocaleDateString('tr-TR')}</p>
-                        <p>👥 {booking.participants || booking.guests} Kişi</p>
+                    <div style={{ fontSize: '0.9rem', opacity: 0.8, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+
+                        {/* İsim Satırı */}
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            <span style={{ fontSize: '1.2rem', lineHeight: 1 }}>👤</span>
+                            <span>{booking.customerName || booking.customerInfo?.name}</span>
+                        </div>
+
+                        {/* Email Satırı */}
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            <span style={{ fontSize: '1.2rem', lineHeight: 1 }}>📧</span>
+                            <span>{booking.customerEmail || booking.customerInfo?.email}</span>
+                        </div>
+
+                        {/* Tarih Satırı */}
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            <span style={{ fontSize: '1.2rem', lineHeight: 1 }}>📅</span>
+                            <span>{new Date(booking.date).toLocaleDateString('tr-TR')}</span>
+                        </div>
+
+                        {/* Kişi Sayısı Satırı */}
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            <span style={{ fontSize: '1.2rem', lineHeight: 1 }}>👥</span>
+                            <span>{booking.participants || booking.guests} Kişi</span>
+                        </div>
+
                         <div style={{
                             marginTop: '1rem',
                             paddingTop: '1rem',
