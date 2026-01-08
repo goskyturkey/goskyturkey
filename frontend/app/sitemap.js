@@ -7,8 +7,12 @@ export default async function sitemap() {
 
     let activities = [];
     try {
-        const res = await fetch(`${API_URL}/activities`);
-        activities = await res.json();
+        const res = await fetch(`${API_URL}/activities`, { cache: 'no-store' });
+        const payload = await res.json();
+        activities = payload.data || payload;
+        if (!Array.isArray(activities)) {
+            activities = [];
+        }
     } catch (error) {
         console.error('Sitemap generation error:', error);
     }

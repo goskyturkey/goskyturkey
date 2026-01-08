@@ -1,0 +1,13 @@
+{
+    "HomePage": {
+        "title": "GoSkyTurkey - Kapadokya ve Pamukkale",
+        "welcome": "Hoş Geldiniz"
+    },
+    "Navigation": {
+        "home": "Anasayfa",
+        "activities": "Aktiviteler",
+        "gallery": "Galeri",
+        "contact": "İletişim",
+        "faq": "SSS"
+    }
+}

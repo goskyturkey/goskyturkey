@@ -23,7 +23,26 @@ ENV NEXT_TELEMETRY_DISABLED=1
 RUN npm run build
 
 # ======================================
-# STAGE 2: Production
+# STAGE 2: Build Backend TypeScript
+# ======================================
+FROM node:24-alpine AS backend-builder
+
+WORKDIR /app/backend
+
+# Copy package files
+COPY backend/package*.json ./
+
+# Install all dependencies (including dev for TypeScript)
+RUN npm install
+
+# Copy source files
+COPY backend/ ./
+
+# Build TypeScript
+RUN npm run build
+
+# ======================================
+# STAGE 3: Production
 # ======================================
 FROM node:24-alpine AS runner
 
@@ -34,9 +53,17 @@ RUN npm install -g pm2
 
 # ===== BACKEND =====
 WORKDIR /app/backend
+
+# Copy package files and install production only
 COPY backend/package*.json ./
 RUN npm install --production
-COPY backend/ ./
+
+# Copy compiled TypeScript output
+COPY --from=backend-builder /app/backend/dist ./dist
+
+# Copy non-compiled files needed at runtime
+COPY backend/public ./public
+COPY backend/.env.example ./.env
 
 # ===== FRONTEND (Next.js Standalone) =====
 WORKDIR /app/frontend
@@ -45,7 +72,7 @@ COPY --from=frontend-builder /app/frontend/.next/static ./.next/static
 COPY --from=frontend-builder /app/frontend/public ./public
 
 # Create necessary directories
-RUN mkdir -p /app/backend/uploads
+RUN mkdir -p /app/backend/uploads /app/backend/logs
 
 # Expose ports
 # Backend: 3000, Frontend: 3001
@@ -60,7 +87,9 @@ module.exports = {
     {
       name: 'backend',
       cwd: '/app/backend',
-      script: 'server.js',
+      script: 'dist/server.js',
+      instances: 'max',
+      exec_mode: 'cluster',
       env: {
         PORT: 3000,
         NODE_ENV: 'production'

@@ -6,57 +6,33 @@ import Link from 'next/link';
 
 export default function HomeContent({ activities, settings }) {
     const { language, t } = useLanguage();
-    const siteName = settings?.siteName || 'GoSky Turkey';
+    const siteName = settings?.siteName || 'GoSkyTurkey';
     const phone = settings?.phone || '+90 555 123 4567';
 
-    const trustBadges = language === 'tr' ? [
-        { icon: '🏆', value: 'TÜRSAB', text: 'Lisanslı' },
-        { icon: '📅', value: '10+', text: 'Yıl Deneyim' },
-        { icon: '👥', value: '5000+', text: 'Mutlu Misafir' },
-        { icon: '⭐', value: '4.9', text: 'Ortalama Puan' },
-    ] : [
-        { icon: '🏆', value: 'TÜRSAB', text: 'Licensed' },
-        { icon: '📅', value: '10+', text: 'Years Experience' },
-        { icon: '👥', value: '5000+', text: 'Happy Guests' },
-        { icon: '⭐', value: '4.9', text: 'Average Rating' },
+    // Trust badges - veritabanından çevirilerle
+    const trustBadges = [
+        { icon: '🏆', value: 'TÜRSAB', textKey: 'trustBadge.licensed.text' },
+        { icon: '📅', value: '10+', textKey: 'trustBadge.experience.text' },
+        { icon: '👥', value: '5000+', textKey: 'trustBadge.guests.text' },
+        { icon: '⭐', value: '4.9', textKey: 'trustBadge.rating.text' },
     ];
 
-    const whyUsItems = language === 'tr' ? [
-        '✓ TÜRSAB lisanslı, yasal ve güvenilir operatör',
-        '✓ 10+ yıllık deneyimli profesyonel pilot kadrosu',
-        '✓ Uluslararası standartlarda ekipman ve güvenlik',
-        '✓ Ücretsiz profesyonel video ve fotoğraf çekimi',
-        '✓ Esnek ödeme seçenekleri ve kolay rezervasyon',
-        '✓ 7/24 müşteri desteği ve WhatsApp iletişim',
-    ] : [
-        '✓ TÜRSAB licensed, legal and reliable operator',
-        '✓ 10+ years experienced professional pilot team',
-        '✓ International standard equipment and safety',
-        '✓ Free professional video and photo shooting',
-        '✓ Flexible payment options and easy booking',
-        '✓ 24/7 customer support and WhatsApp contact',
+    // Why us items - veritabanından
+    const whyUsKeys = ['whyUs.item1', 'whyUs.item2', 'whyUs.item3', 'whyUs.item4', 'whyUs.item5', 'whyUs.item6'];
+
+    // Stepper items - veritabanından
+    const stepperItems = [
+        { titleKey: 'stepper.step1.title', descKey: 'stepper.step1.desc' },
+        { titleKey: 'stepper.step2.title', descKey: 'stepper.step2.desc' },
+        { titleKey: 'stepper.step3.title', descKey: 'stepper.step3.desc' },
+        { titleKey: 'stepper.step4.title', descKey: 'stepper.step4.desc' },
     ];
 
-    const testimonials = language === 'tr' ? [
-        { name: 'Ahmet Y.', location: 'İstanbul', text: 'Hayatımın en güzel deneyimiydi! Pilot çok profesyoneldi, manzara muhteşemdi.', rating: 5 },
-        { name: 'Merve K.', location: 'Ankara', text: 'Balon turu için geldik ama yamaç paraşütünü de denedik. Her ikisi de mükemmeldi!', rating: 5 },
-        { name: 'Can B.', location: 'İzmir', text: 'Gyrocopter deneyimi beklentilerimin çok üzerindeydi. Fotoğraflar da hediye!', rating: 5 },
-    ] : [
-        { name: 'John D.', location: 'London', text: 'Best experience of my life! The pilot was very professional and the view was amazing.', rating: 5 },
-        { name: 'Sarah M.', location: 'New York', text: 'We came for the balloon tour but also tried paragliding. Both were amazing!', rating: 5 },
-        { name: 'Mike R.', location: 'Berlin', text: 'The gyrocopter experience exceeded my expectations. Photos were a gift!', rating: 5 },
-    ];
-
-    const stepperItems = language === 'tr' ? [
-        { title: 'Tur Seçin', description: 'Size uygun deneyimi seçin' },
-        { title: 'Tarih Belirleyin', description: 'Uygun tarihi seçin' },
-        { title: 'Rezervasyon', description: 'Online veya telefonla' },
-        { title: 'Keyfini Çıkarın', description: 'Unutulmaz anlar yaşayın' },
-    ] : [
-        { title: 'Choose Tour', description: 'Pick the right experience' },
-        { title: 'Select Date', description: 'Choose available date' },
-        { title: 'Book Now', description: 'Online or by phone' },
-        { title: 'Enjoy', description: 'Create unforgettable memories' },
+    // Testimonials - bunlar daha sonra veritabanından çekilebilir
+    const testimonials = [
+        { name: 'Ahmet Y.', location: 'İstanbul', text: 'Hayatımın en güzel deneyimiydi!', rating: 5 },
+        { name: 'John D.', location: 'London', text: 'Best experience of my life!', rating: 5 },
+        { name: 'Hans M.', location: 'München', text: 'Das beste Erlebnis meines Lebens!', rating: 5 },
     ];
 
     return (
@@ -64,7 +40,14 @@ export default function HomeContent({ activities, settings }) {
             {/* HERO */}
             <section className="hero-section" id="home">
                 <div className="hero-bg">
-                    <Image src="/images/hero-bg.png" alt="GoSky Turkey" fill priority style={{ objectFit: 'cover' }} />
+                    <Image
+                        src={settings?.heroImage || '/images/hero-bg.webp'}
+                        alt="GoSkyTurkey"
+                        fill
+                        priority
+                        unoptimized={settings?.heroImage?.startsWith('/uploads/')}
+                        style={{ objectFit: 'cover' }}
+                    />
                 </div>
                 <div className="hero-overlay"></div>
                 <div className="hero-content">
@@ -80,7 +63,7 @@ export default function HomeContent({ activities, settings }) {
                     <div key={i} className="trust-item">
                         <span className="trust-icon">{badge.icon}</span>
                         <span className="trust-value">{badge.value}</span>
-                        <span>{badge.text}</span>
+                        <span>{t(badge.textKey)}</span>
                     </div>
                 ))}
             </div>
@@ -93,9 +76,16 @@ export default function HomeContent({ activities, settings }) {
                 </div>
                 <div className="experiences-grid">
                     {activities.map((activity) => {
-                        const activityName = language === 'en' && activity.name_en ? activity.name_en : activity.name;
-                        const activityLocation = language === 'en' && activity.location_en ? activity.location_en : activity.location;
-                        const activityImage = activity.thumbnailImage || activity.image || activity.images?.[0] || '/images/paragliding.png';
+                        // i18n alanları destekle (name.tr, name.en veya name_en formatları)
+                        const activityName = typeof activity.name === 'object'
+                            ? (activity.name[language] || activity.name.tr || activity.name.en)
+                            : (language === 'en' && activity.name_en ? activity.name_en : activity.name);
+
+                        const activityLocation = typeof activity.location === 'object'
+                            ? (activity.location[language] || activity.location.tr || activity.location.en)
+                            : (language === 'en' && activity.location_en ? activity.location_en : activity.location);
+
+                        const activityImage = activity.thumbnailImage || activity.image || activity.images?.[0] || '/images/paragliding.webp';
                         return (
                             <div key={activity._id || activity.slug} className="exp-card">
                                 <div className="exp-card-image">
@@ -110,7 +100,7 @@ export default function HomeContent({ activities, settings }) {
                                         {activity.discountPrice && <span className="old">₺{activity.price?.toLocaleString()}</span>}
                                         <span className="current">₺{(activity.discountPrice || activity.price)?.toLocaleString()}</span>
                                     </div>
-                                    <Link href={`/activity/${activity.slug}`} className="exp-card-btn">
+                                    <Link href={`/${language}/activity/${activity.slug}`} className="exp-card-btn">
                                         {t('activity.bookNow')}
                                     </Link>
                                 </div>
@@ -124,12 +114,12 @@ export default function HomeContent({ activities, settings }) {
             <section className="why-section" id="why">
                 <div className="why-container">
                     <div className="why-image">
-                        <Image src="/images/gyrocopter.png" alt="Why Choose Us" width={500} height={400} style={{ objectFit: 'cover', borderRadius: '16px' }} />
+                        <Image src="/images/gyrocopter.webp" alt="Why Choose Us" width={500} height={400} style={{ objectFit: 'cover', borderRadius: '16px' }} />
                     </div>
                     <div className="why-content">
                         <h2>{t('sections.whyUs')}</h2>
                         <ul className="why-list">
-                            {whyUsItems.map((item, i) => <li key={i}>{item}</li>)}
+                            {whyUsKeys.map((key, i) => <li key={i}>{t(key)}</li>)}
                         </ul>
                     </div>
                 </div>
@@ -138,8 +128,8 @@ export default function HomeContent({ activities, settings }) {
             {/* TESTIMONIALS */}
             <section className="testimonials-section">
                 <div className="section-header">
-                    <h2 className="section-title">{language === 'tr' ? 'Müşteri Yorumları' : 'Customer Reviews'}</h2>
-                    <p className="section-subtitle">{language === 'tr' ? 'Misafirlerimizin deneyimleri' : 'Experiences of our guests'}</p>
+                    <h2 className="section-title">{t('sections.testimonials')}</h2>
+                    <p className="section-subtitle">{t('testimonials.subtitle')}</p>
                 </div>
                 <div className="testimonials-grid">
                     {testimonials.map((item, i) => (
@@ -147,7 +137,7 @@ export default function HomeContent({ activities, settings }) {
                             <div className="testimonial-header">
                                 <div className="testimonial-avatar">{item.name.charAt(0)}</div>
                                 <div className="testimonial-info">
-                                    <h4>{item.name}</h4>
+                                    <h3 style={{ fontSize: '1rem', margin: 0 }}>{item.name}</h3>
                                     <span>{item.location}</span>
                                 </div>
                             </div>
@@ -161,17 +151,62 @@ export default function HomeContent({ activities, settings }) {
             {/* STEPPER */}
             <section className="stepper-section">
                 <div className="section-header">
-                    <h2 className="section-title">{language === 'tr' ? 'Nasıl Çalışıyor?' : 'How It Works?'}</h2>
-                    <p className="section-subtitle">{language === 'tr' ? '4 kolay adımda rezervasyon' : 'Book in 4 easy steps'}</p>
+                    <h2 className="section-title">{t('sections.howItWorks')}</h2>
+                    <p className="section-subtitle">{t('stepper.subtitle')}</p>
                 </div>
                 <div className="stepper-grid">
                     {stepperItems.map((step, i) => (
                         <div key={i} className="step-item">
                             <div className="step-number">{i + 1}</div>
-                            <h4>{step.title}</h4>
-                            <p>{step.description}</p>
+                            <h3 style={{ fontSize: '1.1rem' }}>{t(step.titleKey)}</h3>
+                            <p>{t(step.descKey)}</p>
                         </div>
                     ))}
+                </div>
+            </section>
+
+            {/* CONTACT & MAP */}
+            <section className="contact-section" id="contact" style={{ padding: '80px 48px', background: '#fff' }}>
+                <div className="section-header">
+                    <h2 className="section-title">{t('sections.contact')}</h2>
+                    <p className="section-subtitle">{t('contact.visitUs')}</p>
+                </div>
+                <div className="contact-container" style={{ maxWidth: '1200px', margin: '0 auto' }}>
+                    <div className="contact-map-wrapper" style={{ borderRadius: '16px', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0,0,0,0.1)' }}>
+                        <iframe
+                            src={settings?.mapEmbedUrl || "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3147.5511765354277!2d29.115456176140864!3d37.91755220392208!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14c713db87fa1fc9%3A0x9171b885b2b42a3c!2sGoSkyTurkey!5e0!3m2!1str!2str!4v1767648166200!5m2!1str!2str"}
+                            title="GoSkyTurkey Location Map"
+                            width="100%"
+                            height="450"
+                            style={{ border: 0, display: 'block' }}
+                            allowFullScreen=""
+                            loading="lazy"
+                            referrerPolicy="no-referrer-when-downgrade"
+                        ></iframe>
+                    </div>
+                    <div className="contact-details" style={{ marginTop: '3rem', display: 'flex', justifyContent: 'center', gap: '3rem', flexWrap: 'wrap' }}>
+                        <div style={{ textAlign: 'center' }}>
+                            <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>📍</div>
+                            <h3 style={{ color: '#1a2744', marginBottom: '0.5rem', fontSize: '1rem' }}>{t('contact.address')}</h3>
+                            <p style={{ color: '#6c757d', maxWidth: '300px' }}>
+                                {typeof settings?.address === 'object'
+                                    ? (settings.address[language] || settings.address.tr || 'Pamukkale, Denizli, Türkiye')
+                                    : (settings?.address || 'Pamukkale, Denizli, Türkiye')}
+                            </p>
+                        </div>
+                        <div style={{ textAlign: 'center' }}>
+                            <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>📞</div>
+                            <h3 style={{ color: '#1a2744', marginBottom: '0.5rem', fontSize: '1rem' }}>{t('contact.phone')}</h3>
+                            <a href={`tel:${phone.replace(/\D/g, '')}`} style={{ color: '#e8793a', textDecoration: 'none', fontWeight: 'bold' }}>{phone}</a>
+                        </div>
+                        <div style={{ textAlign: 'center' }}>
+                            <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>✉️</div>
+                            <h3 style={{ color: '#1a2744', marginBottom: '0.5rem', fontSize: '1rem' }}>E-mail</h3>
+                            <a href={`mailto:${settings?.contactEmail || 'info@goskyturkey.com'}`} style={{ color: '#e8793a', textDecoration: 'none', fontWeight: 'bold' }}>
+                                {settings?.contactEmail || 'info@goskyturkey.com'}
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </section>
         </>

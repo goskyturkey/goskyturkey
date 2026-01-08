@@ -1,0 +1,13 @@
+{
+    "HomePage": {
+        "title": "GoSkyTurkey - 卡帕多西亚和棉花堡",
+        "welcome": "欢迎"
+    },
+    "Navigation": {
+        "home": "首页",
+        "activities": "活动",
+        "gallery": "图库",
+        "contact": "联系",
+        "faq": "常见问题"
+    }
+}

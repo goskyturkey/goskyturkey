@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  # MongoDB
+  mongodb:
+    image: mongo:7
+    container_name: goskyturkey-mongodb-dev
+    restart: unless-stopped
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - goskyturkey-network
+
+  # Backend API (development mode)
+  backend:
+    image: node:20-alpine
+    container_name: goskyturkey-backend-dev
+    working_dir: /app
+    volumes:
+      - ./backend:/app
+      - backend_node_modules:/app/node_modules
+    environment:
+      - NODE_ENV=development
+      - MONGODB_URI=mongodb://mongodb:27017/goskyturkey
+      - JWT_SECRET=${JWT_SECRET:-your-super-secret-jwt-key-change-in-production}
+      - PORT=3000
+    command: sh -c "npm install && npm run dev"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongodb
+    networks:
+      - goskyturkey-network
+
+  # Frontend (development mode with hot-reload)
+  frontend:
+    image: node:20-alpine
+    container_name: goskyturkey-frontend-dev
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+      - frontend_node_modules:/app/node_modules
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_API_URL=http://localhost:3000/api
+      - API_URL=http://backend:3000/api
+    command: sh -c "npm install && npm run dev"
+    ports:
+      - "3001:3000"
+    depends_on:
+      - backend
+    networks:
+      - goskyturkey-network
+
+volumes:
+  mongodb_data:
+  backend_node_modules:
+  frontend_node_modules:
+
+networks:
+  goskyturkey-network:
+    driver: bridge

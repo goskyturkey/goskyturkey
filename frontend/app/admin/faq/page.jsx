@@ -1,7 +1,7 @@
 'use client';
 
+import { I18nInput } from '@/components/admin/FormElements';
 import { useAuth } from '@/contexts/AuthContext';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -14,7 +14,7 @@ const CATEGORIES = [
 ];
 
 export default function AdminFAQPage() {
-    const { user, loading, logout } = useAuth();
+    const { user, loading } = useAuth();
     const router = useRouter();
     const [faqs, setFaqs] = useState([]);
     const [showModal, setShowModal] = useState(false);
@@ -22,10 +22,8 @@ export default function AdminFAQPage() {
     const [selectedCategory, setSelectedCategory] = useState('all');
 
     const [formData, setFormData] = useState({
-        question: '',
-        question_en: '',
-        answer: '',
-        answer_en: '',
+        question: { tr: '', en: '', de: '', fr: '', hi: '', zh: '' },
+        answer: { tr: '', en: '', de: '', fr: '', hi: '', zh: '' },
         category: 'general',
         isActive: true
     });
@@ -82,10 +80,8 @@ export default function AdminFAQPage() {
     const handleEdit = (faq) => {
         setEditItem(faq);
         setFormData({
-            question: faq.question,
-            question_en: faq.question_en || '',
-            answer: faq.answer,
-            answer_en: faq.answer_en || '',
+            question: faq.question || { tr: '', en: '' },
+            answer: faq.answer || { tr: '', en: '' },
             category: faq.category,
             isActive: faq.isActive
         });
@@ -126,10 +122,8 @@ export default function AdminFAQPage() {
 
     const resetForm = () => {
         setFormData({
-            question: '',
-            question_en: '',
-            answer: '',
-            answer_en: '',
+            question: { tr: '', en: '', de: '', fr: '', hi: '', zh: '' },
+            answer: { tr: '', en: '', de: '', fr: '', hi: '', zh: '' },
             category: 'general',
             isActive: true
         });
@@ -145,6 +139,13 @@ export default function AdminFAQPage() {
         ? faqs
         : faqs.filter(f => f.category === selectedCategory);
 
+    // Helper to get localized text
+    const getLocalizedText = (obj, locale = 'tr') => {
+        if (!obj) return '';
+        if (typeof obj === 'string') return obj;
+        return obj[locale] || obj.tr || obj.en || '';
+    };
+
     if (loading || !user) {
         return <div className="admin-container">Yükleniyor...</div>;
     }
@@ -153,16 +154,6 @@ export default function AdminFAQPage() {
         <div className="admin-container">
             <header className="admin-header">
                 <h1>❓ SSS Yönetimi</h1>
-                <nav className="admin-nav">
-                    <Link href="/admin">Dashboard</Link>
-                    <Link href="/admin/activities">Aktiviteler</Link>
-                    <Link href="/admin/bookings">Rezervasyonlar</Link>
-                    <Link href="/admin/gallery">Galeri</Link>
-                    <Link href="/admin/faq" className="active">SSS</Link>
-                    <Link href="/admin/reviews">Yorumlar</Link>
-                    <Link href="/admin/settings">Ayarlar</Link>
-                    <button onClick={logout} className="admin-btn secondary">Çıkış</button>
-                </nav>
             </header>
 
             <div style={{ marginBottom: '1rem', display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
@@ -209,13 +200,13 @@ export default function AdminFAQPage() {
                                                 {CATEGORIES.find(c => c.value === faq.category)?.label}
                                             </span>
                                         </div>
-                                        <h4 style={{ marginBottom: '0.5rem' }}>{faq.question}</h4>
-                                        {faq.question_en && (
+                                        <h4 style={{ marginBottom: '0.5rem' }}>{getLocalizedText(faq.question, 'tr')}</h4>
+                                        {getLocalizedText(faq.question, 'en') && (
                                             <p style={{ fontSize: '0.85rem', opacity: 0.7, marginBottom: '0.5rem' }}>
-                                                🇬🇧 {faq.question_en}
+                                                🇬🇧 {getLocalizedText(faq.question, 'en')}
                                             </p>
                                         )}
-                                        <p style={{ fontSize: '0.9rem', opacity: 0.8 }}>{faq.answer}</p>
+                                        <p style={{ fontSize: '0.9rem', opacity: 0.8 }}>{getLocalizedText(faq.answer, 'tr')}</p>
                                     </div>
                                     <div style={{ display: 'flex', gap: '0.5rem', marginLeft: '1rem' }}>
                                         <button onClick={() => toggleActive(faq)} className="admin-btn secondary" style={{ padding: '0.25rem 0.5rem' }}>
@@ -254,49 +245,21 @@ export default function AdminFAQPage() {
                             </select>
                         </div>
 
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-                            <div>
-                                <label style={{ display: 'block', marginBottom: '0.25rem' }}>Soru (TR) *</label>
-                                <textarea
-                                    className="admin-input"
-                                    rows={2}
-                                    value={formData.question}
-                                    onChange={(e) => setFormData({ ...formData, question: e.target.value })}
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label style={{ display: 'block', marginBottom: '0.25rem' }}>Question (EN)</label>
-                                <textarea
-                                    className="admin-input"
-                                    rows={2}
-                                    value={formData.question_en}
-                                    onChange={(e) => setFormData({ ...formData, question_en: e.target.value })}
-                                />
-                            </div>
-                        </div>
+                        <I18nInput
+                            label="Soru"
+                            value={formData.question}
+                            onChange={(val) => setFormData({ ...formData, question: val })}
+                            required
+                            rows={2}
+                        />
 
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginTop: '1rem' }}>
-                            <div>
-                                <label style={{ display: 'block', marginBottom: '0.25rem' }}>Cevap (TR) *</label>
-                                <textarea
-                                    className="admin-input"
-                                    rows={4}
-                                    value={formData.answer}
-                                    onChange={(e) => setFormData({ ...formData, answer: e.target.value })}
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label style={{ display: 'block', marginBottom: '0.25rem' }}>Answer (EN)</label>
-                                <textarea
-                                    className="admin-input"
-                                    rows={4}
-                                    value={formData.answer_en}
-                                    onChange={(e) => setFormData({ ...formData, answer_en: e.target.value })}
-                                />
-                            </div>
-                        </div>
+                        <I18nInput
+                            label="Cevap"
+                            value={formData.answer}
+                            onChange={(val) => setFormData({ ...formData, answer: val })}
+                            required
+                            rows={4}
+                        />
 
                         <div style={{ marginTop: '1rem' }}>
                             <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
@@ -334,6 +297,8 @@ export default function AdminFAQPage() {
                     padding: 2rem;
                     border-radius: 16px;
                     width: 90%;
+                    max-height: 90vh;
+                    overflow-y: auto;
                 }
                 .modal-content h2 {
                     margin-bottom: 1.5rem;

@@ -1,21 +1,26 @@
 'use client';
 
+import { I18nInput } from '@/components/admin/FormElements';
 import { useAuth } from '@/contexts/AuthContext';
-import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function AdminSettingsPage() {
-    const { user, loading, logout } = useAuth();
+    const { user, loading } = useAuth();
     const router = useRouter();
+    const fileInputRef = useRef(null);
     const [settings, setSettings] = useState({
         siteName: '',
         phone: '',
         contactEmail: '',
         whatsapp: '',
-        address: ''
+        mapEmbedUrl: '',
+        address: { tr: '', en: '', de: '', fr: '', hi: '', zh: '' },
+        heroImage: ''
     });
     const [saving, setSaving] = useState(false);
+    const [uploading, setUploading] = useState(false);
     const [message, setMessage] = useState('');
 
     useEffect(() => {
@@ -43,6 +48,40 @@ export default function AdminSettingsPage() {
         }
     };
 
+    const handleHeroUpload = async (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        setUploading(true);
+        setMessage('');
+
+        try {
+            const token = localStorage.getItem('adminToken');
+            const formData = new FormData();
+            formData.append('file', file);
+
+            const res = await fetch('/api/upload/hero', {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+                body: formData
+            });
+
+            if (res.ok) {
+                const result = await res.json();
+                setSettings({ ...settings, heroImage: result.data.url });
+                setMessage(`✅ Görsel yüklendi ve WebP'ye dönüştürüldü! (${(result.data.size / 1024).toFixed(0)} KB)`);
+            } else {
+                setMessage('❌ Görsel yüklenemedi');
+            }
+        } catch (error) {
+            console.error('Hero upload error:', error);
+            setMessage('❌ Bağlantı hatası');
+        }
+        setUploading(false);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setSaving(true);
@@ -60,12 +99,12 @@ export default function AdminSettingsPage() {
             });
 
             if (res.ok) {
-                setMessage('Ayarlar kaydedildi!');
+                setMessage('✅ Ayarlar kaydedildi!');
             } else {
-                setMessage('Hata oluştu');
+                setMessage('❌ Hata oluştu');
             }
         } catch (error) {
-            setMessage('Bağlantı hatası');
+            setMessage('❌ Bağlantı hatası');
         }
         setSaving(false);
     };
@@ -78,26 +117,80 @@ export default function AdminSettingsPage() {
         <div className="admin-container">
             <header className="admin-header">
                 <h1>⚙️ Ayarlar</h1>
-                <nav className="admin-nav">
-                    <Link href="/admin">Dashboard</Link>
-                    <Link href="/admin/activities">Aktiviteler</Link>
-                    <Link href="/admin/bookings">Rezervasyonlar</Link>
-                    <Link href="/admin/gallery">Galeri</Link>
-                    <Link href="/admin/settings" className="active">Ayarlar</Link>
-                    <button onClick={logout} className="admin-btn secondary">Çıkış</button>
-                </nav>
             </header>
 
             <div className="admin-card">
+                <h2>🖼️ Hero Görseli</h2>
+                <p style={{ color: '#94a3b8', marginBottom: '1rem', fontSize: '0.9rem' }}>
+                    Ana sayfa arka plan görseli. PNG/JPG yüklesen bile otomatik WebP'ye dönüştürülür.
+                </p>
+
+                <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-start', flexWrap: 'wrap' }}>
+                    <div style={{
+                        width: '300px',
+                        height: '180px',
+                        borderRadius: '12px',
+                        overflow: 'hidden',
+                        background: '#1e293b',
+                        position: 'relative'
+                    }}>
+                        {settings.heroImage ? (
+                            <Image
+                                src={settings.heroImage}
+                                alt="Hero"
+                                fill
+                                unoptimized
+                                style={{ objectFit: 'cover' }}
+                            />
+                        ) : (
+                            <div style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                height: '100%',
+                                color: '#64748b'
+                            }}>
+                                Görsel yüklenmemiş
+                            </div>
+                        )}
+                    </div>
+
+                    <div>
+                        <input
+                            ref={fileInputRef}
+                            type="file"
+                            accept="image/*"
+                            onChange={handleHeroUpload}
+                            style={{ display: 'none' }}
+                        />
+                        <button
+                            type="button"
+                            className="admin-btn"
+                            onClick={() => fileInputRef.current?.click()}
+                            disabled={uploading}
+                            style={{ marginBottom: '0.5rem' }}
+                        >
+                            {uploading ? '⏳ Yükleniyor...' : '📤 Görsel Yükle'}
+                        </button>
+                        <p style={{ fontSize: '0.8rem', color: '#64748b' }}>
+                            Önerilen: 2560x1440 px<br />
+                            Max: 20 MB<br />
+                            Format: PNG, JPG, WebP
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div className="admin-card" style={{ marginTop: '1.5rem' }}>
                 <h2>Site Ayarları</h2>
 
                 {message && (
                     <div style={{
                         padding: '0.75rem',
-                        background: message.includes('kaydedildi') ? 'rgba(34, 197, 94, 0.2)' : 'rgba(239, 68, 68, 0.2)',
+                        background: message.includes('✅') ? 'rgba(34, 197, 94, 0.2)' : 'rgba(239, 68, 68, 0.2)',
                         borderRadius: '8px',
                         margin: '1rem 0',
-                        color: message.includes('kaydedildi') ? '#22c55e' : '#ef4444'
+                        color: message.includes('✅') ? '#22c55e' : '#ef4444'
                     }}>
                         {message}
                     </div>
@@ -140,16 +233,26 @@ export default function AdminSettingsPage() {
                         </div>
                     </div>
                     <div style={{ marginTop: '1rem' }}>
-                        <label>Adres</label>
-                        <textarea
+                        <label>Harita Embed Linki (Google Maps iframe src)</label>
+                        <input
                             className="admin-input"
-                            rows={3}
-                            value={settings.address || ''}
-                            onChange={(e) => setSettings({ ...settings, address: e.target.value })}
+                            value={settings.mapEmbedUrl || ''}
+                            onChange={(e) => setSettings({ ...settings, mapEmbedUrl: e.target.value })}
+                            placeholder="https://www.google.com/maps/embed?..."
                         />
                     </div>
-                    <button type="submit" className="admin-btn" disabled={saving}>
-                        {saving ? 'Kaydediliyor...' : 'Kaydet'}
+
+                    <div style={{ marginTop: '1.5rem' }}>
+                        <I18nInput
+                            label="Adres"
+                            value={settings.address || {}}
+                            onChange={(val) => setSettings({ ...settings, address: val })}
+                            rows={3}
+                        />
+                    </div>
+
+                    <button type="submit" className="admin-btn" disabled={saving} style={{ marginTop: '1.5rem' }}>
+                        {saving ? 'Kaydediliyor...' : '💾 Kaydet'}
                     </button>
                 </form>
             </div>

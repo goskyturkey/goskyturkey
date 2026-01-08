@@ -4,14 +4,6 @@ Allow: /
 Disallow: /admin
 Disallow: /api/
 Disallow: /payment/
-Disallow: /_next/static/
 
 # Sitemap
 Sitemap: https://goskyturkey.com/sitemap.xml
-
-# Crawl delay for specific bots
-User-agent: Bingbot
-Crawl-delay: 1
-
-User-agent: Yandex
-Crawl-delay: 2

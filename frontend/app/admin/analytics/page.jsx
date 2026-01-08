@@ -1,12 +1,11 @@
 'use client';
 
 import { useAuth } from '@/contexts/AuthContext';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function AdminAnalyticsPage() {
-    const { user, loading, logout } = useAuth();
+    const { user, loading } = useAuth();
     const router = useRouter();
     const [stats, setStats] = useState({
         pageViews: { today: 0, week: 0, month: 0 },
@@ -50,14 +49,6 @@ export default function AdminAnalyticsPage() {
         <div className="admin-container">
             <header className="admin-header">
                 <h1>📈 Analytics</h1>
-                <nav className="admin-nav">
-                    <Link href="/admin">Dashboard</Link>
-                    <Link href="/admin/activities">Aktiviteler</Link>
-                    <Link href="/admin/bookings">Rezervasyonlar</Link>
-                    <Link href="/admin/analytics" className="active">Analytics</Link>
-                    <Link href="/admin/settings">Ayarlar</Link>
-                    <button onClick={logout} className="admin-btn secondary">Çıkış</button>
-                </nav>
             </header>
 
             <div className="admin-grid">

@@ -1,4 +1,5 @@
 "use client";
+import LanguageSelector from '@/components/LanguageSelector';
 import { useLanguage } from '@/contexts/LanguageContext';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -29,8 +30,8 @@ const Header = ({ phone }) => {
         <header className="main-header">
             <Link href="/" className="header-logo" onClick={closeMenu}>
                 <Image
-                    src="/images/logo.png"
-                    alt="GoSky Turkey"
+                    src="/images/logo.webp"
+                    alt="GoSkyTurkey"
                     width={150}
                     height={40}
                     className="logo-image"
@@ -49,14 +50,8 @@ const Header = ({ phone }) => {
             </nav>
 
             <div className="header-right">
-                {/* Language Switcher */}
-                <button
-                    onClick={toggleLanguage}
-                    className="lang-switcher"
-                    title={language === 'tr' ? 'Switch to English' : 'Türkçe\'ye geç'}
-                >
-                    {language === 'tr' ? '🇬🇧 EN' : '🇹🇷 TR'}
-                </button>
+                {/* Language Selector Dropdown */}
+                <LanguageSelector />
 
                 <a
                     href={`https://wa.me/${cleanPhone}`}
@@ -90,10 +85,8 @@ const Header = ({ phone }) => {
                     <Link href="/faq" onClick={closeMenu}>{t('nav.faq')}</Link>
                     <Link href="/#contact" onClick={closeMenu}>{t('nav.contact')}</Link>
 
-                    {/* Mobile Language Switcher */}
-                    <button onClick={toggleLanguage} className="mobile-lang-btn">
-                        {language === 'tr' ? '🇬🇧 English' : '🇹🇷 Türkçe'}
-                    </button>
+                    {/* Mobile Language Selector */}
+                    <LanguageSelector variant="mobile" />
 
                     <Link href="/#experiences" className="mobile-cta" onClick={closeMenu}>
                         {t('nav.reservation')}
@@ -101,34 +94,6 @@ const Header = ({ phone }) => {
                 </nav>
             </div>
 
-            <style jsx>{`
-                .lang-switcher {
-                    background: var(--navy, #1a2744);
-                    border: 1px solid var(--navy, #1a2744);
-                    color: white;
-                    padding: 0.4rem 0.75rem;
-                    border-radius: 8px;
-                    cursor: pointer;
-                    font-size: 0.85rem;
-                    font-weight: 500;
-                    transition: all 0.2s;
-                    margin-right: 0.5rem;
-                }
-                .lang-switcher:hover {
-                    background: var(--orange, #e8793a);
-                    border-color: var(--orange, #e8793a);
-                }
-                .mobile-lang-btn {
-                    background: var(--navy, #1a2744);
-                    border: 1px solid var(--navy, #1a2744);
-                    color: white;
-                    padding: 0.75rem 1.5rem;
-                    border-radius: 12px;
-                    cursor: pointer;
-                    font-size: 1rem;
-                    margin: 0.5rem 0;
-                }
-            `}</style>
         </header>
     );
 };

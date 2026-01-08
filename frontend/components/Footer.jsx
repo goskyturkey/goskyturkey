@@ -1,9 +1,13 @@
+'use client';
+
+import { useLanguage } from '@/contexts/LanguageContext';
 import Link from 'next/link';
 
 const Footer = ({ siteName, phone }) => {
+    const { t, language } = useLanguage();
     const displayPhone = phone || '+90 555 123 4567';
     const cleanPhone = phone ? phone.replace(/\s+/g, '') : '+905551234567';
-    const name = siteName || 'GoSky Turkey';
+    const name = siteName || 'GoSkyTurkey';
 
     const socialLinks = [
         { href: 'https://www.youtube.com/@GoSkyTurkey', icon: '📺', label: 'YouTube' },
@@ -13,12 +17,12 @@ const Footer = ({ siteName, phone }) => {
     ];
 
     return (
-        <footer className="main-footer" id="contact">
+        <footer className="main-footer">
             <div className="footer-logo">✈️ {name}</div>
             <div className="footer-links">
-                <Link href="/#home">Ana Sayfa</Link>
-                <Link href="/#experiences">Deneyimler</Link>
-                <Link href="/#why">Hakkımızda</Link>
+                <Link href={`/${language}#home`}>{t('nav.home')}</Link>
+                <Link href={`/${language}#experiences`}>{t('nav.experiences')}</Link>
+                <Link href={`/${language}#why`}>{t('nav.about')}</Link>
                 <a href={`tel:${cleanPhone}`}>📞 {displayPhone}</a>
             </div>
             <div className="footer-social">
@@ -36,11 +40,10 @@ const Footer = ({ siteName, phone }) => {
                 ))}
             </div>
             <div className="footer-copyright">
-                © {new Date().getFullYear()} {name}. Tüm hakları saklıdır.
+                © {new Date().getFullYear()} {name}. {t('footer.rights')}
             </div>
         </footer>
     );
 };
 
 export default Footer;
-

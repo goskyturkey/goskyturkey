@@ -5,8 +5,18 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+// Helper to extract localized value from i18n object
+const getLocalizedValue = (field, locale = 'tr') => {
+    if (!field) return '';
+    if (typeof field === 'string') return field;
+    if (typeof field === 'object') {
+        return field[locale] || field.tr || field.en || '';
+    }
+    return '';
+};
+
 export default function AdminActivitiesPage() {
-    const { user, loading, logout } = useAuth();
+    const { user, loading } = useAuth();
     const router = useRouter();
     const [activities, setActivities] = useState([]);
 
@@ -77,14 +87,6 @@ export default function AdminActivitiesPage() {
         <div className="admin-container">
             <header className="admin-header">
                 <h1>🎯 Aktiviteler</h1>
-                <nav className="admin-nav">
-                    <Link href="/admin">Dashboard</Link>
-                    <Link href="/admin/activities" className="active">Aktiviteler</Link>
-                    <Link href="/admin/bookings">Rezervasyonlar</Link>
-                    <Link href="/admin/gallery">Galeri</Link>
-                    <Link href="/admin/settings">Ayarlar</Link>
-                    <button onClick={logout} className="admin-btn secondary">Çıkış</button>
-                </nav>
             </header>
 
             <div style={{ marginBottom: '1rem' }}>
@@ -108,8 +110,8 @@ export default function AdminActivitiesPage() {
                     <tbody>
                         {activities.map((activity) => (
                             <tr key={activity._id}>
-                                <td>{activity.name}</td>
-                                <td>{activity.location}</td>
+                                <td>{getLocalizedValue(activity.name)}</td>
+                                <td>{getLocalizedValue(activity.location)}</td>
                                 <td>{activity.price?.toLocaleString()} ₺</td>
                                 <td>{activity.discountPrice ? `${activity.discountPrice.toLocaleString()} ₺` : '-'}</td>
                                 <td>

@@ -1,5 +1,5 @@
 /* =============================================
-   GoSky Turkey - Homepage Styles
+   GoSkyTurkey - Homepage Styles
    Referans görsele birebir uygun tasarım
    ============================================= */
 
@@ -433,20 +433,20 @@
 }
 
 .testimonial-info h4 {
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 600;
   color: var(--navy);
   margin: 0;
 }
 
 .testimonial-info span {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--gray-600);
 }
 
 .testimonial-text {
-  font-size: 14px;
-  line-height: 1.6;
+  font-size: 16px;
+  line-height: 1.7;
   color: var(--text-dark);
   display: -webkit-box;
   -webkit-line-clamp: 4;
@@ -457,7 +457,7 @@
 .testimonial-stars {
   margin-top: var(--s3);
   color: #fbbf24;
-  font-size: 16px;
+  font-size: 20px;
 }
 
 /* ==================== STEPPER SECTION ==================== */

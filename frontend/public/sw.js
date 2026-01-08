@@ -97,7 +97,7 @@ self.addEventListener('push', (event) => {
     };
 
     event.waitUntil(
-        self.registration.showNotification(data.title || 'GoSky Turkey', options)
+        self.registration.showNotification(data.title || 'GoSkyTurkey', options)
     );
 });
 

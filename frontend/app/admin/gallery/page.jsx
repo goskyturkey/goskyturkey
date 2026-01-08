@@ -1,7 +1,6 @@
 'use client';
 
 import { useAuth } from '@/contexts/AuthContext';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
@@ -12,8 +11,18 @@ const CATEGORIES = [
     { value: 'balloon', label: 'Balon' }
 ];
 
+// Helper to extract localized value from i18n object
+const getLocalizedValue = (field, locale = 'tr') => {
+    if (!field) return '';
+    if (typeof field === 'string') return field;
+    if (typeof field === 'object') {
+        return field[locale] || field.tr || field.en || '';
+    }
+    return '';
+};
+
 export default function AdminGalleryPage() {
-    const { user, loading, logout } = useAuth();
+    const { user, loading } = useAuth();
     const router = useRouter();
     const [items, setItems] = useState([]);
     const [isUploading, setIsUploading] = useState(false);
@@ -29,7 +38,8 @@ export default function AdminGalleryPage() {
         description: '',
         description_en: '',
         category: 'general',
-        isFeatured: false
+        isFeatured: false,
+        tags: ''
     });
 
     useEffect(() => {
@@ -108,13 +118,21 @@ export default function AdminGalleryPage() {
 
     const handleEdit = (item) => {
         setEditItem(item);
+        // Extract localized values from i18n objects
+        const titleTr = typeof item.title === 'object' ? item.title.tr : item.title || '';
+        const titleEn = typeof item.title === 'object' ? item.title.en : '';
+        const descTr = typeof item.description === 'object' ? item.description.tr : item.description || '';
+        const descEn = typeof item.description === 'object' ? item.description.en : '';
+        const tagsStr = Array.isArray(item.tags) ? item.tags.join(', ') : '';
+
         setFormData({
-            title: item.title,
-            title_en: item.title_en || '',
-            description: item.description || '',
-            description_en: item.description_en || '',
+            title: titleTr,
+            title_en: titleEn,
+            description: descTr,
+            description_en: descEn,
             category: item.category,
-            isFeatured: item.isFeatured
+            isFeatured: item.isFeatured,
+            tags: tagsStr
         });
         setShowModal(true);
     };
@@ -124,13 +142,22 @@ export default function AdminGalleryPage() {
 
         try {
             const token = localStorage.getItem('adminToken');
+            // Format data for backend with i18n objects
+            const updateData = {
+                title: { tr: formData.title, en: formData.title_en },
+                description: { tr: formData.description, en: formData.description_en },
+                category: formData.category,
+                isFeatured: formData.isFeatured,
+                tags: formData.tags.split(',').map(t => t.trim()).filter(t => t)
+            };
+
             await fetch(`/api/gallery/${editItem._id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`
                 },
-                body: JSON.stringify(formData)
+                body: JSON.stringify(updateData)
             });
             setShowModal(false);
             setEditItem(null);
@@ -169,16 +196,6 @@ export default function AdminGalleryPage() {
         <div className="admin-container">
             <header className="admin-header">
                 <h1>🖼️ Galeri Yönetimi</h1>
-                <nav className="admin-nav">
-                    <Link href="/admin">Dashboard</Link>
-                    <Link href="/admin/activities">Aktiviteler</Link>
-                    <Link href="/admin/bookings">Rezervasyonlar</Link>
-                    <Link href="/admin/gallery" className="active">Galeri</Link>
-                    <Link href="/admin/faq">SSS</Link>
-                    <Link href="/admin/reviews">Yorumlar</Link>
-                    <Link href="/admin/settings">Ayarlar</Link>
-                    <button onClick={logout} className="admin-btn secondary">Çıkış</button>
-                </nav>
             </header>
 
             {/* Upload Section */}
@@ -248,12 +265,20 @@ export default function AdminGalleryPage() {
                 {filteredItems.map(item => (
                     <div key={item._id} className="gallery-item">
                         <div className="gallery-image">
-                            <img src={item.imageUrl} alt={item.title} />
+                            <img src={item.imageUrl} alt={getLocalizedValue(item.title)} />
                             {item.isFeatured && <span className="featured-badge">⭐</span>}
                         </div>
                         <div className="gallery-info">
-                            <h4>{item.title}</h4>
+                            <h4>{getLocalizedValue(item.title)}</h4>
                             <span className="category-tag">{CATEGORIES.find(c => c.value === item.category)?.label}</span>
+                            {item.tags && item.tags.length > 0 && (
+                                <div className="gallery-tags">
+                                    {item.tags.slice(0, 3).map((tag, idx) => (
+                                        <span key={idx} className="tag-pill">#{tag}</span>
+                                    ))}
+                                    {item.tags.length > 3 && <span className="tag-more">+{item.tags.length - 3}</span>}
+                                </div>
+                            )}
                         </div>
                         <div className="gallery-actions">
                             <button onClick={() => toggleFeatured(item)} title="Öne Çıkar">
@@ -324,6 +349,20 @@ export default function AdminGalleryPage() {
                                 onChange={(e) => setFormData({ ...formData, description_en: e.target.value })}
                                 style={{ marginBottom: 0 }}
                             />
+                        </div>
+
+                        {/* Tags Input */}
+                        <div style={{ marginBottom: '1rem' }}>
+                            <label style={{ fontSize: '0.85rem', opacity: 0.7, marginBottom: '0.25rem', display: 'block' }}>🏷️ Etiketler (Hashtags)</label>
+                            <input
+                                type="text"
+                                className="admin-input"
+                                placeholder="paragliding, fethiye, sunset (virgülle ayırın)"
+                                value={formData.tags}
+                                onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
+                                style={{ marginBottom: 0 }}
+                            />
+                            <small style={{ opacity: 0.5, fontSize: '0.75rem' }}>Virgülle ayırarak birden fazla etiket ekleyebilirsiniz</small>
                         </div>
 
                         <select
@@ -397,6 +436,24 @@ export default function AdminGalleryPage() {
                 .category-tag {
                     font-size: 0.75rem;
                     opacity: 0.7;
+                }
+                .gallery-tags {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 0.25rem;
+                    margin-top: 0.5rem;
+                }
+                .tag-pill {
+                    font-size: 0.65rem;
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    padding: 2px 6px;
+                    border-radius: 10px;
+                    opacity: 0.9;
+                }
+                .tag-more {
+                    font-size: 0.65rem;
+                    opacity: 0.5;
+                    padding: 2px 4px;
                 }
                 .gallery-actions {
                     display: flex;

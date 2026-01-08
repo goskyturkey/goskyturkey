@@ -1,5 +1,6 @@
+'use client';
+
 import { useEffect, useState } from 'react';
-import api from '../api';
 import './AvailabilityCalendar.css';
 
 export default function AvailabilityCalendar({ activityId, onSelectDate, selectedDate }) {
@@ -14,13 +15,11 @@ export default function AvailabilityCalendar({ activityId, onSelectDate, selecte
     const fetchAvailability = async () => {
         try {
             setLoading(true);
-            const res = await api.get(`/availability/${activityId}`, {
-                params: {
-                    month: currentMonth.getMonth() + 1,
-                    year: currentMonth.getFullYear()
-                }
-            });
-            setCalendar(res.data.data || []);
+            const res = await fetch(`/api/availability/${activityId}?month=${currentMonth.getMonth() + 1}&year=${currentMonth.getFullYear()}`);
+            if (res.ok) {
+                const result = await res.json();
+                setCalendar(result.data || []);
+            }
         } catch (error) {
             console.error('Calendar fetch error:', error);
         } finally {
@@ -31,7 +30,10 @@ export default function AvailabilityCalendar({ activityId, onSelectDate, selecte
     const goToPrevMonth = () => {
         const newMonth = new Date(currentMonth);
         newMonth.setMonth(newMonth.getMonth() - 1);
-        if (newMonth >= new Date()) {
+        const today = new Date();
+        today.setDate(1);
+        today.setHours(0, 0, 0, 0);
+        if (newMonth >= today) {
             setCurrentMonth(newMonth);
         }
     };
@@ -39,10 +41,16 @@ export default function AvailabilityCalendar({ activityId, onSelectDate, selecte
     const goToNextMonth = () => {
         const newMonth = new Date(currentMonth);
         newMonth.setMonth(newMonth.getMonth() + 1);
-        setCurrentMonth(newMonth);
+        // Max 6 months ahead
+        const maxDate = new Date();
+        maxDate.setMonth(maxDate.getMonth() + 6);
+        if (newMonth <= maxDate) {
+            setCurrentMonth(newMonth);
+        }
     };
 
-    const dayNames = ['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt'];
+    // Pazartesi ile başla (Türkiye standardı)
+    const dayNames = ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'];
     const monthNames = [
         'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
         'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'
@@ -55,18 +63,23 @@ export default function AvailabilityCalendar({ activityId, onSelectDate, selecte
             d.getFullYear() === currentMonth.getFullYear();
     });
 
-    // İlk günün haftanın hangi günü olduğunu bul
+    // İlk günün haftanın hangi günü olduğunu bul (Pazartesi = 0)
+    const getAdjustedDay = (dayIndex) => {
+        // JavaScript: Pazar=0, Pazartesi=1, ..., Cumartesi=6
+        // Bizim için: Pazartesi=0, Salı=1, ..., Pazar=6
+        return dayIndex === 0 ? 6 : dayIndex - 1;
+    };
     const firstDayOfMonth = daysInMonth.length > 0
-        ? new Date(daysInMonth[0].date).getDay()
+        ? getAdjustedDay(new Date(daysInMonth[0].date).getDay())
         : 0;
 
     return (
         <div className="availability-calendar">
             {/* Header */}
             <div className="calendar-header">
-                <button onClick={goToPrevMonth} className="nav-btn">←</button>
+                <button type="button" onClick={goToPrevMonth} className="nav-btn">←</button>
                 <h3>{monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}</h3>
-                <button onClick={goToNextMonth} className="nav-btn">→</button>
+                <button type="button" onClick={goToNextMonth} className="nav-btn">→</button>
             </div>
 
             {/* Day names */}
@@ -96,6 +109,7 @@ export default function AvailabilityCalendar({ activityId, onSelectDate, selecte
 
                         return (
                             <button
+                                type="button"
                                 key={day.date}
                                 className={`calendar-day ${day.isAvailable ? 'available' : 'blocked'} ${isSelected ? 'selected' : ''} ${isWeekend ? 'weekend' : ''}`}
                                 onClick={() => day.isAvailable && onSelectDate(day.date)}

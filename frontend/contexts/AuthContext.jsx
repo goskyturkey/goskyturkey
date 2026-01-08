@@ -11,11 +11,33 @@ export function AuthProvider({ children }) {
     const router = useRouter();
 
     useEffect(() => {
-        const token = localStorage.getItem('adminToken');
-        if (token) {
-            setUser({ token });
-        }
-        setLoading(false);
+        const bootstrap = async () => {
+            const token = localStorage.getItem('adminToken');
+            if (!token) {
+                setLoading(false);
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/auth/me', {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    setUser({ token, ...data.user });
+                } else {
+                    localStorage.removeItem('adminToken');
+                    setUser(null);
+                }
+            } catch (error) {
+                localStorage.removeItem('adminToken');
+                setUser(null);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        bootstrap();
     }, []);
 
     const login = async (email, password) => {

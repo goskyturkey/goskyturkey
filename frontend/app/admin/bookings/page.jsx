@@ -1,12 +1,21 @@
 'use client';
 
 import { useAuth } from '@/contexts/AuthContext';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+// Helper to extract localized value from i18n object
+const getLocalizedValue = (field, locale = 'tr') => {
+    if (!field) return '';
+    if (typeof field === 'string') return field;
+    if (typeof field === 'object') {
+        return field[locale] || field.tr || field.en || '';
+    }
+    return '';
+};
+
 export default function AdminBookingsPage() {
-    const { user, loading, logout } = useAuth();
+    const { user, loading } = useAuth();
     const router = useRouter();
     const [bookings, setBookings] = useState([]);
     const [selectedBooking, setSelectedBooking] = useState(null);
@@ -63,14 +72,6 @@ export default function AdminBookingsPage() {
         <div className="admin-container">
             <header className="admin-header">
                 <h1>📋 Rezervasyonlar</h1>
-                <nav className="admin-nav">
-                    <Link href="/admin">Dashboard</Link>
-                    <Link href="/admin/activities">Aktiviteler</Link>
-                    <Link href="/admin/bookings" className="active">Rezervasyonlar</Link>
-                    <Link href="/admin/gallery">Galeri</Link>
-                    <Link href="/admin/settings">Ayarlar</Link>
-                    <button onClick={logout} className="admin-btn secondary">Çıkış</button>
-                </nav>
             </header>
 
             <div className="admin-card">
@@ -98,7 +99,7 @@ export default function AdminBookingsPage() {
                                     <br />
                                     <small style={{ opacity: 0.7 }}>{booking.customerEmail || booking.customerInfo?.email}</small>
                                 </td>
-                                <td>{booking.activity?.name || 'N/A'}</td>
+                                <td>{getLocalizedValue(booking.activity?.name) || 'N/A'}</td>
                                 <td>
                                     {new Date(booking.date).toLocaleDateString('tr-TR')}
                                     <br />

@@ -15,14 +15,14 @@ services:
     environment:
       - NODE_ENV=production
       - MONGODB_URI=mongodb://mongodb:27017/goskyturkey
-      - JWT_SECRET=${JWT_SECRET:-please-change-this-secret}
+      - JWT_SECRET=${JWT_SECRET:?JWT_SECRET is required}
       - JWT_EXPIRES_IN=7d
       - BASE_URL=${BASE_URL:-https://goskyturkey.com}
       - API_URL=http://goskyturkey:3000/api
       - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-https://goskyturkey.com/api}
       - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-https://goskyturkey.com}
-      - IYZICO_API_KEY=${IYZICO_API_KEY:-sandbox-grMq7iZ6KlekyaUB8jlYSaggfR5Dvx2t}
-      - IYZICO_SECRET_KEY=${IYZICO_SECRET_KEY:-sandbox-BVD80hQI19zFU2LBorxcuLAMHbra3Myk}
+      - IYZICO_API_KEY=${IYZICO_API_KEY:?IYZICO_API_KEY is required}
+      - IYZICO_SECRET_KEY=${IYZICO_SECRET_KEY:?IYZICO_SECRET_KEY is required}
       - IYZICO_URI=${IYZICO_URI:-https://sandbox-api.iyzipay.com}
     depends_on:
       - mongodb
@@ -39,11 +39,12 @@ services:
     image: mongo:7
     container_name: goskyturkey-mongodb
     restart: unless-stopped
+    ports:
+      - "127.0.0.1:27017:27017"
     volumes:
       - mongodb_data:/data/db
     networks:
       - goskyturkey-network
-
 volumes:
   mongodb_data:
   uploads:
@@ -54,3 +55,5 @@ networks:
     driver: bridge
   proxy-net:
     external: true
+
+

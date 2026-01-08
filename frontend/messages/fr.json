@@ -1,0 +1,13 @@
+{
+    "HomePage": {
+        "title": "GoSkyTurkey - Cappadoce & Pamukkale",
+        "welcome": "Bienvenue"
+    },
+    "Navigation": {
+        "home": "Accueil",
+        "activities": "Activités",
+        "gallery": "Galerie",
+        "contact": "Contact",
+        "faq": "FAQ"
+    }
+}

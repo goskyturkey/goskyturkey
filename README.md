@@ -1,4 +1,4 @@
-# GoSky Turkey Web Application
+# GoSkyTurkey Web Application
 
 Modern Next.js + Node.js web uygulaması Docker ile.
 
