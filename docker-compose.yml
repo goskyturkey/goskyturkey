@@ -31,7 +31,6 @@ services:
         aliases:
           - goskyturkey
 
-  # MongoDB Database
   mongodb:
     image: mongo:7
     container_name: goskyturkey-mongodb
@@ -46,6 +45,7 @@ services:
 volumes:
   mongodb_data:
   uploads:
+
 
 networks:
   goskyturkey-network:

@@ -1,60 +1,48 @@
 name: Production Deployment
 
 on:
-    push:
-        branches: ["main"] # Sadece main branch'e pushlanınca çalışır
+  push:
+    branches: ["master"] # <-- ARTIK MASTER DİNLENİYOR
 
 jobs:
-    build-and-push:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout Code
-              uses: actions/checkout@v4
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-            - name: Login to Docker Hub
-              uses: docker/login-action@v3
-              with:
-                  username: ${{ secrets.DOCKER_USERNAME }}
-                  password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
-            - name: Set up Docker Buildx
-              uses: docker/setup-buildx-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-            - name: Build and Push
-              uses: docker/build-push-action@v5
-              with:
-                  context: .
-                  file: ./Dockerfile
-                  push: true
-                  # Docker Hub adresin: goskyturkey/goskyturkey
-                  tags: goskyturkey/goskyturkey:latest
-                  # Cache mekanizması build süresini 3 dakikadan 30 saniyeye düşürür
-                  cache-from: type=registry,ref=goskyturkey/goskyturkey:buildcache
-                  cache-to: type=registry,ref=goskyturkey/goskyturkey:buildcache,mode=max
+      - name: Build and Push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: goskyturkey/goskyturkey:latest
+          cache-from: type=registry,ref=goskyturkey/goskyturkey:buildcache
+          cache-to: type=registry,ref=goskyturkey/goskyturkey:buildcache,mode=max
 
-    deploy-to-server:
-        needs: build-and-push
-        runs-on: ubuntu-latest
-        steps:
-            - name: Deploy via SSH
-              uses: appleboy/ssh-action@master
-              with:
-                  host: ${{ secrets.SERVER_HOST }}
-                  username: ${{ secrets.SERVER_USER }}
-                  key: ${{ secrets.SSH_PRIVATE_KEY }}
-                  script: |
-                      # DİKKAT: Burası senin sunucudaki proje klasörün olmalı!
-                      # Loglarından gördüğüm yolu buraya yazdım.
-                      cd /root/BURAN_PROJE/GOSKYTURKEY_ANTIGRAVITY
-
-                      # 1. En güncel docker-compose.yml'i repodan çek (opsiyonel ama önerilir)
-                      # git pull origin main
-
-                      # 2. Docker Hub'dan yeni image'ı indir
-                      docker pull goskyturkey/goskyturkey:latest
-
-                      # 3. Konteynerleri yeniden başlat (Image değişikliğini algılar)
-                      docker compose up -d --remove-orphans
-
-                      # 4. Eski ve kullanılmayan image'ları sil (Disk dolmasın)
-                      docker image prune -f
+  deploy-to-server:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /root/BURAN_PROJE/GOSKYTURKEY_ANTIGRAVITY
+            # git pull origin master  <-- Gerekirse bunu açarsın
+            docker pull goskyturkey/goskyturkey:latest
+            docker compose up -d --remove-orphans
+            docker image prune -f
