@@ -7,8 +7,8 @@ services:
     hostname: goskyturkey
     restart: unless-stopped
     ports:
-      - "3000:3000" # Backend API
-      - "3001:3001" # Next.js Frontend
+      - "3000:3000"
+      - "3001:3001"
     environment:
       - NODE_ENV=production
       - MONGODB_URI=mongodb://mongodb:27017/goskyturkey
@@ -42,15 +42,13 @@ services:
       - mongodb_data:/data/db
     networks:
       - goskyturkey-network
+
 volumes:
   mongodb_data:
   uploads:
-
 
 networks:
   goskyturkey-network:
     driver: bridge
   proxy-net:
     external: true
-
-
