@@ -236,7 +236,9 @@
 }
 
 .category-tag {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   padding: 0.5rem 1rem;
   background: #eff6ff;
   color: #3b82f6;
@@ -273,15 +275,16 @@
 
 .feature-icon {
   font-size: 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  place-items: center;
   width: 44px;
   min-width: 44px;
   height: 44px;
   flex-shrink: 0;
   background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
   border-radius: 10px;
+  line-height: 0;
+  margin-bottom: 0 !important;
 }
 
 .feature-item span:last-child {
