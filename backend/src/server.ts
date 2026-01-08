@@ -52,9 +52,10 @@ if (hasDefaultJwt) {
 connectDB();
 
 // Rate limiting configurations
+// Rate limiting configurations
 const generalLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 200,
+    max: 100, // Reduced from 200
     message: {
         success: false,
         message: 'Çok fazla istek gönderildi. Lütfen 15 dakika sonra tekrar deneyin.'
@@ -65,7 +66,7 @@ const generalLimiter = rateLimit({
 
 const authLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 10,
+    max: 5, // Reduced from 10
     message: {
         success: false,
         message: 'Çok fazla giriş denemesi. Lütfen 15 dakika sonra tekrar deneyin.'
@@ -76,7 +77,7 @@ const authLimiter = rateLimit({
 
 const paymentLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 30,
+    max: 5, // Reduced from 30
     message: {
         success: false,
         message: 'Çok fazla ödeme isteği. Lütfen biraz bekleyin.'
