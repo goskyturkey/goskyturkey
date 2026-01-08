@@ -23,10 +23,6 @@
         "noImplicitReturns": true,
         "noFallthroughCasesInSwitch": true,
         "allowSyntheticDefaultImports": true,
-        "typeRoots": [
-            "./node_modules/@types",
-            "./src/types"
-        ],
         "types": [
             "node",
             "express",
@@ -35,8 +31,7 @@
             "cors",
             "cookie-parser",
             "jsonwebtoken",
-            "multer",
-            "mongoose"
+            "multer"
         ]
     },
     "include": [
