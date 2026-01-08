@@ -5,6 +5,8 @@ import express, { Request, Response } from 'express';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import path from 'path';
+// @ts-ignore
+import compression from 'compression';
 
 import connectDB from './config/db.js';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
