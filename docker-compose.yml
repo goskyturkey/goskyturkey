@@ -1,11 +1,8 @@
 services:
   # Next.js Frontend + Express Backend
   goskyturkey:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-https://goskyturkey.com/api}
+    image: goskyturkey/goskyturkey:latest
+    pull_policy: always
     container_name: goskyturkey-next
     hostname: goskyturkey
     restart: unless-stopped
