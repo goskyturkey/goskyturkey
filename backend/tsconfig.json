@@ -31,7 +31,8 @@
             "cors",
             "cookie-parser",
             "jsonwebtoken",
-            "multer"
+            "multer",
+            "compression"
         ]
     },
     "include": [
