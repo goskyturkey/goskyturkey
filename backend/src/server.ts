@@ -91,6 +91,7 @@ app.set('trust proxy', 1);
 app.use(helmet({
     crossOriginResourcePolicy: { policy: 'cross-origin' },
 }));
+app.use(compression());
 app.use(cookieParser());
 app.use(requestLogger);
 

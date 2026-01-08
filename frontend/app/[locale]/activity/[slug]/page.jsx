@@ -127,6 +127,14 @@ export async function generateMetadata({ params }) {
         description: description,
         alternates: {
             canonical: `https://goskyturkey.com/${locale}/activity/${slug}`,
+            languages: {
+                'tr': `https://goskyturkey.com/tr/activity/${slug}`,
+                'en': `https://goskyturkey.com/en/activity/${slug}`,
+                'de': `https://goskyturkey.com/de/activity/${slug}`,
+                'fr': `https://goskyturkey.com/fr/activity/${slug}`,
+                'hi': `https://goskyturkey.com/hi/activity/${slug}`,
+                'zh': `https://goskyturkey.com/zh/activity/${slug}`,
+            },
         },
         openGraph: {
             title: `${name} | GoSkyTurkey`,

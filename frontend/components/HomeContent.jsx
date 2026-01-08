@@ -47,6 +47,7 @@ export default function HomeContent({ activities, settings }) {
                         priority
                         unoptimized={settings?.heroImage?.startsWith('/uploads/')}
                         style={{ objectFit: 'cover' }}
+                        sizes="100vw"
                     />
                 </div>
                 <div className="hero-overlay"></div>
@@ -89,7 +90,13 @@ export default function HomeContent({ activities, settings }) {
                         return (
                             <div key={activity._id || activity.slug} className="exp-card">
                                 <div className="exp-card-image">
-                                    <Image src={activityImage} alt={activityName} fill style={{ objectFit: 'cover' }} />
+                                    <Image
+                                        src={activityImage}
+                                        alt={activityName}
+                                        fill
+                                        style={{ objectFit: 'cover' }}
+                                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                    />
                                     <div className="exp-card-overlay">
                                         <h3 className="exp-card-title">{activityName}</h3>
                                         <div className="exp-card-location">📍 {activityLocation}</div>
@@ -114,7 +121,14 @@ export default function HomeContent({ activities, settings }) {
             <section className="why-section" id="why">
                 <div className="why-container">
                     <div className="why-image">
-                        <Image src="/images/gyrocopter.webp" alt="Why Choose Us" width={500} height={400} style={{ objectFit: 'cover', borderRadius: '16px' }} />
+                        <Image
+                            src="/images/gyrocopter.webp"
+                            alt="Why Choose Us"
+                            width={500}
+                            height={400}
+                            style={{ objectFit: 'cover', borderRadius: '16px' }}
+                            sizes="(max-width: 768px) 100vw, 500px"
+                        />
                     </div>
                     <div className="why-content">
                         <h2>{t('sections.whyUs')}</h2>
