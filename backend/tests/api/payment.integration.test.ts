@@ -4,11 +4,12 @@ import request from 'supertest';
 import Activity from '../../src/models/Activity';
 import Booking from '../../src/models/Booking';
 
-// Mock iyzipay
+// Mock iyzipay - must match ESM import path with .js extension
 const mockCheckoutFormInitialize = jest.fn();
 const mockCheckoutFormRetrieve = jest.fn();
 
-jest.mock('../../src/config/iyzico', () => ({
+jest.mock('../../src/config/iyzico.js', () => ({
+    __esModule: true,
     default: {
         checkoutFormInitialize: {
             create: (req: any, callback: Function) => mockCheckoutFormInitialize(req, callback)
@@ -58,8 +59,8 @@ describe('Payment API - Integration Tests', () => {
             customerName: 'Ali Veli',
             customerEmail: 'ali@test.com',
             customerPhone: '+905551234567',
-            guestCount: 2,
-            bookingDate: new Date('2026-03-15'),
+            guests: 2,
+            date: new Date('2026-03-15'),
             totalPrice: 3000,
             status: 'pending',
             paymentStatus: 'pending',
@@ -69,7 +70,7 @@ describe('Payment API - Integration Tests', () => {
 
     describe('POST /api/payment/init', () => {
         it('should initialize payment successfully', async () => {
-            mockCheckoutFormInitialize.mockImplementation((req, callback) => {
+            mockCheckoutFormInitialize.mockImplementation((_req, callback) => {
                 callback(null, {
                     status: 'success',
                     checkoutFormContent: '<form>Mock Form</form>',
@@ -108,7 +109,7 @@ describe('Payment API - Integration Tests', () => {
         });
 
         it('should handle iyzico error gracefully', async () => {
-            mockCheckoutFormInitialize.mockImplementation((req, callback) => {
+            mockCheckoutFormInitialize.mockImplementation((_req, callback) => {
                 callback(new Error('iyzico connection failed'), null);
             });
 
@@ -121,7 +122,7 @@ describe('Payment API - Integration Tests', () => {
         });
 
         it('should handle iyzico form creation failure', async () => {
-            mockCheckoutFormInitialize.mockImplementation((req, callback) => {
+            mockCheckoutFormInitialize.mockImplementation((_req, callback) => {
                 callback(null, {
                     status: 'failure',
                     errorCode: '10051',
@@ -189,7 +190,7 @@ describe('Payment API - Integration Tests', () => {
         });
 
         it('should handle successful payment callback', async () => {
-            mockCheckoutFormRetrieve.mockImplementation((req, callback) => {
+            mockCheckoutFormRetrieve.mockImplementation((_req, callback) => {
                 callback(null, {
                     status: 'success',
                     paymentStatus: 'SUCCESS',
@@ -215,7 +216,7 @@ describe('Payment API - Integration Tests', () => {
         });
 
         it('should handle failed payment callback', async () => {
-            mockCheckoutFormRetrieve.mockImplementation((req, callback) => {
+            mockCheckoutFormRetrieve.mockImplementation((_req, callback) => {
                 callback(null, {
                     status: 'failure',
                     paymentStatus: 'FAILURE',

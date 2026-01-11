@@ -12,7 +12,16 @@ export default function BookingForm({ activity }) {
     const router = useRouter();
     const { t } = useLanguage();
     const [submitting, setSubmitting] = useState(false);
-    const [formData, setFormData] = useState({ name: '', email: '', phone: '', date: '', guests: 1, notes: '' });
+    // [GÜNCELLEME 1] identityNumber state'e eklendi
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        phone: '',
+        identityNumber: '', // Yeni alan
+        date: '',
+        guests: 1,
+        notes: ''
+    });
     const [error, setError] = useState('');
     const [showCalendar, setShowCalendar] = useState(false);
 
@@ -58,6 +67,8 @@ export default function BookingForm({ activity }) {
                     customerName: formData.name,
                     customerEmail: formData.email,
                     customerPhone: formData.phone,
+                    // [GÜNCELLEME 2] Backend'e kimlik numarası gönderiliyor
+                    customerIdentityNumber: formData.identityNumber,
                     totalPrice: (activity.discountPrice || activity.price) * guestCount,
                 }),
             });
@@ -128,6 +139,15 @@ export default function BookingForm({ activity }) {
                             <input type="text" name="name" placeholder={t('booking.fullName')} value={formData.name} onChange={handleChange} required />
                             <input type="email" name="email" placeholder={t('booking.email')} value={formData.email} onChange={handleChange} required />
                             <input type="tel" name="phone" placeholder={t('booking.phone')} value={formData.phone} onChange={handleChange} required />
+                            {/* [GÜNCELLEME 3] Kimlik Numarası Input Alanı */}
+                            <input
+                                type="text"
+                                name="identityNumber"
+                                placeholder={t('booking.identityNumber') || 'T.C. Kimlik / Pasaport No'}
+                                value={formData.identityNumber}
+                                onChange={handleChange}
+                                required
+                            />
                         </div>
 
                         <div className="form-section">

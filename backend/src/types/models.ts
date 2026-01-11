@@ -81,6 +81,14 @@ export interface IBooking extends Document {
         transactionId?: string;
         paidAt?: Date;
         amount?: number;
+        conversationId?: string;
+        token?: string;
+        paymentTransactionId?: string;
+        cardFamily?: string;
+        cardType?: string;
+        lastFourDigits?: string;
+        errorCode?: string;
+        errorMessage?: string;
     };
     notes?: string;
     couponCode?: string;

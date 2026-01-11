@@ -5,6 +5,7 @@ import { I18nArrayItem, I18nString } from '../types/models.js';
 export const defaultLocale = 'tr';
 // Allow dynamic locales
 export type SupportedLocale = string;
+export const supportedLocales = ['tr', 'en', 'de', 'ru', 'ar'] as const;
 
 /**
  * Get localized value from i18n object

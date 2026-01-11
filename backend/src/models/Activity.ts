@@ -94,7 +94,7 @@ const activitySchema = new Schema<IActivity>({
 });
 
 // Slug generation from Turkish name (or any available)
-activitySchema.pre('save', function (next: any) {
+activitySchema.pre('save', function () {
     if (this.isModified('name') || !this.slug) {
         // Map oldugu icin .get() kullanmaliyiz
         const nameMap = this.name as any;
@@ -114,7 +114,6 @@ activitySchema.pre('save', function (next: any) {
             this.slug = slugify(nameStr, { lower: true, strict: true });
         }
     }
-    next();
 });
 
 // Virtual for backward compatibility (displayName)

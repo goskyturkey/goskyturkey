@@ -82,7 +82,15 @@ const bookingSchema = new Schema<IBooking>({
         method: String,
         transactionId: String,
         paidAt: Date,
-        amount: Number
+        amount: Number,
+        conversationId: String,
+        token: String,
+        paymentTransactionId: String,
+        cardFamily: String,
+        cardType: String,
+        lastFourDigits: String,
+        errorCode: String,
+        errorMessage: String
     },
     notes: String,
     couponCode: String,
