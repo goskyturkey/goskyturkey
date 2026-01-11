@@ -105,3 +105,4 @@ Nginx Proxy Manager ayarları:
 - Rate Limiting (100 istek/15 dk)
 - JWT Authentication
 - bcrypt password hashing
+
