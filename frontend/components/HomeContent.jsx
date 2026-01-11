@@ -9,31 +9,42 @@ export default function HomeContent({ activities, settings }) {
     const siteName = settings?.siteName || 'GoSkyTurkey';
     const phone = settings?.phone || '+90 555 123 4567';
 
-    // Trust badges - veritabanından çevirilerle
-    const trustBadges = [
-        { icon: '🏆', value: 'TÜRSAB', textKey: 'trustBadge.licensed.text' },
-        { icon: '📅', value: '10+', textKey: 'trustBadge.experience.text' },
-        { icon: '👥', value: '5000+', textKey: 'trustBadge.guests.text' },
-        { icon: '⭐', value: '4.9', textKey: 'trustBadge.rating.text' },
+    // Trust badges - Settings API'den veya varsayılan
+    const defaultTrustBadges = [
+        { icon: '🏆', value: 'TÜRSAB', text: { tr: 'Lisanslı', en: 'Licensed' } },
+        { icon: '📅', value: '10+', text: { tr: 'Yıl Deneyim', en: 'Years Experience' } },
+        { icon: '👥', value: '5000+', text: { tr: 'Mutlu Misafir', en: 'Happy Guests' } },
+        { icon: '⭐', value: '4.9', text: { tr: 'Puan', en: 'Rating' } },
     ];
+    const trustBadges = settings?.trustBadges?.length > 0 ? settings.trustBadges : defaultTrustBadges;
 
-    // Why us items - veritabanından
-    const whyUsKeys = ['whyUs.item1', 'whyUs.item2', 'whyUs.item3', 'whyUs.item4', 'whyUs.item5', 'whyUs.item6'];
-
-    // Stepper items - veritabanından
-    const stepperItems = [
-        { titleKey: 'stepper.step1.title', descKey: 'stepper.step1.desc' },
-        { titleKey: 'stepper.step2.title', descKey: 'stepper.step2.desc' },
-        { titleKey: 'stepper.step3.title', descKey: 'stepper.step3.desc' },
-        { titleKey: 'stepper.step4.title', descKey: 'stepper.step4.desc' },
+    // Why us items - Settings API'den veya varsayılan
+    const defaultWhyUsItems = [
+        { tr: 'Deneyimli ve sertifikalı pilotlar', en: 'Experienced and certified pilots' },
+        { tr: 'En son teknoloji ekipmanlar', en: 'Latest technology equipment' },
+        { tr: 'Güvenlik öncelikli uçuşlar', en: 'Safety-first flights' },
+        { tr: '%100 müşteri memnuniyeti', en: '100% customer satisfaction' },
+        { tr: 'Esnek iptal politikası', en: 'Flexible cancellation policy' },
+        { tr: '7/24 destek hattı', en: '24/7 support line' },
     ];
+    const whyUsItems = settings?.whyUsItems?.length > 0 ? settings.whyUsItems : defaultWhyUsItems;
 
-    // Testimonials - bunlar daha sonra veritabanından çekilebilir
-    const testimonials = [
-        { name: 'Ahmet Y.', location: 'İstanbul', text: 'Hayatımın en güzel deneyimiydi!', rating: 5 },
-        { name: 'John D.', location: 'London', text: 'Best experience of my life!', rating: 5 },
-        { name: 'Hans M.', location: 'München', text: 'Das beste Erlebnis meines Lebens!', rating: 5 },
+    // Stepper items - Settings API'den veya varsayılan
+    const defaultStepperItems = [
+        { title: { tr: 'Tur Seçin', en: 'Choose Tour' }, description: { tr: 'Size uygun turu seçin', en: 'Select the tour that suits you' } },
+        { title: { tr: 'Rezervasyon', en: 'Booking' }, description: { tr: 'Formu doldurun ve ödeme yapın', en: 'Fill the form and make payment' } },
+        { title: { tr: 'Onay', en: 'Confirmation' }, description: { tr: 'E-posta ile onay alın', en: 'Get email confirmation' } },
+        { title: { tr: 'Deneyim', en: 'Experience' }, description: { tr: 'Unutulmaz anılar biriktirin', en: 'Collect unforgettable memories' } },
     ];
+    const stepperItems = settings?.stepperItems?.length > 0 ? settings.stepperItems : defaultStepperItems;
+
+    // Testimonials - Settings API'den veya varsayılan
+    const defaultTestimonials = [
+        { name: 'Ahmet Y.', location: { tr: 'İstanbul', en: 'Istanbul' }, text: { tr: 'Hayatımın en güzel deneyimiydi!', en: 'Best experience of my life!' }, rating: 5 },
+        { name: 'John D.', location: { tr: 'Londra', en: 'London' }, text: { tr: 'Muhteşem bir deneyimdi!', en: 'Amazing experience!' }, rating: 5 },
+        { name: 'Hans M.', location: { tr: 'Münih', en: 'Munich' }, text: { tr: 'Kesinlikle tavsiye ederim!', en: 'Highly recommend!' }, rating: 5 },
+    ];
+    const testimonials = settings?.testimonials?.length > 0 ? settings.testimonials : defaultTestimonials;
 
     return (
         <>
@@ -64,7 +75,7 @@ export default function HomeContent({ activities, settings }) {
                     <div key={i} className="trust-item">
                         <span className="trust-icon">{badge.icon}</span>
                         <span className="trust-value">{badge.value}</span>
-                        <span>{t(badge.textKey)}</span>
+                        <span>{badge.text[language] || badge.text.tr || badge.text.en}</span>
                     </div>
                 ))}
             </div>
@@ -133,7 +144,9 @@ export default function HomeContent({ activities, settings }) {
                     <div className="why-content">
                         <h2>{t('sections.whyUs')}</h2>
                         <ul className="why-list">
-                            {whyUsKeys.map((key, i) => <li key={i}>{t(key)}</li>)}
+                            {whyUsItems.map((item, i) => (
+                                <li key={i}>{item[language] || item.tr || item.en}</li>
+                            ))}
                         </ul>
                     </div>
                 </div>
@@ -152,10 +165,10 @@ export default function HomeContent({ activities, settings }) {
                                 <div className="testimonial-avatar">{item.name.charAt(0)}</div>
                                 <div className="testimonial-info">
                                     <h3 style={{ fontSize: '1rem', margin: 0 }}>{item.name}</h3>
-                                    <span>{item.location}</span>
+                                    <span>{item.location[language] || item.location.tr || item.location.en}</span>
                                 </div>
                             </div>
-                            <p className="testimonial-text">"{item.text}"</p>
+                            <p className="testimonial-text">"{item.text[language] || item.text.tr || item.text.en}"</p>
                             <div className="testimonial-stars">{'⭐'.repeat(item.rating)}</div>
                         </div>
                     ))}
@@ -172,8 +185,8 @@ export default function HomeContent({ activities, settings }) {
                     {stepperItems.map((step, i) => (
                         <div key={i} className="step-item">
                             <div className="step-number">{i + 1}</div>
-                            <h3 style={{ fontSize: '1.1rem' }}>{t(step.titleKey)}</h3>
-                            <p>{t(step.descKey)}</p>
+                            <h3 style={{ fontSize: '1.1rem' }}>{step.title[language] || step.title.tr || step.title.en}</h3>
+                            <p>{step.description[language] || step.description.tr || step.description.en}</p>
                         </div>
                     ))}
                 </div>
