@@ -106,3 +106,4 @@ Nginx Proxy Manager ayarları:
 - JWT Authentication
 - bcrypt password hashing
 
+
