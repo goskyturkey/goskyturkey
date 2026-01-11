@@ -8,9 +8,9 @@
   /* Colors */
   --navy: #1a2744;
   --navy-dark: #0f1a2e;
-  /* Darkened orange for better contrast (WCAG AA compatible with white text) */
-  --orange: #c75a1f;
-  --orange-hover: #b04615;
+  /* Darkened orange for better contrast (WCAG AA compatible with white text - ratio > 4.5) */
+  --orange: #c0561f;
+  --orange-hover: #a04010;
   --white: #ffffff;
   --gray-100: #f8f9fa;
   --gray-200: #e9ecef;

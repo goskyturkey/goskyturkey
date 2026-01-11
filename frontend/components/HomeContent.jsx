@@ -59,6 +59,7 @@ export default function HomeContent({ activities, settings }) {
                         unoptimized={settings?.heroImage?.startsWith('/uploads/')}
                         style={{ objectFit: 'cover' }}
                         sizes="100vw"
+                        quality={70}
                     />
                 </div>
                 <div className="hero-overlay"></div>
@@ -107,6 +108,7 @@ export default function HomeContent({ activities, settings }) {
                                         fill
                                         style={{ objectFit: 'cover' }}
                                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                        quality={70}
                                     />
                                     <div className="exp-card-overlay">
                                         <h3 className="exp-card-title">{activityName}</h3>
