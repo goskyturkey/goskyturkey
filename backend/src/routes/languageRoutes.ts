@@ -99,4 +99,44 @@ router.delete('/:id', protect, admin, async (req, res) => {
     }
 });
 
+// @desc    Seed default languages (TR, EN)
+// @route   POST /api/languages/seed
+// @access  Private/Admin
+router.post('/seed', protect, admin, async (_req, res) => {
+    try {
+        const defaultLanguages = [
+            { code: 'tr', name: 'Türkçe', flag: '🇹🇷', isActive: true, isDefault: true, order: 1 },
+            { code: 'en', name: 'English', flag: '🇬🇧', isActive: true, isDefault: false, order: 2 }
+        ];
+
+        let created = 0;
+        let skipped = 0;
+
+        for (const lang of defaultLanguages) {
+            const exists = await Language.findOne({ code: lang.code });
+            if (exists) {
+                // Update to ensure correct settings
+                exists.isDefault = lang.isDefault;
+                exists.isActive = lang.isActive;
+                exists.order = lang.order;
+                exists.flag = lang.flag;
+                await exists.save();
+                skipped++;
+            } else {
+                await Language.create(lang);
+                created++;
+            }
+        }
+
+        const languages = await Language.find({ isActive: true }).sort({ order: 1 });
+        res.json({
+            success: true,
+            message: `Seed complete: ${created} created, ${skipped} updated`,
+            data: languages
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Seed failed', error });
+    }
+});
+
 export default router;

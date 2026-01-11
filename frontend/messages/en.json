@@ -5,9 +5,78 @@
     },
     "Navigation": {
         "home": "Home",
-        "activities": "Activities",
+        "activities": "Experiences",
         "gallery": "Gallery",
         "contact": "Contact",
-        "faq": "FAQ"
+        "faq": "FAQ",
+        "about": "About Us",
+        "bookNow": "Book Now"
+    },
+    "hero": {
+        "title": "Discover Turkey's Most Beautiful Views",
+        "subtitle": "Experience unique adventures from the sky with paragliding, gyrocopter and balloon tours.",
+        "cta": "Explore Tours →"
+    },
+    "sections": {
+        "popularExperiences": "Popular Experiences",
+        "popularSubtitle": "Discover our most loved adventure tours",
+        "whyUs": "Why Choose Us?",
+        "testimonials": "What Our Guests Say",
+        "howItWorks": "How It Works",
+        "contact": "Contact Us"
+    },
+    "stepper": {
+        "subtitle": "Book your adventure in 4 easy steps"
+    },
+    "testimonials": {
+        "subtitle": "Read reviews from our happy guests"
+    },
+    "contact": {
+        "visitUs": "Visit us or get in touch",
+        "address": "Address",
+        "phone": "Phone"
+    },
+    "activity": {
+        "bookNow": "Book Now",
+        "description": "Description",
+        "included": "What's Included",
+        "excluded": "Not Included",
+        "duration": "Duration",
+        "location": "Location",
+        "maxGuests": "Max Guests",
+        "from": "From",
+        "perPerson": "per person"
+    },
+    "booking": {
+        "title": "Reservation",
+        "back": "Back to Tour",
+        "personalInfo": "Personal Information",
+        "fullName": "Full Name",
+        "email": "Email",
+        "phone": "Phone",
+        "identityNumber": "ID / Passport Number",
+        "details": "Booking Details",
+        "selectDate": "Select Date",
+        "person": "person",
+        "notes": "Notes",
+        "total": "Total",
+        "perPerson": "per person",
+        "proceedToPayment": "Proceed to Payment",
+        "processing": "Processing...",
+        "error": {
+            "selectDate": "Please select a date",
+            "validation": "Please check your information",
+            "notFound": "Activity not found",
+            "tooManyRequests": "Too many requests. Please try again later.",
+            "server": "Server error. Please try again.",
+            "general": "An error occurred. Please try again.",
+            "connection": "Connection error. Please check your internet.",
+            "unexpected": "An unexpected error occurred."
+        }
+    },
+    "footer": {
+        "rights": "All rights reserved",
+        "privacy": "Privacy Policy",
+        "terms": "Terms of Service"
     }
 }

@@ -5,9 +5,78 @@
     },
     "Navigation": {
         "home": "Anasayfa",
-        "activities": "Aktiviteler",
+        "activities": "Deneyimler",
         "gallery": "Galeri",
         "contact": "İletişim",
-        "faq": "SSS"
+        "faq": "SSS",
+        "about": "Hakkımızda",
+        "bookNow": "Rezervasyon"
+    },
+    "hero": {
+        "title": "Türkiye'nin En Güzel Manzaralarını Keşfedin",
+        "subtitle": "Yamaç paraşütü, gyrocopter ve balon turları ile gökyüzünden eşsiz deneyimler yaşayın.",
+        "cta": "Turları İncele →"
+    },
+    "sections": {
+        "popularExperiences": "Popüler Deneyimler",
+        "popularSubtitle": "En çok tercih edilen macera turlarımızı keşfedin",
+        "whyUs": "Neden Bizi Seçmelisiniz?",
+        "testimonials": "Misafirlerimiz Ne Diyor?",
+        "howItWorks": "Nasıl Çalışır?",
+        "contact": "İletişim"
+    },
+    "stepper": {
+        "subtitle": "4 kolay adımda maceranızı ayırtın"
+    },
+    "testimonials": {
+        "subtitle": "Mutlu misafirlerimizin yorumlarını okuyun"
+    },
+    "contact": {
+        "visitUs": "Bizi ziyaret edin veya iletişime geçin",
+        "address": "Adres",
+        "phone": "Telefon"
+    },
+    "activity": {
+        "bookNow": "Şimdi Rezervasyon Yap",
+        "description": "Açıklama",
+        "included": "Dahil Olanlar",
+        "excluded": "Dahil Olmayanlar",
+        "duration": "Süre",
+        "location": "Konum",
+        "maxGuests": "Maks Kişi",
+        "from": "Başlayan fiyat",
+        "perPerson": "kişi başı"
+    },
+    "booking": {
+        "title": "Rezervasyon",
+        "back": "Tura Geri Dön",
+        "personalInfo": "Kişisel Bilgiler",
+        "fullName": "Ad Soyad",
+        "email": "E-posta",
+        "phone": "Telefon",
+        "identityNumber": "T.C. Kimlik / Pasaport No",
+        "details": "Rezervasyon Detayları",
+        "selectDate": "Tarih Seçin",
+        "person": "kişi",
+        "notes": "Notlar",
+        "total": "Toplam",
+        "perPerson": "kişi başı",
+        "proceedToPayment": "Ödemeye Geç",
+        "processing": "İşleniyor...",
+        "error": {
+            "selectDate": "Lütfen bir tarih seçin",
+            "validation": "Lütfen bilgilerinizi kontrol edin",
+            "notFound": "Aktivite bulunamadı",
+            "tooManyRequests": "Çok fazla istek. Lütfen daha sonra tekrar deneyin.",
+            "server": "Sunucu hatası. Lütfen tekrar deneyin.",
+            "general": "Bir hata oluştu. Lütfen tekrar deneyin.",
+            "connection": "Bağlantı hatası. İnternet bağlantınızı kontrol edin.",
+            "unexpected": "Beklenmeyen bir hata oluştu."
+        }
+    },
+    "footer": {
+        "rights": "Tüm hakları saklıdır",
+        "privacy": "Gizlilik Politikası",
+        "terms": "Kullanım Koşulları"
     }
 }

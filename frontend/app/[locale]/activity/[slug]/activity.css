@@ -298,6 +298,13 @@
   margin-bottom: 2rem;
 }
 
+.detail-description h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 0.75rem;
+}
+
 .detail-description h3 {
   font-size: 1.1rem;
   font-weight: 700;

@@ -12,7 +12,7 @@ export const DEFAULT_ACTIVITIES_MAP = {
         maxGuests: 1,
         includes: ['Profesyonel pilot eşliğinde uçuş', 'Sigorta', 'Ücretsiz video ve fotoğraf çekimi', 'Transfer hizmeti'],
         excludes: ['Kişisel harcamalar'],
-        image: '/images/paragliding.png',
+        image: '/images/paragliding.webp',
     },
     'gyrocopter-turu': {
         _id: '507f1f77bcf86cd799439012',
@@ -26,7 +26,7 @@ export const DEFAULT_ACTIVITIES_MAP = {
         maxGuests: 1,
         includes: ['Profesyonel pilot', 'Tüm ekipman', 'Sigorta'],
         excludes: ['Ulaşım', 'Video kaydı'],
-        image: '/images/gyrocopter.png',
+        image: '/images/gyrocopter.webp',
     },
     'pamukkale-balon-turu': {
         _id: '507f1f77bcf86cd799439013',
@@ -41,7 +41,7 @@ export const DEFAULT_ACTIVITIES_MAP = {
         maxGuests: 20,
         includes: ['Otel transferi', 'Kahvaltı', 'Şampanya', 'Uçuş sertifikası', 'Sigorta'],
         excludes: ['Video/Fotoğraf paketi'],
-        image: '/images/balloon.png',
+        image: '/images/balloon.webp',
     },
 };
 

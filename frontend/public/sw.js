@@ -7,9 +7,9 @@ const STATIC_ASSETS = [
     '/',
     '/index.html',
     '/manifest.json',
-    '/images/paragliding.png',
-    '/images/gyrocopter.png',
-    '/images/balloon.png'
+    '/images/paragliding.webp',
+    '/images/gyrocopter.webp',
+    '/images/balloon.webp'
 ];
 
 // Install: Statik dosyaları önbelleğe al
