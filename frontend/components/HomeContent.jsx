@@ -52,7 +52,7 @@ export default function HomeContent({ activities, settings }) {
             <section className="hero-section" id="home">
                 <div className="hero-bg">
                     <Image
-                        src={settings?.heroImage || '/images/hero-bg.webp'}
+                        src={settings?.heroImage ? (settings.heroImage.startsWith('/') ? settings.heroImage : `/${settings.heroImage}`) : '/images/hero-bg.webp'}
                         alt="GoSkyTurkey"
                         fill
                         priority
