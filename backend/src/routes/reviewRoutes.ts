@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import { adminOnly, protect } from '../middleware/auth';
 import { asyncHandler } from '../middleware/errorHandler';
 import Review from '../models/Review';
+import { getQueryString } from '../utils/query';
 
 const router = Router();
 
@@ -73,7 +74,7 @@ router.post('/', asyncHandler(async (req: Request, res: Response) => {
 // @desc    List all reviews
 // @access  Private/Admin
 router.get('/', protect, adminOnly, asyncHandler(async (req: Request, res: Response) => {
-    const { approved } = req.query;
+    const approved = getQueryString(req.query.approved);
     const query: Record<string, unknown> = {};
 
     if (approved !== undefined) {

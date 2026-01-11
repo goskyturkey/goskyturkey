@@ -3,6 +3,9 @@ import { AnyBulkWriteOperation } from 'mongoose';
 import { adminOnly, protect } from '../middleware/auth';
 import { asyncHandler } from '../middleware/errorHandler';
 import Availability from '../models/Availability';
+import { getQueryString } from '../utils/query';
+
+import { getQueryString } from '../utils/query';
 
 const router = Router();
 
@@ -10,7 +13,8 @@ const router = Router();
 // DEFAULT: Tüm tarihler kapalı. Sadece admin açıkça açtıysa müsait.
 // Ek olarak: 1 hafta içindeki tarihler her durumda kapalı (son dakika rezervasyonu yok)
 router.get('/:activityId', asyncHandler(async (req: Request, res: Response) => {
-    const { month, year } = req.query;
+    const month = getQueryString(req.query.month);
+    const year = getQueryString(req.query.year);
 
     const monthNum = month ? Number(month) : new Date().getMonth() + 1;
     const yearNum = year ? Number(year) : new Date().getFullYear();
