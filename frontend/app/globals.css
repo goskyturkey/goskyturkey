@@ -48,21 +48,15 @@ body {
   height: 200%;
   top: -50%;
   left: -50%;
-  background: radial-gradient(
-      circle at 20% 80%,
+  background: radial-gradient(circle at 20% 80%,
       rgba(79, 156, 249, 0.15) 0%,
-      transparent 50%
-    ),
-    radial-gradient(
-      circle at 80% 20%,
+      transparent 50%),
+    radial-gradient(circle at 80% 20%,
       rgba(168, 85, 247, 0.15) 0%,
-      transparent 50%
-    ),
-    radial-gradient(
-      circle at 40% 40%,
+      transparent 50%),
+    radial-gradient(circle at 40% 40%,
       rgba(236, 72, 153, 0.1) 0%,
-      transparent 40%
-    );
+      transparent 40%);
   animation: rotateBackground 30s linear infinite;
 }
 
@@ -70,6 +64,7 @@ body {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
@@ -385,10 +380,12 @@ body {
 }
 
 @keyframes pulse {
+
   0%,
   100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.5;
   }
@@ -426,8 +423,8 @@ body {
   /* Colors */
   --navy: #1a2744;
   --navy-dark: #0f1a2e;
-  --orange: #e8793a;
-  --orange-hover: #d96a2d;
+  --orange: #c75a1f;
+  --orange-hover: #b04615;
   --white: #ffffff;
   --gray-100: #f8f9fa;
   --gray-200: #e9ecef;
@@ -730,4 +727,16 @@ body {
     width: 28px;
     height: 28px;
   }
+}
+
+.contact-link {
+  color: var(--orange);
+  text-decoration: none;
+  font-weight: 700;
+  transition: color 0.2s;
+}
+
+.contact-link:hover {
+  color: var(--orange-hover);
+  text-decoration: underline;
 }

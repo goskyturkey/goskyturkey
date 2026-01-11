@@ -60,8 +60,8 @@ export default function middleware(request) {
         "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://static.cloudflareinsights.com; " +
         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
         "font-src 'self' https://fonts.gstatic.com data:; " +
-        "img-src 'self' data: https: blob:; " +
-        `connect-src ${connectSrc.join(' ')}; ` +
+        "img-src 'self' data: https: blob: https://stats.g.doubleclick.net; " +
+        `connect-src ${connectSrc.join(' ')} https://stats.g.doubleclick.net; ` +
         "frame-src https://sandbox-api.iyzipay.com https://api.iyzipay.com https://www.google.com https://maps.google.com; " +
         "worker-src 'self' blob:;"
     );

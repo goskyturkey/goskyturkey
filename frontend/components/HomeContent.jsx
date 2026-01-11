@@ -224,12 +224,12 @@ export default function HomeContent({ activities, settings }) {
                         <div style={{ textAlign: 'center' }}>
                             <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>📞</div>
                             <h3 style={{ color: '#1a2744', marginBottom: '0.5rem', fontSize: '1rem' }}>{t('contact.phone')}</h3>
-                            <a href={`tel:${phone.replace(/\D/g, '')}`} style={{ color: '#e8793a', textDecoration: 'none', fontWeight: 'bold' }}>{phone}</a>
+                            <a href={`tel:${phone.replace(/\D/g, '')}`} className="contact-link">{phone}</a>
                         </div>
                         <div style={{ textAlign: 'center' }}>
                             <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>✉️</div>
                             <h3 style={{ color: '#1a2744', marginBottom: '0.5rem', fontSize: '1rem' }}>E-mail</h3>
-                            <a href={`mailto:${settings?.contactEmail || 'info@goskyturkey.com'}`} style={{ color: '#e8793a', textDecoration: 'none', fontWeight: 'bold' }}>
+                            <a href={`mailto:${settings?.contactEmail || 'info@goskyturkey.com'}`} className="contact-link">
                                 {settings?.contactEmail || 'info@goskyturkey.com'}
                             </a>
                         </div>

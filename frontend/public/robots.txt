@@ -1,9 +1,0 @@
-# GoSky Turkey - robots.txt
-User-agent: *
-Allow: /
-Disallow: /admin
-Disallow: /api/
-Disallow: /payment/
-
-# Sitemap
-Sitemap: https://goskyturkey.com/sitemap.xml

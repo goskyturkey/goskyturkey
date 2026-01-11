@@ -8,12 +8,14 @@
   /* Colors */
   --navy: #1a2744;
   --navy-dark: #0f1a2e;
-  --orange: #e8793a;
-  --orange-hover: #d96a2d;
+  /* Darkened orange for better contrast (WCAG AA compatible with white text) */
+  --orange: #c75a1f;
+  --orange-hover: #b04615;
   --white: #ffffff;
   --gray-100: #f8f9fa;
   --gray-200: #e9ecef;
-  --gray-600: #6c757d;
+  /* Darkened gray for better readability */
+  --gray-600: #4b5563;
   --text-dark: #1a1a1a;
 
   /* Radius */
@@ -113,12 +115,10 @@
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(26, 39, 68, 0.4) 0%,
-    rgba(26, 39, 68, 0.6) 50%,
-    rgba(26, 39, 68, 0.8) 100%
-  );
+  background: linear-gradient(180deg,
+      rgba(26, 39, 68, 0.4) 0%,
+      rgba(26, 39, 68, 0.6) 50%,
+      rgba(26, 39, 68, 0.8) 100%);
   z-index: 1;
 }
 
@@ -184,7 +184,7 @@
   display: flex;
   align-items: center;
   gap: var(--s2);
-  color: var(--gray-600);
+  color: var(--navy);
   font-size: 14px;
   font-weight: 500;
 }
@@ -260,12 +260,10 @@
   left: 0;
   right: 0;
   padding: var(--s5) var(--s4);
-  background: linear-gradient(
-    0deg,
-    rgba(0, 0, 0, 0.85) 0%,
-    rgba(0, 0, 0, 0.5) 60%,
-    transparent 100%
-  );
+  background: linear-gradient(0deg,
+      rgba(0, 0, 0, 0.85) 0%,
+      rgba(0, 0, 0, 0.5) 60%,
+      transparent 100%);
 }
 
 .exp-card-title {
@@ -513,6 +511,7 @@
 /* ==================== FOOTER STYLES MIGRATED TO GLOBALS.CSS ==================== */
 
 @media (max-width: 1024px) {
+
   .experiences-grid,
   .testimonials-grid {
     grid-template-columns: repeat(2, 1fr);
