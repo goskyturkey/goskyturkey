@@ -49,7 +49,7 @@ const nextConfig = {
         ];
     },
     async rewrites() {
-        const apiUrl = process.env.API_URL || 'http://localhost:3000/api';
+        const apiUrl = process.env.API_URL || 'http://localhost:3001/api';
         const backendBase = apiUrl.replace(/\/api\/?$/, '');
         const apiDestination = `${apiUrl.replace(/\/$/, '')}/:path*`;
 
