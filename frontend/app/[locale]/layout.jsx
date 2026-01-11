@@ -15,6 +15,13 @@ export const metadata = {
         default: 'GoSkyTurkey | Yamaç Paraşütü, Gyrocopter ve Balon Turları',
         template: '%s | GoSkyTurkey',
     },
+    alternates: {
+        canonical: '/',
+        languages: {
+            'tr': '/tr',
+            'en': '/en',
+        },
+    },
     description: 'İzmir, Denizli-Pamukkale, Fethiye-Ölüdeniz ve Manisa\'da yamaç paraşütü, gyrocopter ve balon turları. TÜRSAB lisanslı, profesyonel pilotlar.',
     keywords: ['yamaç paraşütü', 'paragliding', 'gyrocopter', 'balon turu', 'pamukkale', 'fethiye', 'ölüdeniz', 'izmir', 'türkiye tur'],
     authors: [{ name: 'GoSkyTurkey' }],
@@ -38,6 +45,10 @@ export const metadata = {
     robots: {
         index: true,
         follow: true,
+    },
+    verification: {
+        google: 'GOOGLE_SITE_VERIFICATION_CODE_HERE', // GSC doğrulama kodu buraya girilecek
+        yandex: 'yandex-verification-code',
     },
 };
 
