@@ -1,18 +1,13 @@
 
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-const path = require('path');
-const dotenv = require('dotenv');
 
-// Load env vars
-dotenv.config({ path: path.join(__dirname, '../.env') });
+// Hardcoded connection string for reliability
+const MONGO_URI = 'mongodb://127.0.0.1:27017/goskyturkey';
 
 const resetAdmin = async () => {
     try {
-        console.log('Connecting to DB...');
-        // Force 127.0.0.1 to avoid ipv6 resolution issues
-        const MONGO_URI = 'mongodb://127.0.0.1:27017/goskyturkey';
-
+        console.log('Connecting to DB at:', MONGO_URI);
         await mongoose.connect(MONGO_URI);
         console.log('Connected to DB');
 
@@ -22,7 +17,7 @@ const resetAdmin = async () => {
         // 1. Hash password
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(rawPassword, salt);
-        console.log('Password hashed successfully.');
+        console.log('Password hashed.');
 
         // 2. Access collection directly
         const db = mongoose.connection.db;
@@ -46,10 +41,10 @@ const resetAdmin = async () => {
         };
 
         await users.insertOne(newUser);
-        console.log('Admin user created/reset successfully!');
+        console.log('SUCCESS: Admin user reset completed!');
 
     } catch (error) {
-        console.error('ERROR OCCURRED:', error);
+        console.error('ERROR:', error);
     } finally {
         await mongoose.disconnect();
         process.exit();
