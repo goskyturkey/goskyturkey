@@ -1,11 +1,17 @@
 services:
   # Next.js Frontend + Express Backend
   goskyturkey:
-    image: goskyturkey/goskyturkey:latest
+    image: goskyturkey/goskyturkey:${IMAGE_TAG:-latest}
     pull_policy: always
     container_name: goskyturkey-next
     hostname: goskyturkey
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
     ports:
       - "3000:3000"
       - "3001:3001"

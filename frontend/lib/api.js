@@ -4,7 +4,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://goskyturkey.com/api'
 export async function getActivities() {
     try {
         const res = await fetch(`${API_URL}/activities`, {
-            next: { revalidate: 3600 }, // Revalidate every hour
+            next: { revalidate: 60 }, // Revalidate every minute
         });
         if (!res.ok) throw new Error('Failed to fetch activities');
         const result = await res.json();
@@ -18,7 +18,7 @@ export async function getActivities() {
 export async function getActivity(slug) {
     try {
         const res = await fetch(`${API_URL}/activities/${slug}`, {
-            next: { revalidate: 3600 },
+            next: { revalidate: 60 },
         });
         if (!res.ok) throw new Error('Failed to fetch activity');
         const result = await res.json();
@@ -32,7 +32,7 @@ export async function getActivity(slug) {
 export async function getSettings() {
     try {
         const res = await fetch(`${API_URL}/settings`, {
-            next: { revalidate: 3600 },
+            next: { revalidate: 60 },
         });
         if (!res.ok) throw new Error('Failed to fetch settings');
         return res.json();

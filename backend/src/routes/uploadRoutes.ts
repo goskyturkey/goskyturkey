@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import { Request, Response, Router } from 'express';
 import fs from 'fs';
 import multer from 'multer';
@@ -7,14 +8,26 @@ import { adminOnly, protect } from '../middleware/auth.js';
 
 const router = Router();
 
-// Upload directory
+// Upload directories
 const uploadDir = path.join(process.cwd(), 'uploads');
+const tempDir = path.join(uploadDir, 'temp');
+
+// Ensure directories exist
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
 }
+if (!fs.existsSync(tempDir)) {
+    fs.mkdirSync(tempDir, { recursive: true });
+}
 
-// Memory storage for sharp processing
-const storage = multer.memoryStorage();
+// Disk storage to avoid memory exhaustion (DoS prevention)
+const storage = multer.diskStorage({
+    destination: (_req, _file, cb) => cb(null, tempDir),
+    filename: (_req, file, cb) => {
+        const uniqueSuffix = Date.now() + '-' + crypto.randomBytes(6).toString('hex');
+        cb(null, uniqueSuffix + path.extname(file.originalname));
+    }
+});
 
 const fileFilter = (_req: Request, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
     const allowedTypes = /jpeg|jpg|png|gif|webp/;
@@ -33,32 +46,39 @@ const upload = multer({
     fileFilter
 });
 
-// Resmi işle ve WebP'ye dönüştür
-async function processImage(
-    buffer: Buffer,
+// Process image from disk and convert to WebP
+async function processImageFromDisk(
+    tempPath: string,
     options: {
         maxWidth?: number;
         maxHeight?: number;
         quality?: number;
     } = {}
-): Promise<{ buffer: Buffer; filename: string }> {
+): Promise<{ finalPath: string; filename: string; size: number }> {
     const { maxWidth = 1920, maxHeight = 1080, quality = 85 } = options;
 
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    const uniqueSuffix = Date.now() + '-' + crypto.randomBytes(6).toString('hex');
     const filename = `${uniqueSuffix}.webp`;
+    const finalPath = path.join(uploadDir, filename);
 
-    const processedBuffer = await sharp(buffer)
+    await sharp(tempPath)
         .resize(maxWidth, maxHeight, {
             fit: 'inside',
             withoutEnlargement: true
         })
         .webp({ quality })
-        .toBuffer();
+        .toFile(finalPath);
 
-    return { buffer: processedBuffer, filename };
+    // Get file size
+    const stats = await fs.promises.stat(finalPath);
+
+    // Delete temp file
+    await fs.promises.unlink(tempPath).catch(() => { /* ignore */ });
+
+    return { finalPath, filename, size: stats.size };
 }
 
-// Tek dosya yükle - otomatik WebP dönüşümü
+// Single file upload - auto WebP conversion
 router.post('/upload', protect, adminOnly, upload.single('file'), async (req: Request, res: Response) => {
     try {
         if (!req.file) {
@@ -69,16 +89,11 @@ router.post('/upload', protect, adminOnly, upload.single('file'), async (req: Re
             return;
         }
 
-        // Resmi işle ve WebP'ye dönüştür
-        const { buffer, filename } = await processImage(req.file.buffer, {
+        const { filename, size } = await processImageFromDisk(req.file.path, {
             maxWidth: 1920,
             maxHeight: 1080,
             quality: 85
         });
-
-        // Dosyayı kaydet
-        const filePath = path.join(uploadDir, filename);
-        await fs.promises.writeFile(filePath, buffer);
 
         const fileUrl = `/uploads/${filename}`;
 
@@ -89,11 +104,15 @@ router.post('/upload', protect, adminOnly, upload.single('file'), async (req: Re
                 url: fileUrl,
                 originalName: req.file.originalname,
                 format: 'webp',
-                size: buffer.length
+                size
             }
         });
     } catch (error) {
         console.error('Upload error:', error);
+        // Clean up temp file on error
+        if (req.file?.path) {
+            await fs.promises.unlink(req.file.path).catch(() => { /* ignore */ });
+        }
         res.status(500).json({
             success: false,
             message: 'Dosya yüklenemedi'
@@ -101,7 +120,7 @@ router.post('/upload', protect, adminOnly, upload.single('file'), async (req: Re
     }
 });
 
-// Hero görseli için özel endpoint - büyük boyut
+// Hero image endpoint - larger size
 router.post('/upload/hero', protect, adminOnly, upload.single('file'), async (req: Request, res: Response) => {
     try {
         if (!req.file) {
@@ -112,16 +131,11 @@ router.post('/upload/hero', protect, adminOnly, upload.single('file'), async (re
             return;
         }
 
-        // Hero için daha büyük boyut
-        const { buffer, filename } = await processImage(req.file.buffer, {
+        const { filename, size } = await processImageFromDisk(req.file.path, {
             maxWidth: 2560,
             maxHeight: 1440,
             quality: 90
         });
-
-        // Dosyayı kaydet
-        const filePath = path.join(uploadDir, filename);
-        await fs.promises.writeFile(filePath, buffer);
 
         const fileUrl = `/uploads/${filename}`;
 
@@ -132,11 +146,14 @@ router.post('/upload/hero', protect, adminOnly, upload.single('file'), async (re
                 url: fileUrl,
                 originalName: req.file.originalname,
                 format: 'webp',
-                size: buffer.length
+                size
             }
         });
     } catch (error) {
         console.error('Hero upload error:', error);
+        if (req.file?.path) {
+            await fs.promises.unlink(req.file.path).catch(() => { /* ignore */ });
+        }
         res.status(500).json({
             success: false,
             message: 'Hero görseli yüklenemedi'
@@ -144,10 +161,10 @@ router.post('/upload/hero', protect, adminOnly, upload.single('file'), async (re
     }
 });
 
-// Çoklu dosya yükle
+// Multiple file upload
 router.post('/upload/multiple', protect, adminOnly, upload.array('files', 10), async (req: Request, res: Response) => {
+    const files = (req.files as Express.Multer.File[]) || [];
     try {
-        const files = (req.files as Express.Multer.File[]) || [];
         if (!files.length) {
             res.status(400).json({
                 success: false,
@@ -158,9 +175,7 @@ router.post('/upload/multiple', protect, adminOnly, upload.array('files', 10), a
 
         const results = await Promise.all(
             files.map(async (file) => {
-                const { buffer, filename } = await processImage(file.buffer);
-                const filePath = path.join(uploadDir, filename);
-                await fs.promises.writeFile(filePath, buffer);
+                const { filename } = await processImageFromDisk(file.path);
                 return {
                     filename,
                     url: `/uploads/${filename}`,
@@ -175,6 +190,10 @@ router.post('/upload/multiple', protect, adminOnly, upload.array('files', 10), a
         });
     } catch (error) {
         console.error('Multiple upload error:', error);
+        // Clean up all temp files on error
+        await Promise.all(
+            files.map(f => fs.promises.unlink(f.path).catch(() => { /* ignore */ }))
+        );
         res.status(500).json({
             success: false,
             message: 'Dosyalar yüklenemedi'
@@ -182,7 +201,7 @@ router.post('/upload/multiple', protect, adminOnly, upload.array('files', 10), a
     }
 });
 
-// Dosya sil
+// Delete file
 router.delete('/upload/:filename', protect, adminOnly, (req: Request, res: Response) => {
     const filePath = path.join(uploadDir, req.params.filename);
 

@@ -69,6 +69,8 @@ export interface IBooking extends Document {
     customerName: string;
     customerEmail: string;
     customerPhone: string;
+    customerIdentityNumber?: string;
+    customerAddress?: string;
     totalPrice: number;
     currency: string;
     status: 'pending' | 'confirmed' | 'cancelled' | 'completed';

@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import { Request, Response, Router } from 'express';
 import Iyzipay from 'iyzipay';
 import iyzipay from '../config/iyzico.js';
@@ -8,7 +9,7 @@ import { IActivity } from '../types/models.js';
 const router = Router();
 
 const generateConversationId = (): string => {
-    return 'GST' + Date.now().toString(36).toUpperCase() + Math.random().toString(36).substring(2, 6).toUpperCase();
+    return 'GST-' + crypto.randomUUID().replace(/-/g, '').substring(0, 12).toUpperCase();
 };
 
 const callbackUrl = (): string =>
@@ -65,9 +66,9 @@ const initPayment = asyncHandler(async (req: Request, res: Response) => {
             surname: booking.customerName?.split(' ').slice(1).join(' ') || 'Kullanıcı',
             gsmNumber: booking.customerPhone || '+905551234567',
             email: booking.customerEmail || 'misafir@goskyturkey.com',
-            identityNumber: '11111111111',
-            registrationAddress: 'Türkiye',
-            ip: req.ip || '85.34.78.112',
+            identityNumber: (booking as any).customerIdentityNumber || '00000000000',
+            registrationAddress: (booking as any).customerAddress || 'Türkiye',
+            ip: req.ip || '0.0.0.0',
             city: 'Istanbul',
             country: 'Turkey'
         },
