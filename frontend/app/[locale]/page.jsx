@@ -49,7 +49,7 @@ export default async function HomePage() {
         priceRange: '$$',
         address: {
             '@type': 'PostalAddress',
-            streetAddress: 'Ölüdeniz Mah. Atatürk Cad.',
+            streetAddress: settings?.address?.[params?.locale] || settings?.address?.tr || 'Ölüdeniz Mah. Atatürk Cad.',
             addressLocality: 'Fethiye',
             addressRegion: 'Muğla',
             postalCode: '48340',
@@ -61,11 +61,11 @@ export default async function HomePage() {
             longitude: 29.1259
         },
         sameAs: [
-            'https://www.youtube.com/@GoSkyTurkey',
-            'https://www.instagram.com/goskyturkey/',
-            'https://x.com/GoSkyTurkey',
-            'https://www.facebook.com/GoSkyTurkey/'
-        ]
+            settings?.socialMedia?.youtube,
+            settings?.socialMedia?.instagram,
+            settings?.socialMedia?.twitter,
+            settings?.socialMedia?.facebook
+        ].filter(Boolean)
     };
 
     return (

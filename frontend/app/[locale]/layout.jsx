@@ -93,11 +93,20 @@ export default async function LocaleLayout({ children, params: { locale } }) {
             <body className={inter.className}>
                 <NextIntlClientProvider messages={messages}>
                     <Providers>
-                        <Header phone={phone} />
+                        <Header
+                            phone={phone}
+                            logo={settings?.logo}
+                            whatsapp={settings?.whatsapp}
+                        />
                         <main className="app">
                             {children}
                         </main>
-                        <Footer siteName={siteName} phone={phone} />
+                        <Footer
+                            siteName={siteName}
+                            phone={phone}
+                            socialMedia={settings?.socialMedia}
+                            address={settings?.address}
+                        />
                     </Providers>
                 </NextIntlClientProvider>
 

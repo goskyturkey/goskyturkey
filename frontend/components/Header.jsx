@@ -5,12 +5,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 
-const Header = ({ phone }) => {
+const Header = ({ phone, logo, whatsapp }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const { language, toggleLanguage, t } = useLanguage();
 
     // Format phone for WhatsApp and Tel links
     const cleanPhone = phone ? phone.replace(/\D/g, '') : '905551234567';
+    // Use explicit whatsapp number from settings if available, otherwise use phone
+    const whatsappNumber = whatsapp ? whatsapp.replace(/\D/g, '') : cleanPhone;
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -30,7 +32,7 @@ const Header = ({ phone }) => {
         <header className="main-header">
             <Link href="/" className="header-logo" onClick={closeMenu}>
                 <Image
-                    src="/images/logo.webp"
+                    src={logo ? (logo.startsWith('/') ? logo : `/${logo}`) : "/images/logo.webp"}
                     alt="GoSkyTurkey"
                     width={150}
                     height={40}
@@ -54,7 +56,7 @@ const Header = ({ phone }) => {
                 <LanguageSelector />
 
                 <a
-                    href={`https://wa.me/${cleanPhone}`}
+                    href={`https://wa.me/${whatsappNumber}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="whatsapp-icon"

@@ -3,18 +3,18 @@
 import { useLanguage } from '@/contexts/LanguageContext';
 import Link from 'next/link';
 
-const Footer = ({ siteName, phone }) => {
+const Footer = ({ siteName, phone, socialMedia }) => {
     const { t, language } = useLanguage();
     const displayPhone = phone || '+90 555 123 4567';
     const cleanPhone = phone ? phone.replace(/\s+/g, '') : '+905551234567';
     const name = siteName || 'GoSkyTurkey';
 
     const socialLinks = [
-        { href: 'https://www.youtube.com/@GoSkyTurkey', icon: '📺', label: 'YouTube' },
-        { href: 'https://www.instagram.com/goskyturkey/', icon: '📸', label: 'Instagram' },
-        { href: 'https://x.com/GoSkyTurkey', icon: '𝕏', label: 'X' },
-        { href: 'https://www.facebook.com/GoSkyTurkey/', icon: '👍', label: 'Facebook' },
-    ];
+        { href: socialMedia?.youtube || 'https://www.youtube.com/@GoSkyTurkey', icon: '📺', label: 'YouTube' },
+        { href: socialMedia?.instagram || 'https://www.instagram.com/goskyturkey/', icon: '📸', label: 'Instagram' },
+        { href: socialMedia?.twitter || 'https://x.com/GoSkyTurkey', icon: '𝕏', label: 'X' },
+        { href: socialMedia?.facebook || 'https://www.facebook.com/GoSkyTurkey/', icon: '👍', label: 'Facebook' },
+    ].filter(link => link.href); // Only show existing links
 
     return (
         <footer className="main-footer">
