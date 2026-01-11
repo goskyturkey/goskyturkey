@@ -11,8 +11,10 @@
     "typecheck": "tsc --noEmit",
     "test": "jest --coverage",
     "test:watch": "jest --watch",
+    "test:watch": "jest --watch",
     "seed": "ts-node src/seed.ts",
-    "lint": "eslint src/**/*.ts"
+    "reset-admin": "ts-node src/reset_admin.ts",
+    "lint": "eslint src/**/*.ts""lint": "eslint src/**/*.ts"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
