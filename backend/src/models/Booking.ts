@@ -48,6 +48,14 @@ const bookingSchema = new Schema<IBooking>({
         type: String,
         required: [true, 'Telefon zorunludur']
     },
+    customerIdentityNumber: {
+        type: String,
+        default: ''
+    },
+    customerAddress: {
+        type: String,
+        default: ''
+    },
     totalPrice: {
         type: Number,
         required: [true, 'Toplam fiyat zorunludur']
