@@ -258,6 +258,25 @@ router.get('/:ref', asyncHandler(async (req: Request, res: Response) => {
 
 // ============ ADMIN ROUTES ============
 
+// @route   GET /api/bookings/admin
+// @desc    Son rezervasyonları getir (Pagination/Limit destekli)
+// @access  Private/Admin
+router.get('/admin', protect, adminOnly, asyncHandler(async (req: Request, res: Response) => {
+    const limit = parseInt(req.query.limit as string) || 50;
+
+    // Admin dashboard genellikle son rezervasyonları ister
+    const bookings = await Booking.find()
+        .populate('activity', 'name category thumbnailImage')
+        .sort({ createdAt: -1 })
+        .limit(limit);
+
+    res.json({
+        success: true,
+        count: bookings.length,
+        data: bookings
+    });
+}));
+
 // @route   GET /api/bookings/admin/all
 // @desc    Tüm rezervasyonlar
 // @access  Private/Admin

@@ -136,7 +136,7 @@ export default function AdminSettingsPage() {
                     }}>
                         {settings.heroImage ? (
                             <Image
-                                src={settings.heroImage}
+                                src={settings.heroImage?.startsWith('/') ? settings.heroImage : `/${settings.heroImage}`}
                                 alt="Hero"
                                 fill
                                 unoptimized
