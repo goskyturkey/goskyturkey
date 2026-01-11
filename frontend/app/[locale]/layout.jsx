@@ -9,48 +9,56 @@ import '../globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export const metadata = {
-    metadataBase: new URL('https://goskyturkey.com'),
-    title: {
-        default: 'GoSkyTurkey | Yamaç Paraşütü, Gyrocopter ve Balon Turları',
-        template: '%s | GoSkyTurkey',
-    },
-    alternates: {
-        canonical: '/',
-        languages: {
-            'tr': '/tr',
-            'en': '/en',
+export async function generateMetadata({ params: { locale } }) {
+    const baseUrl = 'https://goskyturkey.com';
+    const canonical = locale === 'tr' ? baseUrl : `${baseUrl}/${locale}`;
+
+    return {
+        metadataBase: new URL(baseUrl),
+        title: {
+            default: 'GoSkyTurkey | Yamaç Paraşütü, Gyrocopter ve Balon Turları',
+            template: '%s | GoSkyTurkey',
         },
-    },
-    description: 'İzmir, Denizli-Pamukkale, Fethiye-Ölüdeniz ve Manisa\'da yamaç paraşütü, gyrocopter ve balon turları. TÜRSAB lisanslı, profesyonel pilotlar.',
-    keywords: ['yamaç paraşütü', 'paragliding', 'gyrocopter', 'balon turu', 'pamukkale', 'fethiye', 'ölüdeniz', 'izmir', 'türkiye tur'],
-    authors: [{ name: 'GoSkyTurkey' }],
-    creator: 'GoSkyTurkey',
-    publisher: 'GoSkyTurkey',
-    openGraph: {
-        title: 'GoSkyTurkey | Yamaç Paraşütü, Gyrocopter ve Balon Turları',
-        description: 'İzmir, Denizli-Pamukkale, Fethiye-Ölüdeniz ve Manisa\'da unutulmaz macera turları.',
-        url: 'https://goskyturkey.com',
-        siteName: 'GoSkyTurkey',
-        locale: 'tr_TR',
-        type: 'website',
-        images: ['/images/paragliding.webp'],
-    },
-    twitter: {
-        card: 'summary_large_image',
-        title: 'GoSkyTurkey',
-        description: 'Yamaç paraşütü, gyrocopter ve balon turları',
-        images: ['/images/paragliding.webp'],
-    },
-    robots: {
-        index: true,
-        follow: true,
-    },
-    verification: {
-        google: 'GOOGLE_SITE_VERIFICATION_CODE_HERE', // GSC doğrulama kodu buraya girilecek
-        yandex: 'yandex-verification-code',
-    },
-};
+        alternates: {
+            canonical: canonical,
+            languages: {
+                'tr': '/tr',
+                'en': '/en',
+                'de': '/de',
+                'ru': '/ru',
+                'zh': '/zh'
+            },
+        },
+        description: 'İzmir, Denizli-Pamukkale, Fethiye-Ölüdeniz ve Manisa\'da yamaç paraşütü, gyrocopter ve balon turları. TÜRSAB lisanslı, profesyonel pilotlar.',
+        keywords: ['yamaç paraşütü', 'paragliding', 'gyrocopter', 'balon turu', 'pamukkale', 'fethiye', 'ölüdeniz', 'izmir', 'türkiye tur'],
+        authors: [{ name: 'GoSkyTurkey' }],
+        creator: 'GoSkyTurkey',
+        publisher: 'GoSkyTurkey',
+        openGraph: {
+            title: 'GoSkyTurkey | Yamaç Paraşütü, Gyrocopter ve Balon Turları',
+            description: 'İzmir, Denizli-Pamukkale, Fethiye-Ölüdeniz ve Manisa\'da unutulmaz macera turları.',
+            url: canonical,
+            siteName: 'GoSkyTurkey',
+            locale: locale === 'tr' ? 'tr_TR' : 'en_US',
+            type: 'website',
+            images: ['/images/paragliding.webp'],
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: 'GoSkyTurkey',
+            description: 'Yamaç paraşütü, gyrocopter ve balon turları',
+            images: ['/images/paragliding.webp'],
+        },
+        robots: {
+            index: true,
+            follow: true,
+        },
+        verification: {
+            google: 'GOOGLE_SITE_VERIFICATION_CODE_HERE', // GSC doğrulama kodu buraya girilecek
+            yandex: 'yandex-verification-code',
+        },
+    };
+}
 
 async function getSettings() {
     try {
