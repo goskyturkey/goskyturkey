@@ -59,6 +59,11 @@ const nextConfig = {
                 destination: apiDestination,
             },
             {
+                // Catch uploads with locale prefix (e.g. /tr/uploads/image.webp)
+                source: '/:locale/uploads/:path*',
+                destination: `${backendBase}/uploads/:path*`,
+            },
+            {
                 source: '/uploads/:path*',
                 destination: `${backendBase}/uploads/:path*`,
             },
