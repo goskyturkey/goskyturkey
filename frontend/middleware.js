@@ -72,6 +72,6 @@ export default function middleware(request) {
 export const config = {
     // Admin, API, statik dosyalar, Next.js internal dosyaları ve Uploads hariç her şeyi yakala
     matcher: [
-        '/((?!api|admin|uploads|.*\\/uploads|.*\\/uploads\\/.*|_next/static|_next/image|favicon.ico|images|icons|.*\\.png$|.*\\.jpg$|.*\\.webp$|.*\\.svg$).*)',
+        '/((?!api|admin|uploads|.*\\/uploads|.*\\/uploads\\/.*|_next/static|_next/image|favicon.ico|images|icons|.*\\.png$|.*\\.jpg$|.*\\.webp$|.*\\.svg$|sitemap.xml|robots.txt).*)',
     ],
 };
