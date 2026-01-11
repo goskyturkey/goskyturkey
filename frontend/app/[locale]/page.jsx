@@ -32,7 +32,8 @@ async function getSettings() {
     }
 }
 
-export default async function HomePage() {
+export default async function HomePage({ params }) {
+    const { locale } = await params;
     const activities = await getActivities();
     const settings = await getSettings();
     const siteName = settings?.siteName || 'GoSkyTurkey';
@@ -49,7 +50,7 @@ export default async function HomePage() {
         priceRange: '$$',
         address: {
             '@type': 'PostalAddress',
-            streetAddress: settings?.address?.[params?.locale] || settings?.address?.tr || 'Ölüdeniz Mah. Atatürk Cad.',
+            streetAddress: settings?.address?.[locale] || settings?.address?.tr || 'Ölüdeniz Mah. Atatürk Cad.',
             addressLocality: 'Fethiye',
             addressRegion: 'Muğla',
             postalCode: '48340',
