@@ -8,24 +8,24 @@ import path from 'path';
 // @ts-ignore
 import compression from 'compression';
 
-import connectDB from './config/db.js';
-import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
-import { logger, requestLogger } from './utils/logger.js';
+import connectDB from './config/db';
+import { errorHandler, notFoundHandler } from './middleware/errorHandler';
+import { logger, requestLogger } from './utils/logger';
 
 // Route imports
-import activityRoutes from './routes/activityRoutes.js';
-import authRoutes from './routes/authRoutes.js';
-import availabilityRoutes from './routes/availabilityRoutes.js';
-import bookingRoutes from './routes/bookingRoutes.js';
-import couponRoutes from './routes/couponRoutes.js';
-import faqRoutes from './routes/faqRoutes.js';
-import galleryRoutes from './routes/galleryRoutes.js';
-import languageRoutes from './routes/languageRoutes.js';
-import paymentRoutes from './routes/paymentRoutes.js';
-import reviewRoutes from './routes/reviewRoutes.js';
-import settingsRoutes from './routes/settingsRoutes.js';
-import translationRoutes from './routes/translationRoutes.js';
-import uploadRoutes from './routes/uploadRoutes.js';
+import activityRoutes from './routes/activityRoutes';
+import authRoutes from './routes/authRoutes';
+import availabilityRoutes from './routes/availabilityRoutes';
+import bookingRoutes from './routes/bookingRoutes';
+import couponRoutes from './routes/couponRoutes';
+import faqRoutes from './routes/faqRoutes';
+import galleryRoutes from './routes/galleryRoutes';
+import languageRoutes from './routes/languageRoutes';
+import paymentRoutes from './routes/paymentRoutes';
+import reviewRoutes from './routes/reviewRoutes';
+import settingsRoutes from './routes/settingsRoutes';
+import translationRoutes from './routes/translationRoutes';
+import uploadRoutes from './routes/uploadRoutes';
 
 // Use process.cwd() for CommonJS compatibility
 const rootDir = process.cwd();

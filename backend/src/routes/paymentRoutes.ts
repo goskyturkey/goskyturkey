@@ -1,10 +1,10 @@
 import crypto from 'crypto';
 import { Request, Response, Router } from 'express';
 import Iyzipay from 'iyzipay';
-import iyzipay from '../config/iyzico.js';
-import { asyncHandler } from '../middleware/errorHandler.js';
-import Booking from '../models/Booking.js';
-import { IActivity } from '../types/models.js';
+import iyzipay from '../config/iyzico';
+import { asyncHandler } from '../middleware/errorHandler';
+import Booking from '../models/Booking';
+import { IActivity } from '../types/models';
 
 const router = Router();
 

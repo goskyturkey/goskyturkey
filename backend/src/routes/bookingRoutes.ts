@@ -1,9 +1,9 @@
 import express, { NextFunction, Request, Response, Router } from 'express';
 import { body, validationResult } from 'express-validator';
-import { adminOnly, protect } from '../middleware/auth.js';
-import Activity from '../models/Activity.js';
-import Availability from '../models/Availability.js';
-import Booking from '../models/Booking.js';
+import { adminOnly, protect } from '../middleware/auth';
+import Activity from '../models/Activity';
+import Availability from '../models/Availability';
+import Booking from '../models/Booking';
 
 const router: Router = express.Router();
 

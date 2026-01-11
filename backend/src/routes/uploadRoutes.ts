@@ -4,7 +4,7 @@ import fs from 'fs';
 import multer from 'multer';
 import path from 'path';
 import sharp from 'sharp';
-import { adminOnly, protect } from '../middleware/auth.js';
+import { adminOnly, protect } from '../middleware/auth';
 
 const router = Router();
 

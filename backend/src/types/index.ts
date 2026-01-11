@@ -1,5 +1,5 @@
-export * from './express.js';
-export * from './models.js';
+export * from './express';
+export * from './models';
 
 // API Response Types
 export interface ApiResponse<T = unknown> {

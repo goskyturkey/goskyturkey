@@ -1,5 +1,5 @@
 import mongoose, { Model, Schema } from 'mongoose';
-import { ISettings } from '../types/models.js';
+import { ISettings } from '../types/models';
 
 const settingsSchema = new Schema<ISettings>({
     siteName: {

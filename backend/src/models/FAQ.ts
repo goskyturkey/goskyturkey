@@ -1,5 +1,5 @@
 import mongoose, { Model, Schema } from 'mongoose';
-import { IFAQ } from '../types/models.js';
+import { IFAQ } from '../types/models';
 
 const faqSchema = new Schema<IFAQ>({
     question: {

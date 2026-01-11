@@ -1,5 +1,5 @@
 import mongoose, { Model, Schema } from 'mongoose';
-import { IReview } from '../types/models.js';
+import { IReview } from '../types/models';
 
 const reviewSchema = new Schema<IReview>({
     activity: {

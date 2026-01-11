@@ -1,6 +1,6 @@
 import { Request } from 'express';
 import { Document } from 'mongoose';
-import { I18nArrayItem, I18nString } from '../types/models.js';
+import { I18nArrayItem, I18nString } from '../types/models';
 
 export const defaultLocale = 'tr';
 // Allow dynamic locales

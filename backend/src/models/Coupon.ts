@@ -1,5 +1,5 @@
 import mongoose, { Model, Schema } from 'mongoose';
-import { ICoupon } from '../types/models.js';
+import { ICoupon } from '../types/models';
 
 interface ICouponMethods {
     isValid(totalAmount?: number): { valid: boolean; message?: string };

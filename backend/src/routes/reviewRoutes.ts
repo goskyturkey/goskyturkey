@@ -1,8 +1,8 @@
 import { Request, Response, Router } from 'express';
 import mongoose from 'mongoose';
-import { adminOnly, protect } from '../middleware/auth.js';
-import { asyncHandler } from '../middleware/errorHandler.js';
-import Review from '../models/Review.js';
+import { adminOnly, protect } from '../middleware/auth';
+import { asyncHandler } from '../middleware/errorHandler';
+import Review from '../models/Review';
 
 const router = Router();
 

@@ -1,5 +1,5 @@
 import mongoose, { Model, Schema } from 'mongoose';
-import { IAvailability, ITimeSlot } from '../types/models.js';
+import { IAvailability, ITimeSlot } from '../types/models';
 
 interface IAvailabilityMethods {
     isAvailable(time?: string, guests?: number): boolean;

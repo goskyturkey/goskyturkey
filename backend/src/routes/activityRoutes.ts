@@ -1,9 +1,9 @@
 import { Request, Response, Router } from 'express';
-import { adminOnly, protect } from '../middleware/auth.js';
-import { asyncHandler } from '../middleware/errorHandler.js';
-import Activity from '../models/Activity.js';
-import { IActivity } from '../types/models.js';
-import { getLocaleFromRequest, localizeDocument } from '../utils/i18nHelper.js';
+import { adminOnly, protect } from '../middleware/auth';
+import { asyncHandler } from '../middleware/errorHandler';
+import Activity from '../models/Activity';
+import { IActivity } from '../types/models';
+import { getLocaleFromRequest, localizeDocument } from '../utils/i18nHelper';
 
 const router = Router();
 

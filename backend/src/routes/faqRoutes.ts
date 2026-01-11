@@ -1,8 +1,8 @@
 import { Request, Response, Router } from 'express';
-import { adminOnly, protect } from '../middleware/auth.js';
-import { asyncHandler } from '../middleware/errorHandler.js';
-import FAQ from '../models/FAQ.js';
-import { getLocaleFromRequest, getLocalizedValue } from '../utils/i18nHelper.js';
+import { adminOnly, protect } from '../middleware/auth';
+import { asyncHandler } from '../middleware/errorHandler';
+import FAQ from '../models/FAQ';
+import { getLocaleFromRequest, getLocalizedValue } from '../utils/i18nHelper';
 
 const router = Router();
 

@@ -1,7 +1,7 @@
 import { Request, Response, Router } from 'express';
-import { adminOnly, protect } from '../middleware/auth.js';
-import { asyncHandler } from '../middleware/errorHandler.js';
-import Coupon from '../models/Coupon.js';
+import { adminOnly, protect } from '../middleware/auth';
+import { asyncHandler } from '../middleware/errorHandler';
+import Coupon from '../models/Coupon';
 
 const router = Router();
 

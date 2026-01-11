@@ -1,8 +1,8 @@
 import { Request, Response, Router } from 'express';
 import { AnyBulkWriteOperation } from 'mongoose';
-import { adminOnly, protect } from '../middleware/auth.js';
-import { asyncHandler } from '../middleware/errorHandler.js';
-import Availability from '../models/Availability.js';
+import { adminOnly, protect } from '../middleware/auth';
+import { asyncHandler } from '../middleware/errorHandler';
+import Availability from '../models/Availability';
 
 const router = Router();
 

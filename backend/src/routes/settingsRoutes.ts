@@ -1,9 +1,9 @@
 import { Request, Response, Router } from 'express';
-import { adminOnly, protect } from '../middleware/auth.js';
-import { asyncHandler } from '../middleware/errorHandler.js';
-import Settings from '../models/Settings.js';
-import { ISettings } from '../types/models.js';
-import { getLocaleFromRequest, getLocalizedArray, getLocalizedValue } from '../utils/i18nHelper.js';
+import { adminOnly, protect } from '../middleware/auth';
+import { asyncHandler } from '../middleware/errorHandler';
+import Settings from '../models/Settings';
+import { ISettings } from '../types/models';
+import { getLocaleFromRequest, getLocalizedArray, getLocalizedValue } from '../utils/i18nHelper';
 
 const router = Router();
 

@@ -1,8 +1,8 @@
 import { Request, Response, Router } from 'express';
-import { generateToken, protect } from '../middleware/auth.js';
-import { asyncHandler } from '../middleware/errorHandler.js';
-import User from '../models/User.js';
-import { IUser } from '../types/models.js';
+import { generateToken, protect } from '../middleware/auth';
+import { asyncHandler } from '../middleware/errorHandler';
+import User from '../models/User';
+import { IUser } from '../types/models';
 
 const router = Router();
 

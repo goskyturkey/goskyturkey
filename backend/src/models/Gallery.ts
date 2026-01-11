@@ -1,5 +1,5 @@
 import mongoose, { Model, Schema } from 'mongoose';
-import { IGalleryItem } from '../types/models.js';
+import { IGalleryItem } from '../types/models';
 
 const galleryItemSchema = new Schema<IGalleryItem>({
     title: {

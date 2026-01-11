@@ -1,6 +1,6 @@
 import mongoose, { Model, Schema } from 'mongoose';
 import slugify from 'slugify';
-import { IActivity } from '../types/models.js';
+import { IActivity } from '../types/models';
 
 // Activity schema definition with dynamic i18n support
 const activitySchema = new Schema<IActivity>({

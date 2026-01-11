@@ -2,10 +2,10 @@ import { Request, Response, Router } from 'express';
 import fs from 'fs';
 import multer from 'multer';
 import path from 'path';
-import { adminOnly, protect } from '../middleware/auth.js';
-import { asyncHandler } from '../middleware/errorHandler.js';
-import GalleryItem from '../models/Gallery.js';
-import { getLocaleFromRequest, localizeDocument } from '../utils/i18nHelper.js';
+import { adminOnly, protect } from '../middleware/auth';
+import { asyncHandler } from '../middleware/errorHandler';
+import GalleryItem from '../models/Gallery';
+import { getLocaleFromRequest, localizeDocument } from '../utils/i18nHelper';
 
 const router = Router();
 
