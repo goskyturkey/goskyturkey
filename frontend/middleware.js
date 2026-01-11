@@ -10,10 +10,10 @@ const intlMiddleware = createMiddleware({
 export default function middleware(request) {
     const { pathname } = request.nextUrl;
 
-    // Admin ve API istekleri için intl middleware çalıştırma
+    // Admin, API, ve Uploads istekleri için intl middleware çalıştırma
     // Bu rotalar lokalizasyondan bağımsız çalışır
     let response;
-    if (pathname.startsWith('/admin') || pathname.startsWith('/api')) {
+    if (pathname.startsWith('/admin') || pathname.startsWith('/api') || pathname.startsWith('/uploads')) {
         response = NextResponse.next();
     } else {
         response = intlMiddleware(request);
@@ -32,13 +32,14 @@ export default function middleware(request) {
     const connectSrc = [
         "'self'",
         'https://www.google-analytics.com',
+        'https://analytics.google.com',
         'https://api.iyzipay.com',
         'https://sandbox-api.iyzipay.com',
     ];
     if (apiOrigin) {
         connectSrc.push(apiOrigin);
     }
-
+    // ... existing headers code ...
     // Security Headers
     response.headers.set('X-Content-Type-Options', 'nosniff');
     response.headers.set('X-Frame-Options', 'SAMEORIGIN');
@@ -71,6 +72,6 @@ export default function middleware(request) {
 export const config = {
     // Admin, API, statik dosyalar ve Next.js internal dosyaları hariç her şeyi yakala
     matcher: [
-        '/((?!api|admin|_next/static|_next/image|favicon.ico|images|icons|.*\\.png$|.*\\.jpg$|.*\\.svg$).*)',
+        '/((?!api|admin|uploads|_next/static|_next/image|favicon.ico|images|icons|.*\\.png$|.*\\.jpg$|.*\\.svg$).*)',
     ],
 };
