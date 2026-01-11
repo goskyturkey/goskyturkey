@@ -25,6 +25,11 @@ const nextConfig = {
     poweredByHeader: false,
     compress: true,
 
+    // Increase body size limit for file uploads (default 10MB)
+    experimental: {
+        middlewareClientMaxBodySize: '25mb',
+    },
+
     // Cache headers for static assets
     async headers() {
         return [
