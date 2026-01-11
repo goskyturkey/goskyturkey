@@ -20,7 +20,7 @@ router.get('/activity/:activityId', asyncHandler(async (req: Request, res: Respo
 
     // Calculate average rating
     const stats = await Review.aggregate([
-        { $match: { activity: new mongoose.Types.ObjectId(req.params.activityId), isApproved: true } },
+        { $match: { activity: new mongoose.Types.ObjectId(req.params.activityId as string), isApproved: true } },
         {
             $group: {
                 _id: null,

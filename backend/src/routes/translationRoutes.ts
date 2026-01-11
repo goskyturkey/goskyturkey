@@ -10,7 +10,7 @@ const router = express.Router();
 // @access  Public
 router.get('/:lang', async (req: Request, res: Response) => {
     try {
-        const { lang } = req.params;
+        const lang = req.params.lang as string;
         const translations = await Translation.find({});
 
         // Convert to key-value format for frontend

@@ -203,7 +203,7 @@ router.post('/upload/multiple', protect, adminOnly, upload.array('files', 10), a
 
 // Delete file
 router.delete('/upload/:filename', protect, adminOnly, (req: Request, res: Response) => {
-    const filePath = path.join(uploadDir, req.params.filename);
+    const filePath = path.join(uploadDir, req.params.filename as string);
 
     if (fs.existsSync(filePath)) {
         fs.unlinkSync(filePath);

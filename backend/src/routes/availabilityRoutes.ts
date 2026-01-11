@@ -5,8 +5,6 @@ import { asyncHandler } from '../middleware/errorHandler';
 import Availability from '../models/Availability';
 import { getQueryString } from '../utils/query';
 
-import { getQueryString } from '../utils/query';
-
 const router = Router();
 
 // Aktivite müsaitlik takvimi (2 aylık)
@@ -73,9 +71,10 @@ router.get('/:activityId', asyncHandler(async (req: Request, res: Response) => {
     });
 }));
 
+// ... (previous code)
 // Belirli gün müsaitlik
 router.get('/:activityId/:date', asyncHandler(async (req: Request, res: Response) => {
-    const date = new Date(req.params.date);
+    const date = new Date(req.params.date as string);
 
     const availability = await Availability.findOne({
         activity: req.params.activityId,
@@ -87,7 +86,7 @@ router.get('/:activityId/:date', asyncHandler(async (req: Request, res: Response
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    const isPast = new Date(req.params.date) < today;
+    const isPast = new Date(req.params.date as string) < today;
 
     res.json({
         success: true,
@@ -112,7 +111,7 @@ router.get('/:activityId/:date', asyncHandler(async (req: Request, res: Response
 // Müsaitlik güncelle/oluştur
 router.put('/:activityId/:date', protect, adminOnly, asyncHandler(async (req: Request, res: Response) => {
     const { isBlocked, blockReason, maxCapacity, timeSlots, priceModifier } = req.body;
-    const date = new Date(req.params.date);
+    const date = new Date(req.params.date as string);
 
     const availability = await Availability.findOneAndUpdate(
         {
@@ -124,7 +123,7 @@ router.put('/:activityId/:date', protect, adminOnly, asyncHandler(async (req: Re
         },
         {
             activity: req.params.activityId,
-            date: new Date(req.params.date),
+            date: new Date(req.params.date as string),
             isBlocked,
             blockReason,
             maxCapacity,
@@ -133,6 +132,7 @@ router.put('/:activityId/:date', protect, adminOnly, asyncHandler(async (req: Re
         },
         { upsert: true, new: true }
     );
+    // ...
 
     res.json({
         success: true,
