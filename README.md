@@ -56,6 +56,27 @@ npm run dev
 └── docker-compose.yml
 ```
 
+## 🛠️ Geliştirici Kılavuzu
+
+### Port Yapılandırması
+- **Frontend:** 3000
+- **Backend:** 3001
+
+### Yerel Geliştirme (Localhost)
+Backend'i yerelde (Docker olmadan) çalıştırırken `.env` dosyasını kullanır.
+Backend klasöründe `.env` dosyanıza şunları ekleyin:
+```bash
+NODE_ENV=development
+PORT=3001
+MONGODB_URI=mongodb://127.0.0.1:27017/goskyturkey
+```
+
+### Docker ile Geliştirme
+Docker Compose kullanırken:
+```bash
+MONGODB_URI=mongodb://mongodb:27017/goskyturkey
+```
+
 ## 🌐 Deployment
 
 Nginx Proxy Manager ayarları:

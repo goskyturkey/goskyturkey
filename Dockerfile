@@ -1,7 +1,7 @@
 # ======================================
 # STAGE 1: Build Next.js Frontend
 # ======================================
-FROM node:24-alpine AS frontend-builder
+FROM node:22-alpine AS frontend-builder
 
 WORKDIR /app/frontend
 
@@ -15,7 +15,7 @@ RUN npm install
 COPY frontend/ ./
 
 # Set environment variables for build
-ARG NEXT_PUBLIC_API_URL=http://localhost:3000/api
+ARG NEXT_PUBLIC_API_URL=http://localhost:3001/api
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 ENV NEXT_TELEMETRY_DISABLED=1
 
@@ -25,7 +25,7 @@ RUN npm run build
 # ======================================
 # STAGE 2: Build Backend TypeScript
 # ======================================
-FROM node:24-alpine AS backend-builder
+FROM node:22-alpine AS backend-builder
 
 WORKDIR /app/backend
 
@@ -44,7 +44,7 @@ RUN npm run build
 # ======================================
 # STAGE 3: Production
 # ======================================
-FROM node:24-alpine AS runner
+FROM node:22-alpine AS runner
 
 WORKDIR /app
 
@@ -63,7 +63,7 @@ COPY --from=backend-builder /app/backend/dist ./dist
 
 # Copy non-compiled files needed at runtime
 COPY backend/public ./public
-COPY backend/.env.example ./.env
+# REMOVED: COPY backend/.env.example ./.env (Secrets must be provided via docker-compose or env vars)
 
 # ===== FRONTEND (Next.js Standalone) =====
 WORKDIR /app/frontend
@@ -75,7 +75,7 @@ COPY --from=frontend-builder /app/frontend/public ./public
 RUN mkdir -p /app/backend/uploads /app/backend/logs
 
 # Expose ports
-# Backend: 3000, Frontend: 3001
+# Frontend: 3000, Backend: 3001
 EXPOSE 3000 3001
 
 WORKDIR /app
@@ -91,7 +91,7 @@ module.exports = {
       instances: 'max',
       exec_mode: 'cluster',
       env: {
-        PORT: 3000,
+        PORT: 3001,
         NODE_ENV: 'production'
       }
     },
@@ -100,7 +100,7 @@ module.exports = {
       cwd: '/app/frontend',
       script: 'server.js',
       env: {
-        PORT: 3001,
+        PORT: 3000,
         HOSTNAME: '0.0.0.0',
         NODE_ENV: 'production'
       }

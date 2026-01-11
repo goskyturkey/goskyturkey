@@ -31,7 +31,7 @@ import uploadRoutes from './routes/uploadRoutes';
 const rootDir = process.cwd();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 // Basic runtime configuration checks
 const isProd = process.env.NODE_ENV === 'production';
@@ -102,7 +102,7 @@ const parseOrigins = (origins: string): string[] =>
     origins.split(',').map(o => o.trim()).filter(Boolean);
 
 const allowedOrigins = parseOrigins(
-    process.env.ALLOWED_ORIGINS || 'https://goskyturkey.com,http://localhost:3001,http://localhost:3000'
+    process.env.ALLOWED_ORIGINS || 'https://goskyturkey.com,http://localhost:3000,http://localhost:3001'
 );
 
 app.use(cors({

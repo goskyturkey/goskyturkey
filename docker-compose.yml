@@ -7,7 +7,7 @@ services:
     hostname: goskyturkey
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      test: [ "CMD", "curl", "-f", "http://localhost:3001/api/health" ]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -21,7 +21,7 @@ services:
       - JWT_SECRET=${JWT_SECRET:?JWT_SECRET is required}
       - JWT_EXPIRES_IN=7d
       - BASE_URL=${BASE_URL:-https://goskyturkey.com}
-      - API_URL=http://goskyturkey:3000/api
+      - API_URL=http://goskyturkey:3001/api
       - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-https://goskyturkey.com/api}
       - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-https://goskyturkey.com}
       - IYZICO_API_KEY=${IYZICO_API_KEY:?IYZICO_API_KEY is required}
