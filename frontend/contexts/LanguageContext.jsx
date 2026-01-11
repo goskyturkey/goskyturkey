@@ -217,8 +217,22 @@ const oldTranslations = {
             popularExperiences: 'Popüler Deneyimler',
             popularSubtitle: 'Sizin için en iyi macera turlarını seçtik',
             whyUs: 'Neden GoSkyTurkey?',
+            howItWorks: 'Nasıl Çalışır?',
+            testimonials: 'Misafirlerimiz Ne Diyor?',
+            contact: 'İletişim',
             gallery: 'Galeri',
             faq: 'Sıkça Sorulan Sorular'
+        },
+        stepper: {
+            subtitle: '4 kolay adımda maceranızı ayırtın'
+        },
+        testimonials: {
+            subtitle: 'Mutlu misafirlerimizin yorumlarını okuyun'
+        },
+        contact: {
+            visitUs: 'Bizi ziyaret edin veya iletişime geçin',
+            address: 'Adres',
+            phone: 'Telefon'
         },
         activity: {
             bookNow: 'Rezervasyon Yap',
@@ -239,6 +253,13 @@ const oldTranslations = {
             identityNumber: 'T.C. Kimlik / Pasaport No',
             date: 'Tarih',
             notes: 'Notlar',
+            details: 'Rezervasyon Detayları',
+            selectDate: 'Tarih Seçin',
+            person: 'kişi',
+            total: 'Toplam',
+            perPerson: 'kişi başı',
+            proceedToPayment: 'Ödemeye Geç',
+            back: 'Tura Geri Dön',
             completeReservation: 'Rezervasyonu Tamamla',
             processing: 'İşleniyor...'
         },
@@ -300,8 +321,22 @@ const oldTranslations = {
             popularExperiences: 'Popular Experiences',
             popularSubtitle: 'We selected the best adventure tours for you',
             whyUs: 'Why GoSkyTurkey?',
+            howItWorks: 'How It Works',
+            testimonials: 'What Our Guests Say',
+            contact: 'Contact Us',
             gallery: 'Gallery',
             faq: 'Frequently Asked Questions'
+        },
+        stepper: {
+            subtitle: 'Book your adventure in 4 easy steps'
+        },
+        testimonials: {
+            subtitle: 'Read reviews from our happy guests'
+        },
+        contact: {
+            visitUs: 'Visit us or get in touch',
+            address: 'Address',
+            phone: 'Phone'
         },
         activity: {
             bookNow: 'Book Now',
@@ -322,6 +357,13 @@ const oldTranslations = {
             identityNumber: 'ID / Passport Number',
             date: 'Date',
             notes: 'Notes',
+            details: 'Booking Details',
+            selectDate: 'Select Date',
+            person: 'person',
+            total: 'Total',
+            perPerson: 'per person',
+            proceedToPayment: 'Proceed to Payment',
+            back: 'Back to Tour',
             completeReservation: 'Complete Reservation',
             processing: 'Processing...'
         },
