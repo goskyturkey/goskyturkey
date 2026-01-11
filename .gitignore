@@ -69,3 +69,10 @@ backend/uploads/*
 # Temporary files
 tmp/
 temp/
+
+# VPS management scripts (contain credentials)
+vps_*.py
+manage_vps.py
+*_reset.js
+manual_reset.js
+gen_hash.js

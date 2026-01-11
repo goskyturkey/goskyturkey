@@ -58,8 +58,9 @@ WORKDIR /app/backend
 COPY backend/package*.json ./
 RUN npm install --production
 
-# Reinstall sharp with correct platform binaries for Alpine (musl)
-RUN npm rebuild sharp
+# Install sharp with correct musl binaries for Alpine Linux
+RUN npm install @img/sharp-linuxmusl-x64 @img/sharp-libvips-linuxmusl-x64 --save-optional && \
+  npm rebuild sharp
 
 # Copy compiled TypeScript output
 COPY --from=backend-builder /app/backend/dist ./dist
